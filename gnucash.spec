@@ -34,6 +34,7 @@ BuildRequires:	libghttp-devel
 BuildRequires:	libglade-devel
 BuildRequires:	libtool
 BuildRequires:	libxml-devel
+BuildRequires:	slib
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         _prefix		/usr/X11R6
