@@ -10,15 +10,19 @@ Group(de):	X11/Applikationen
 Group(pl):	X11/Aplikacje
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
 URL:		http://www.gnucash.org/
+Requires:	slib
+Requires:	guile >= 1.3.4
+Requires:	g-wrap
+Requires:	gnome-print >= 0.21
 BuildRequires:	gnome-libs-devel
 BuildRequires:	esound-devel
 BuildRequires:	libxml-devel
-BuildRequires:	g-wrap-static
+BuildRequires:	g-wrap-static >= 1.1.9
 BuildRequires:	bonobo-devel
 BuildRequires:	libghttp-devel
-Requires:	slib
-Requires:	guile >= 1.3
-Requires:	g-wrap
+BuildRequires:	gtkhtml-devel >= 0.8
+BuildRequires:	libtool automake autoconf
+BuildRequires:	gnome-print-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         _prefix         /usr/X11R6
@@ -36,13 +40,17 @@ wpisywanie zasobów na swoich kontach bankowych, zak³adów. Daje
 wgl±d nawet w kursy walut. Interfejs zosta³ zaprojektowany z my¶l±
 o prostocie i ³atwo¶ci u¿ycia.
 
-%prep
+%prep -q
 %setup -q
 
 %build
+rm missing
 automake -a -c
+
 %configure 
-%{__make}
+	--disable-guppi		# we don't have guppi for now...
+
+#%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
