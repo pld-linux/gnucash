@@ -19,6 +19,7 @@ Patch1:		%{name}-am15.patch
 Patch2:		%{name}-ignore_db1.patch
 Patch3:		%{name}-libxml_includes_dir.patch
 Patch4:		%{name}-guile_1_4_1.patch
+Patch5:		%{name}-types.patch
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf-devel
 BuildRequires:	Guppi-devel >= 0.35.5
@@ -29,11 +30,10 @@ BuildRequires:	db-devel
 BuildRequires:	freetype-devel >= 2.0.0
 BuildRequires:	g-wrap-devel >= 1.3.4
 BuildRequires:	gal1-devel
-BuildRequires:	gdk-pixbuf-devel
-BuildRequires:	gdk-pixbuf-gnome-devel
+BuildRequires:	gdk-pixbuf-gnome-devel >= 0.2.5
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
-BuildRequires:	gnome-print-devel
+BuildRequires:	gnome-print-devel >= 0.21
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkhtml1-devel >= 1.1
 BuildRequires:	guile-devel >= 1.3.4
@@ -45,6 +45,7 @@ BuildRequires:	libtool
 BuildRequires:	libxml-devel
 BuildRequires:	openhbci-devel
 BuildRequires:	pkgconfig
+BuildRequires:	popt-devel
 BuildRequires:	slib >= 2c4
 BuildRequires:	texinfo
 Requires(post,preun):	/sbin/ldconfig
@@ -88,15 +89,17 @@ livros balanceados.
 #%patch2 -p1
 #%patch3 -p1
 #%patch4 -p1
+%patch5 -p1
 
 %build
-#rm -f missing src/guile/Makefile.in
+#rm -f src/guile/Makefile.in
 #%{__libtoolize}
 #%{__aclocal} -I %{_aclocaldir}/gnome
 #%{__autoconf}
 #%{__automake}
 
 #export CPPFLAGS="%{rpmcflags} -I%{_prefix}/include"
+cp -f /usr/share/automake/config.* .
 %configure2_13 \
 	--disable-prefer-db1
 #	--enable-hbci
