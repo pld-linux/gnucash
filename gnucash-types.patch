@@ -194,3 +194,105 @@
  
    /* Now save it off */
    {
+--- gnucash-1.8.11/src/backend/postgres/putil.h.orig	2003-08-12 05:17:22.000000000 +0200
++++ gnucash-1.8.11/src/backend/postgres/putil.h	2005-03-28 17:57:31.854947120 +0200
+@@ -318,7 +318,7 @@
+ #define COMP_INT64(sqlname,fun,ndiffs) { 			\
+    if (strtoll (DB_GET_VAL(sqlname,0), NULL, 0) != fun) {	\
+       PINFO("mis-match: %s sql='%s', eng='%lld'", sqlname, 	\
+-         DB_GET_VAL (sqlname,0), fun); 				\
++         DB_GET_VAL (sqlname,0), (long long)fun); 				\
+       ndiffs++; 						\
+    }								\
+ }
+--- gnucash-1.8.11/src/backend/postgres/table.m4.orig	2003-08-12 05:17:24.000000000 +0200
++++ gnucash-1.8.11/src/backend/postgres/table.m4	2005-03-28 18:01:48.376356492 +0200
+@@ -365,7 +365,7 @@
+    p = guid_to_string_buff (&(ptr->guid), p);
+    p = stpcpy (p, "''`;");
+    SEND_QUERY (be,be->buff, -1);
+-   sql_version = (int) pgendGetResults (be, get_version_cb, (gpointer) -1);
++   sql_version = (int)(size_t) pgendGetResults (be, get_version_cb, (gpointer) -1);
+ 
+    if (-1 == sql_version) return -1;
+    return (sql_version - version_function($@));
+@@ -395,7 +395,7 @@
+    p = guid_to_string_buff (&(ptr->guid), p);
+    p = stpcpy (p, "''` AND change = ''`d''`;");
+    SEND_QUERY (be,be->buff, -1);
+-   sql_version = (int) pgendGetResults (be, get_version_cb, (gpointer) -1);
++   sql_version = (int)(size_t) pgendGetResults (be, get_version_cb, (gpointer) -1);
+ 
+    return sql_version;
+ }
+--- gnucash-1.8.11/src/backend/postgres/checkpoint.c.orig	2003-08-12 05:17:19.000000000 +0200
++++ gnucash-1.8.11/src/backend/postgres/checkpoint.c	2005-03-28 18:04:03.662874158 +0200
+@@ -472,7 +472,7 @@
+       gnc_timespec_to_iso8601_buff (chk.date_start, buf);
+       PINFO("%s balance to %s baln=%lld/%lld clr=%lld/%lld rcn=%lld/%lld", 
+         xaccAccountGetDescription (acc), buf,
+-        b, deno, cl_b, deno, rec_b, deno);
++        (long long)b, (long long)deno, (long long)cl_b, (long long)deno, (long long)rec_b, (long long)deno);
+       })
+ 
+    /* add up loose entries since the checkpoint */
+@@ -494,7 +494,7 @@
+       gnc_timespec_to_iso8601_buff (as_of_date, buf);
+       LEAVE("be=%p %s %s baln=%lld/%lld clr=%lld/%lld rcn=%lld/%lld", be, 
+         xaccAccountGetDescription (acc), buf,
+-        b, deno, cl_b, deno, rec_b, deno);
++        (long long)b, (long long)deno, (long long)cl_b, (long long)deno, (long long)rec_b, (long long)deno);
+       })
+ }
+ 
+--- gnucash-1.8.11/src/backend/postgres/kvp-sql.c.orig	2003-02-13 03:59:20.000000000 +0100
++++ gnucash-1.8.11/src/backend/postgres/kvp-sql.c	2005-03-28 18:05:32.231608735 +0200
+@@ -120,7 +120,7 @@
+ ival_cb (PGBackend *be, PGresult *result, int j, gpointer data)
+ {
+   int ival = atoi (DB_GET_VAL ("ipath", 0));
+-  return (gpointer) ival;
++  return (gpointer)(size_t) ival;
+ }
+ 
+ 
+@@ -142,7 +142,7 @@
+    p = stpcpy (p, "';");
+ 
+    SEND_QUERY (be,be->buff, 0);
+-   ival = (int) pgendGetResults (be, ival_cb, (gpointer) 0);
++   ival = (int)(size_t) pgendGetResults (be, ival_cb, (gpointer) 0);
+    if (ival) return ival;
+ 
+    /* Else, this guid has never been stored before. 
+--- gnucash-1.8.11/src/backend/postgres/price.c.orig	2003-07-28 06:00:26.000000000 +0200
++++ gnucash-1.8.11/src/backend/postgres/price.c	2005-03-28 18:06:12.541930183 +0200
+@@ -200,7 +200,7 @@
+ static gboolean
+ commodity_mark_cb (gnc_commodity *cm, gpointer user_data)
+ {
+-   gint32 v = ((gint32) user_data) & 0xffff;
++   gint32 v = ((gint32)(size_t) user_data) & 0xffff;
+    gnc_commodity_set_mark (cm, (gint16) v);
+    return TRUE;
+ }
+--- gnucash-1.8.11/src/backend/postgres/upgrade.c.orig	2003-08-14 05:46:55.000000000 +0200
++++ gnucash-1.8.11/src/backend/postgres/upgrade.c	2005-03-28 18:06:56.019491164 +0200
+@@ -126,7 +126,7 @@
+ get_iguid_cb (PGBackend *be, PGresult *result, int j, gpointer data)
+ {
+    int fin = atoi(DB_GET_VAL ("iguid", j));
+-   return (gpointer) fin;
++   return (gpointer)(size_t) fin;
+ }
+ 
+ 
+@@ -151,7 +151,7 @@
+ 
+    p = "SELECT iguid FROM gncGUIDCache ORDER BY iguid DESC LIMIT 1;";
+    SEND_QUERY (be,p, );
+-   iguid = (guint32) pgendGetResults (be, get_iguid_cb, 0);
++   iguid = (guint32)(size_t) pgendGetResults (be, get_iguid_cb, 0);
+    iguid ++;
+ 
+    sprintf(buff, "CREATE SEQUENCE gnc_iguid_seq START %d;", iguid);
