@@ -27,6 +27,9 @@ BuildRequires:	libglade-devel
 BuildRequires:	gtk+-devel
 BuildRequires:	gal-devel
 BuildRequires:	gdk-pixbuf-devel
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool
 BuildRequires:	gettext-devel
 BuildRequires:	db1-devel
 # Test for Guppi needs it
@@ -56,14 +59,13 @@ o prostocie i ³atwo¶ci u¿ycia.
 %setup -q
 
 %build
-rm missing
-rm src/guile/Makefile.in
+rm -f missing src/guile/Makefile.in
 aclocal -I ./macros
 libtoolize --copy --force
 automake -a -c
 autoconf
 
-CFLAGS='-L/usr/X11R6/lib -I/usr/X11R6/include'
+CFLAGS='%{rpmcflags} -L/usr/X11R6/lib -I/usr/X11R6/include'
 export CFLAGS
 %configure
 
@@ -81,11 +83,11 @@ gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/[!e]*
 
 %find_lang %{name} --with-gnome
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
-
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
