@@ -1,6 +1,6 @@
 %include	/usr/lib/rpm/macros.perl
-Summary:	GnuCash is an application to keep track of your finances.
-Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami.
+Summary:	GnuCash is an application to keep track of your finances
+Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Name:		gnucash
 Version:	1.5.96
 Release:	1
@@ -9,16 +9,16 @@ Group:		X11/Applications
 Group(de):	X11/Applikationen
 Group(pl):	X11/Aplikacje
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
-URL:		http://www.gnucash.org
-Requires:	slib
-Requires:	guile >= 1.3
-Requires:	g-wrap
+URL:		http://www.gnucash.org/
 BuildRequires:	gnome-libs-devel
 BuildRequires:	esound-devel
 BuildRequires:	libxml-devel
 BuildRequires:	g-wrap-static
 BuildRequires:	bonobo-devel
 BuildRequires:	libghttp-devel
+Requires:	slib
+Requires:	guile >= 1.3
+Requires:	g-wrap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         _prefix         /usr/X11R6
@@ -46,13 +46,14 @@ automake -a -c
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} DESTDIR=$RPM_BUILD_ROOT \
 	GNC_DOC_INSTALL_DIR=%{_docdir}/%{name}-%{version}/ \
 	gnomeappdir=%{_applnkdir}/Office/Misc install
 
 gzip -9nfr $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/*
 
-%find_lang %{name}
+%find_lang %{name} --with-gnome
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -64,8 +65,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnucash/perl/*.so*
 %{_libdir}/libgncengine.so*
 %{_mandir}/man1/*
-%{_datadir}/gnucash/html/C
-%lang(fr) %{_datadir}/gnucash/html/fr
 %{_datadir}/gnucash/html/index.html
 %{_datadir}/gnucash/html/gnucash.css
 %{_datadir}/gnucash/scm
