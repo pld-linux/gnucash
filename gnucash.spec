@@ -2,7 +2,7 @@
 Summary:	GnuCash is an application to keep track of your finances
 Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Name:		gnucash
-Version:	1.6.2
+Version:	1.6.4
 Release:	1
 License:	GPL
 Group:		X11/Applications
@@ -59,15 +59,15 @@ o prostocie i ³atwo¶ci u¿ycia.
 %setup -q
 
 %build
-rm -f missing src/guile/Makefile.in
-aclocal -I ./macros
-libtoolize --copy --force
-automake -a -c
-autoconf
+#rm -f missing src/guile/Makefile.in
+#aclocal -I ./macros
+#libtoolize --copy --force
+#automake -a -c
+#autoconf
 
 CFLAGS='%{rpmcflags} -L/usr/X11R6/lib -I/usr/X11R6/include'
 export CFLAGS
-%configure
+%configure2_13
 
 %{__make}
 
