@@ -3,12 +3,13 @@ Summary:	GnuCash is an application to keep track of your finances
 Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Name:		gnucash
 Version:	1.6.4
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Applications
 Group(de):	X11/Applikationen
 Group(pl):	X11/Aplikacje
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
+Source1:	%{name}-icon.png
 URL:		http://www.gnucash.org/
 Requires:	slib
 Requires:	guile >= 1.3.4
@@ -74,6 +75,8 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT \
 	GNC_DOC_INSTALL_DIR=%{_docdir}/%{name}-%{version}/ \
 	gnomeappdir=%{_applnkdir}/Office/Misc
+
+install %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/[!e]*
 
