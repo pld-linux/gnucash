@@ -1,9 +1,9 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	GnuCash is an application to keep track of your finances
-Summary(ja):	GnuCash -- ²È·×Êí¥½¥Õ¥È
+Summary(ja):	GnuCash - ²È·×Êí¥½¥Õ¥È
 Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
-Summary(zh_CN):	GnuCash -- ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼ş
+Summary(zh_CN):	GnuCash - ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼ş
 Name:		gnucash
 Version:	1.6.6
 Release:	2
