@@ -45,9 +45,11 @@ o prostocie i ³atwo¶ci u¿ycia.
 
 %build
 rm missing
+libtoolize --copy --force
+#aclocal
 automake -a -c
 
-%configure 
+%configure \
 	--disable-guppi		# we don't have guppi for now...
 
 #%{__make}
