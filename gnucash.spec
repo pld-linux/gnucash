@@ -2,38 +2,47 @@
 Summary:	GnuCash is an application to keep track of your finances
 Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Name:		gnucash
-Version:	1.6.1
+Version:	1.6.2
 Release:	1
 License:	GPL
 Group:		X11/Applications
 Group(de):	X11/Applikationen
 Group(pl):	X11/Aplikacje
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
+Patch1:		%{name}-umb_scheme.patch
 URL:		http://www.gnucash.org/
-Requires:	slib
+#Requires:	slib
 Requires:	guile >= 1.3.4
-Requires:	g-wrap
+#Requires:	g-wrap
 Requires:	gnome-print >= 0.21
+Requires:	perl
 BuildRequires:	gnome-libs-devel
-BuildRequires:	esound-devel
+#BuildRequires:	esound-devel
 BuildRequires:	libxml-devel
-BuildRequires:	g-wrap-static >= 1.1.9
+#BuildRequires:	g-wrap-static >= 1.1.9
+BuildRequires:	g-wrap-devel >= 1.1.9
 BuildRequires:	bonobo-devel
 BuildRequires:	libghttp-devel
 BuildRequires:	gtkhtml-devel >= 0.8
-BuildRequires:	libtool automake autoconf
+#BuildRequires:	libtool automake autoconf
 BuildRequires:	gnome-print-devel
 BuildRequires:	Guppi-devel
-BuildRequires:	oaf-devel
 BuildRequires:	guile-devel
 BuildRequires:	libglade-devel
 BuildRequires:	gtk+-devel
 BuildRequires:	gal-devel
 BuildRequires:	gdk-pixbuf-devel
 BuildRequires:	gettext-devel
+BuildRequires:	db1-devel
+# Test for Guppi needs it
+BuildRequires:	readline-devel
+BuildRequires:	python-devel
+BuildRequires:	libwrap-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define         _prefix         /usr/X11R6
+%define         _prefix		/usr/X11R6
+%define		_mandir		%{_prefix}/man
+%define		_sysconfdir	/etc/X11
 
 %description
 GnuCash is a personal finance manager. A check-book like register GUI
@@ -50,25 +59,31 @@ o prostocie i ³atwo¶ci u¿ycia.
 
 %prep -q
 %setup -q
+%patch1 -p1
 
 %build
 rm missing
+rm src/guile/Makefile.in
 aclocal -I ./macros
 libtoolize --copy --force
 automake -a -c
+autoconf
 
-%configure2_13
+CFLAGS='-L/usr/X11R6/lib -I/usr/X11R6/include'
+export CFLAGS
+%configure
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} DESTDIR=$RPM_BUILD_ROOT \
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT \
 	GNC_DOC_INSTALL_DIR=%{_docdir}/%{name}-%{version}/ \
-	gnomeappdir=%{_applnkdir}/Office/Misc install
+	gnomeappdir=%{_applnkdir}/Office/Misc
 
-gzip -9nfr $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/*
+#gzip -9nfr $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 
 %find_lang %{name} --with-gnome
 
@@ -77,15 +92,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/gnucash
-%attr(755,root,root) %{_bindir}/gnc-prices
-%{_libdir}/gnucash/perl/*.so*
-%{_libdir}/libgncengine.so*
-%{_mandir}/man1/*
-%{_datadir}/gnucash/html/index.html
-%{_datadir}/gnucash/html/gnucash.css
-%{_datadir}/gnucash/scm
-%{_datadir}/gnucash/perl
-%{_sysconfdir}/gnucash/config
-%{_applnkdir}/Office/Misc/gnucash.desktop
+%attr(755,root,root) %{_bindir}/*
+%{_libdir}/libgncengine.so.*.*.*
+%{_mandir}/*/*
+%{_infodir}/*
+%{_applnkdir}/Office/Misc/*
+%{_datadir}/gnome/help/%{name}
+%{_datadir}/%{name}
+%{_datadir}/mime-info/*
+%{_pixmapsdir}/%{name}
+%{_sysconfdir}/gnucash
 %doc %{_docdir}/%{name}-%{version}/
