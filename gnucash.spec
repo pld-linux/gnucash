@@ -82,8 +82,8 @@ livros balanceados.
 rm -f missing src/guile/Makefile.in
 libtoolize --copy --force
 aclocal -I %{_aclocaldir}/gnome
-autoconf
-automake -a -c -f
+%{__autoconf}
+%{__automake}
 
 %configure \
 	--disable-prefer-db1
