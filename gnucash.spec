@@ -24,6 +24,7 @@ BuildRequires:	gtkhtml-devel >= 0.8
 BuildRequires:	libtool automake autoconf
 BuildRequires:	gnome-print-devel
 BuildRequires:	Guppi-devel
+BuildRequires:	oaf-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         _prefix         /usr/X11R6
@@ -51,9 +52,10 @@ libtoolize --copy --force
 automake -a -c
 
 %configure \
+	--with-libguppi-prefix=/usr/X11R6/include/libguppi/
 #	--disable-guppi		# we don't have guppi for now...
 
-#%{__make}
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
