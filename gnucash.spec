@@ -14,24 +14,24 @@ Requires:	slib
 Requires:	guile >= 1.3.4
 Requires:	gnome-print >= 0.21
 Requires:	perl
-BuildRequires:	gnome-libs-devel
-BuildRequires:	libxml-devel
-BuildRequires:	g-wrap-devel >= 1.1.9
-BuildRequires:	bonobo-devel
-BuildRequires:	libghttp-devel
-BuildRequires:	gtkhtml-devel >= 0.8
-BuildRequires:	gnome-print-devel
-BuildRequires:	Guppi-devel
-BuildRequires:	guile-devel
-BuildRequires:	libglade-devel
-BuildRequires:	gtk+-devel
-BuildRequires:	gal-devel
-BuildRequires:	gdk-pixbuf-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool
-BuildRequires:	gettext-devel
+BuildRequires:	bonobo-devel
 BuildRequires:	db1-devel
+BuildRequires:	gal-devel
+BuildRequires:	gdk-pixbuf-devel
+BuildRequires:	gettext-devel
+BuildRequires:	gnome-libs-devel
+BuildRequires:	gnome-print-devel
+BuildRequires:	gtk+-devel
+BuildRequires:	gtkhtml-devel >= 0.8
+BuildRequires:	guile-devel
+BuildRequires:	Guppi-devel
+BuildRequires:	g-wrap-devel >= 1.1.9
+BuildRequires:	libghttp-devel
+BuildRequires:	libglade-devel
+BuildRequires:	libtool
+BuildRequires:	libxml-devel
 # Test for Guppi needs it
 BuildRequires:	readline-devel
 BuildRequires:	python-devel
