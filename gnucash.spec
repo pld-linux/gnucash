@@ -6,7 +6,7 @@ Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN):	GnuCash - ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼þ
 Name:		gnucash
 Version:	1.8.9
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
@@ -25,7 +25,7 @@ BuildRequires:	automake
 BuildRequires:	bonobo-devel
 BuildRequires:	db3-devel
 BuildRequires:	freetype-devel >= 2.0.0
-BuildRequires:	g-wrap-devel
+BuildRequires:	g-wrap-devel >= 1.3.4
 BuildRequires:	gal-devel
 BuildRequires:	gdk-pixbuf-devel
 BuildRequires:	gdk-pixbuf-gnome-devel
@@ -88,13 +88,13 @@ livros balanceados.
 #%patch4 -p1
 
 %build
-rm -f missing src/guile/Makefile.in
-%{__libtoolize}
-%{__aclocal} -I %{_aclocaldir}/gnome
-%{__autoconf}
-%{__automake}
+#rm -f missing src/guile/Makefile.in
+#%{__libtoolize}
+#%{__aclocal} -I %{_aclocaldir}/gnome
+#%{__autoconf}
+#%{__automake}
 
-%configure \
+%configure2_13 \
 	--disable-prefer-db1
 
 %{__make}
