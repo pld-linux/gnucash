@@ -5,12 +5,12 @@ Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN):	GnuCash - ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼þ
 Name:		gnucash
-Version:	1.6.6
-Release:	3
+Version:	1.8.9
+Release:	0.1
 License:	GPL
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
-# Source0-md5:	f934bae9a81524502f8bbfa360c0b879
+# Source0-md5:	5ad11fbc5c86316632c5f9ec44dba659
 Source1:	%{name}-icon.png
 Patch0:		%{name}-am15.patch
 Patch1:		%{name}-info.patch
@@ -19,13 +19,13 @@ Patch3:		%{name}-libxml_includes_dir.patch
 Patch4:		%{name}-guile_1_4_1.patch
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf-devel
-BuildRequires:	Guppi-devel
+BuildRequires:	Guppi-devel >= 0.35.5
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bonobo-devel
 BuildRequires:	db3-devel
 BuildRequires:	freetype-devel >= 2.0.0
-BuildRequires:	g-wrap-devel >= 1.1.9
+BuildRequires:	g-wrap-devel
 BuildRequires:	gal-devel
 BuildRequires:	gdk-pixbuf-devel
 BuildRequires:	gdk-pixbuf-gnome-devel
@@ -34,13 +34,14 @@ BuildRequires:	gnome-libs-devel
 BuildRequires:	gnome-print-devel
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkhtml-devel >= 0.8
-BuildRequires:	guile-devel
+BuildRequires:	guile-devel >= 1.3.4
 BuildRequires:	libghttp-devel
 BuildRequires:	libglade-gnome-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libtool
 BuildRequires:	libxml-devel
-BuildRequires:	slib
+BuildRequires:	openhbci-devel
+BuildRequires:	slib >= 2c4
 BuildRequires:	texinfo
 Requires:	slib
 Requires:	guile >= 1.3.4
@@ -80,11 +81,11 @@ livros balanceados.
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
+#%patch2 -p1
+#%patch3 -p1
+#%patch4 -p1
 
 %build
 rm -f missing src/guile/Makefile.in
