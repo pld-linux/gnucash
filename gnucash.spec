@@ -76,6 +76,12 @@ rm -rf $RPM_BUILD_ROOT
 	GNC_DOC_INSTALL_DIR=%{_docdir}/%{name}-%{version}/ \
 	gnomeappdir=%{_applnkdir}/Office/Misc
 
+mv $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucach.desktop{,.tmp}
+sed -e 's/=gnome-money.png/=gnucach-icon.png/' \
+	< mv $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucach.desktop.tmp \
+	> mv $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucach.desktop
+rm $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucach.desktop.tmp
+
 install %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/[!e]*
