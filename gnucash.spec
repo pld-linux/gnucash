@@ -90,7 +90,7 @@ livros balanceados.
 %build
 rm -f missing src/guile/Makefile.in
 %{__libtoolize}
-aclocal -I %{_aclocaldir}/gnome
+%{__aclocal} -I %{_aclocaldir}/gnome
 %{__autoconf}
 %{__automake}
 
