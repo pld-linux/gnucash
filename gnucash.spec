@@ -100,8 +100,8 @@ livros balanceados.
 
 export CPPFLAGS="%{rpmcflags} -I%{_prefix}/include"
 %configure2_13 \
-	--disable-prefer-db1 \
-	--enable-hbci
+	--disable-prefer-db1
+#	--enable-hbci
 #	--enable-ofx
 
 %{__make}
@@ -176,4 +176,4 @@ rm -rf $RPM_BUILD_ROOT
 # It's not needed, I think, maybe some devel subpackage?
 %dir %{_includedir}/%{name}
 %{_includedir}/%{name}/*.h
-%{_aclocaldir}/*.m4
+#%{_aclocaldir}/*.m4
