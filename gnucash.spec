@@ -1,3 +1,4 @@
+%include	/usr/lib/rpm/macros.perl
 Name:		gnucash
 Summary:	GnuCash is an application to keep track of your finances.
 Version:	1.4.9
