@@ -9,22 +9,17 @@ Group:		X11/Applications
 Group(de):	X11/Applikationen
 Group(pl):	X11/Aplikacje
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
-Patch1:		%{name}-umb_scheme.patch
 URL:		http://www.gnucash.org/
-#Requires:	slib
+Requires:	slib
 Requires:	guile >= 1.3.4
-#Requires:	g-wrap
 Requires:	gnome-print >= 0.21
 Requires:	perl
 BuildRequires:	gnome-libs-devel
-#BuildRequires:	esound-devel
 BuildRequires:	libxml-devel
-#BuildRequires:	g-wrap-static >= 1.1.9
 BuildRequires:	g-wrap-devel >= 1.1.9
 BuildRequires:	bonobo-devel
 BuildRequires:	libghttp-devel
 BuildRequires:	gtkhtml-devel >= 0.8
-#BuildRequires:	libtool automake autoconf
 BuildRequires:	gnome-print-devel
 BuildRequires:	Guppi-devel
 BuildRequires:	guile-devel
@@ -59,7 +54,6 @@ o prostocie i ³atwo¶ci u¿ycia.
 
 %prep -q
 %setup -q
-%patch1 -p1
 
 %build
 rm missing
