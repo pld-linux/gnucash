@@ -4,7 +4,7 @@ Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças.
 Name:		gnucash
 Version:	1.6.5
-Release:	4
+Release:	5
 License:	GPL
 Group:		X11/Applications
 Group(de):	X11/Applikationen
