@@ -66,10 +66,10 @@ GnuCash ¤Ï¸Ä¿Í¸þ¤±²ñ·×¥½¥Õ¥È¤Ç¤¹¡£GUI ¤òÍøÍÑ¤·¤Æ¼ýÆþ¡¦»Ù½Ð¡¦¶ä¹Ô¸ýºÂ¡¦
 ²ñ·×µ¬½à¤òÍøÍÑ¤·¤Æ¤ª¤ê¡¢Ê£¼°Êíµ­¤Ë´Ø¤¹¤ëÃÎ¼±¤¬É¬Í×¤Ç¤¹¡£
 
 %description -l pl
-GnuCash jest mened¿erem finansów osobistych. Pozwala na ¶ledzenie i
-wpisywanie zasobów na swoich kontach bankowych, zak³adów. Daje wgl±d
-nawet w kursy walut. Interfejs zosta³ zaprojektowany z my¶l± o
-prostocie i ³atwo¶ci u¿ycia.
+GnuCash jest programem do zarz±dzania finansami osobistymi. Pozwala na
+¶ledzenie i wpisywanie zasobów na swoich kontach bankowych, zak³adów.
+Daje wgl±d nawet w kursy walut. Interfejs zosta³ zaprojektowany z
+my¶l± o prostocie i ³atwo¶ci u¿ycia.
 
 %description -l pt_BR
 O GnuCash é um gerenciador de finanças pessoais. Uma interface
