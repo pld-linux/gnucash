@@ -27,6 +27,7 @@ BuildRequires:	freetype-devel >= 2.0.0
 BuildRequires:	g-wrap-devel >= 1.1.9
 BuildRequires:	gal-devel
 BuildRequires:	gdk-pixbuf-devel
+BuildRequires:	gdk-pixbuf-gnome-devel
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
 BuildRequires:	gnome-print-devel
