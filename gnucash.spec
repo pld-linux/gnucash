@@ -14,12 +14,7 @@ Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
 # Source0-md5:	62f94331936e37ed1b1d28b5a1863bb3
 Source1:	%{name}-icon.png
-Patch0:		%{name}-info.patch
-Patch1:		%{name}-am15.patch
-Patch2:		%{name}-ignore_db1.patch
-Patch3:		%{name}-libxml_includes_dir.patch
-Patch4:		%{name}-guile_1_4_1.patch
-Patch5:		%{name}-types.patch
+Patch1:		%{name}-types.patch
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf-devel
 BuildRequires:	Guppi-devel >= 0.35.5
@@ -85,25 +80,22 @@ livros balanceados.
 %prep
 %setup -q
 %patch0 -p1
-#%patch1 -p1
-#%patch2 -p1
-#%patch3 -p1
-#%patch4 -p1
-%patch5 -p1
+%patch1 -p1
+
+# kill outdated libtool macros
+tail -n +3907 acinclude.m4 > acinclude.tmp
+mv -f acinclude.tmp acinclude.m4
 
 %build
-#rm -f src/guile/Makefile.in
-#%{__libtoolize}
-#%{__aclocal} -I %{_aclocaldir}/gnome
-#%{__autoconf}
-#%{__automake}
+%{__gettextize}
+%{__libtoolize}
+%{__aclocal} -I %{_aclocaldir}/gnome -I macros
+%{__autoconf}
+%{__autoheader}
+%{__automake}
 
-#export CPPFLAGS="%{rpmcflags} -I%{_prefix}/include"
-cp -f /usr/share/automake/config.* .
-%configure2_13 \
+%configure \
 	--disable-prefer-db1
-#	--enable-hbci
-#	--enable-ofx
 
 %{__make}
 
