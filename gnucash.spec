@@ -1,6 +1,7 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	GnuCash is an application to keep track of your finances
 Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
+Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças.
 Name:		gnucash
 Version:	1.6.5
 Release:	2
@@ -54,6 +55,13 @@ GnuCash jest mened¿erem finansów osobistych. Pozwala na ¶ledzenie i
 wpisywanie zasobów na swoich kontach bankowych, zak³adów. Daje
 wgl±d nawet w kursy walut. Interfejs zosta³ zaprojektowany z my¶l±
 o prostocie i ³atwo¶ci u¿ycia.
+
+%description -l pt_BR
+O GnuCash é um gerenciador de finanças pessoais. Uma interface parecida com um
+canhoto de cheques permite que você acompanhe contas bancárias, ações, salário
+e mesmo tabelas de câmbio de moedas. A interface foi projetada para ser simples
+e fácil de usar, mas tem o suporte de princípios de contabilidade com entrada
+dupla para garantir livros balanceados.
 
 %prep -q
 %setup -q
