@@ -48,12 +48,9 @@ o prostocie i ³atwo¶ci u¿ycia.
 %build
 rm missing
 libtoolize --copy --force
-#aclocal
 automake -a -c
 
-%configure \
-	--with-libguppi-prefix=/usr/X11R6/include/libguppi/
-#	--disable-guppi		# we don't have guppi for now...
+%configure
 
 %{__make}
 
