@@ -20,6 +20,7 @@ BuildRequires:	automake
 BuildRequires:	bonobo-devel
 BuildRequires:	db3-devel
 BuildRequires:	gal-devel
+BuildRequires:	GConf-devel
 BuildRequires:	gdk-pixbuf-devel
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
