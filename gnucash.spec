@@ -17,6 +17,8 @@ BuildRequires:	gnome-libs-devel
 BuildRequires:	esound-devel
 BuildRequires:	libxml-devel
 BuildRequires:	g-wrap-static
+BuildRequires:	bonobo-devel
+BuildRequires:	libghttp-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         _prefix         /usr/X11R6
