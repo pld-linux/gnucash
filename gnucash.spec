@@ -3,7 +3,7 @@ Summary:	GnuCash is an application to keep track of your finances
 Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Name:		gnucash
 Version:	1.6.4
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications
 Group(de):	X11/Applikationen
@@ -17,7 +17,7 @@ Requires:	perl
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bonobo-devel
-BuildRequires:	db1-devel
+BuildRequires:	db3-devel
 BuildRequires:	gal-devel
 BuildRequires:	gdk-pixbuf-devel
 BuildRequires:	gettext-devel
@@ -32,10 +32,6 @@ BuildRequires:	libghttp-devel
 BuildRequires:	libglade-devel
 BuildRequires:	libtool
 BuildRequires:	libxml-devel
-# Test for Guppi needs it
-BuildRequires:	readline-devel
-BuildRequires:	python-devel
-BuildRequires:	libwrap-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         _prefix		/usr/X11R6
@@ -65,7 +61,7 @@ o prostocie i ³atwo¶ci u¿ycia.
 #automake -a -c
 #autoconf
 
-CFLAGS='%{rpmcflags} -L/usr/X11R6/lib -I/usr/X11R6/include'
+CFLAGS='%{rpmcflags} -L/usr/X11R6/lib -I/usr/X11R6/include -ldb3'
 export CFLAGS
 %configure2_13
 
