@@ -30,11 +30,11 @@ CFLAGS="$RPM_OPT_FLAGS" \
 CXXFLAGS="$RPM_OPT_FLAGS" \
 LDFLAGS="-s" \
 ./configure --prefix=%{_prefix} --sysconfdir=%{_sysconfdir} --mandir=%{_mandir}
-make gnome
+%{__make} gnome
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make prefix=$RPM_BUILD_ROOT%{_prefix} sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir} \
+%{__make} prefix=$RPM_BUILD_ROOT%{_prefix} sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir} \
 mandir=$RPM_BUILD_ROOT%{_mandir} \
 GNC_DOCDIR=$RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/ install
 
