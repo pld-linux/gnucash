@@ -35,7 +35,7 @@ BuildRequires:	gtk+-devel
 BuildRequires:	gtkhtml-devel >= 0.8
 BuildRequires:	guile-devel
 BuildRequires:	libghttp-devel
-BuildRequires:	libglade-devel
+BuildRequires:	libglade-gnome-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libtool
 BuildRequires:	libxml-devel
