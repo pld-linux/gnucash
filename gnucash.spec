@@ -7,12 +7,12 @@ Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN):	GnuCash - ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼þ
 Name:		gnucash
-Version:	1.8.9
+Version:	1.8.11
 Release:	0.3
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
-# Source0-md5:	5ad11fbc5c86316632c5f9ec44dba659
+# Source0-md5:	62f94331936e37ed1b1d28b5a1863bb3
 Source1:	%{name}-icon.png
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-am15.patch
@@ -25,35 +25,35 @@ BuildRequires:	Guppi-devel >= 0.35.5
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bonobo-devel
-BuildRequires:	db3-devel
+BuildRequires:	db-devel
 BuildRequires:	freetype-devel >= 2.0.0
 BuildRequires:	g-wrap-devel >= 1.3.4
-BuildRequires:	gal-devel
+BuildRequires:	gal1-devel
 BuildRequires:	gdk-pixbuf-devel
 BuildRequires:	gdk-pixbuf-gnome-devel
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
 BuildRequires:	gnome-print-devel
 BuildRequires:	gtk+-devel
-BuildRequires:	gtkhtml-devel >= 0.8
+BuildRequires:	gtkhtml1-devel >= 1.1
 BuildRequires:	guile-devel >= 1.3.4
 BuildRequires:	libghttp-devel
 BuildRequires:	libglade-gnome-devel
 BuildRequires:	libltdl-devel
-#BuildRequires:	libofx-devel
+BuildRequires:	libofx-devel >= 0.7.0
 BuildRequires:	libtool
 BuildRequires:	libxml-devel
 BuildRequires:	openhbci-devel
+BuildRequires:	pkgconfig
 BuildRequires:	slib >= 2c4
 BuildRequires:	texinfo
-Requires:	slib
-Requires:	guile >= 1.3.4
+Requires(post,preun):	/sbin/ldconfig
 Requires:	gnome-print >= 0.21
+Requires:	guile >= 1.3.4
 Requires:	perl
-Prereq:		/sbin/ldconfig
+Requires:	slib >= 2c4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/usr/X11R6
 %define		_sysconfdir	/etc/X11
 
 %description
@@ -98,7 +98,7 @@ livros balanceados.
 #%{__autoconf}
 #%{__automake}
 
-export CPPFLAGS="%{rpmcflags} -I%{_prefix}/include"
+#export CPPFLAGS="%{rpmcflags} -I%{_prefix}/include"
 %configure2_13 \
 	--disable-prefer-db1
 #	--enable-hbci
@@ -147,8 +147,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %attr(755,root,root) %{_libdir}/%{name}/overrides
 %attr(755,root,root) %{_libdir}/%{name}/overrides/*
 # Dunno if its needed runtime...
-%attr(644,root,root) %{_libdir}/*.la
-%attr(644,root,root) %{_libdir}/%{name}/*.la
+%{_libdir}/*.la
+%{_libdir}/%{name}/*.la
 %{_sysconfdir}/gnucash
 %dir %{_datadir}/gnucash
 %{_datadir}/gnucash/[!a]*
