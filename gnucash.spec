@@ -2,8 +2,8 @@
 Summary:	GnuCash is an application to keep track of your finances
 Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Name:		gnucash
-Version:	1.6.4
-Release:	5
+Version:	1.6.5
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Group(de):	X11/Applikationen
@@ -64,8 +64,10 @@ o prostocie i ³atwo¶ci u¿ycia.
 #automake -a -c
 #autoconf
 
-CFLAGS='%{rpmcflags} -L/usr/X11R6/lib -I/usr/X11R6/include -ldb3'
+CFLAGS='%{rpmcflags} -L/usr/X11R6/lib -I/usr/X11R6/include'
 export CFLAGS
+LDFLAGS='%{rpmldflags} -ldb3'
+export LDFLAGS
 %configure2_13
 
 %{__make}
@@ -100,8 +102,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 %{_infodir}/*
 %{_applnkdir}/Office/Misc/*
-%{_datadir}/%{name}
+%{_datadir}/gnucash/accounts/C
+%lang(da) %{_datadir}/gnucash/accounts/da
+%lang(de_DE) %{_datadir}/gnucash/accounts/de_DE
+%lang(es_ES) %{_datadir}/gnucash/accounts/es_ES
+%lang(pt_PT) %{_datadir}/gnucash/accounts/pt_PT
+%lang(sk) %{_datadir}/gnucash/accounts/sk
+%{_datadir}/gnucash/scm
+%{_datadir}/gnucash/guile-modules
+%attr(755,root,root) %{_datadir}/gnucash/finance-quote-helper
 %{_datadir}/mime-info/*
 %{_pixmapsdir}/%{name}
+%{_pixmapsdir}/%{name}-icon.png
 %{_sysconfdir}/gnucash
 %doc %{_docdir}/%{name}-%{version}/
