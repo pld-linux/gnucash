@@ -1,5 +1,5 @@
 # TODO:
-# - make separate subpackages with ofx and ohbci (like in included spec)
+# - make separate subpackages with ofx, ohbci, sql (like in included spec)
 %include	/usr/lib/rpm/macros.perl
 Summary:	GnuCash is an application to keep track of your finances
 Summary(ja):	GnuCash - ²È·×Êí¥½¥Õ¥È
@@ -14,6 +14,7 @@ Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
 # Source0-md5:	62f94331936e37ed1b1d28b5a1863bb3
 Source1:	%{name}-icon.png
+Patch0:		%{name}-info.patch
 Patch1:		%{name}-types.patch
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf-devel
@@ -41,6 +42,8 @@ BuildRequires:	libxml-devel
 BuildRequires:	openhbci-devel
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel
+BuildRequires:	postgresql-devel
+BuildRequires:	sed >= 4.0
 BuildRequires:	slib >= 2c4
 BuildRequires:	texinfo
 Requires(post,preun):	/sbin/ldconfig
@@ -77,14 +80,35 @@ interface foi projetada para ser simples e fácil de usar, mas tem o
 suporte de princípios de contabilidade com entrada dupla para garantir
 livros balanceados.
 
+%package devel
+Summary:	Header files for GnuCash libraries
+Summary(pl):	Pliki nag³ówkowe bibliotek GnuCash
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description devel
+Header files for GnuCash libraries.
+
+%description devel -l pl
+Pliki nag³ówkowe bibliotek GnuCash.
+
 %prep
 %setup -q
 %patch0 -p1
 %patch1 -p1
 
+# force regeneration after patching types in table.m4
+rm -f src/backend/postgres/base-autogen.c
+
 # kill outdated libtool macros
 tail -n +3907 acinclude.m4 > acinclude.tmp
 mv -f acinclude.tmp acinclude.m4
+
+sed -i -e 's/Terminal=0/Terminal=false/' src/gnome/gnucash.desktop.in
+cat >> src/gnome/gnucash.desktop.in <<EOF
+Encoding=UTF-8
+Categories=Science;Math;
+EOF
 
 %build
 %{__gettextize}
@@ -95,7 +119,8 @@ mv -f acinclude.tmp acinclude.m4
 %{__automake}
 
 %configure \
-	--disable-prefer-db1
+	--disable-prefer-db1 \
+	--enable-sql
 
 %{__make}
 
@@ -104,17 +129,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	GNC_DOC_INSTALL_DIR=%{_docdir}/%{name}-%{version}/ \
 	gnomeappdir=%{_desktopdir}
 
-perl -pi -e 's/=gnome-money.png/=gnucash-icon.png/' \
+sed -i -e 's/=gnome-money.png/=gnucash-icon.png/' \
 	$RPM_BUILD_ROOT%{_desktopdir}/gnucash.desktop
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-#gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/[!e]*
-
-%find_lang %{name} --with-gnome
+%find_lang %{name}
+# --with-gnome
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -131,17 +154,29 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog* HACKING NEWS README* TODO
 %doc doc/*.txt doc/examples doc/README* doc/RAW-NOTES doc/*HOWTO
-#%doc %{_docdir}/%{name}-%{version}/
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/lib*.so.*.*.*
-%dir %attr(755,root,root) %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/libgnc*.so.*.*.*
-%attr(755,root,root) %{_libdir}/%{name}/libgw*.so.*.*.*
-%dir %attr(755,root,root) %{_libdir}/%{name}/overrides
+# libs
+%attr(755,root,root) %{_libdir}/libcore-utils.so.*.*.*
+%attr(755,root,root) %{_libdir}/libgnc-app-file-gnome.so.*.*.*
+%attr(755,root,root) %{_libdir}/libgncgnome.so.*.*.*
+# lt_dlopened modules
+%attr(755,root,root) %{_libdir}/libgncmodule.so.*.*.*
+%attr(755,root,root) %{_libdir}/libgncmodule.so
+%{_libdir}/libgncmodule.la
+%attr(755,root,root) %{_libdir}/libgw-core-utils.so.*.*.*
+%attr(755,root,root) %{_libdir}/libgw-core-utils.so
+%{_libdir}/libgw-core-utils.la
+%attr(755,root,root) %{_libdir}/libgw-gnc.so.*.*.*
+%attr(755,root,root) %{_libdir}/libgw-gnc.so
+%{_libdir}/libgw-gnc.la
+%dir %{_libdir}/%{name}
+# lt_dlopened modules - need *.la
+%attr(755,root,root) %{_libdir}/%{name}/libgnc*.so*
+%attr(755,root,root) %{_libdir}/%{name}/libgw-*.so*
+%{_libdir}/%{name}/libgnc*.la
+%{_libdir}/%{name}/libgw-*.la
+%dir %{_libdir}/%{name}/overrides
 %attr(755,root,root) %{_libdir}/%{name}/overrides/*
-# Dunno if its needed runtime...
-%{_libdir}/*.la
-%{_libdir}/%{name}/*.la
 %{_sysconfdir}/gnucash
 %dir %{_datadir}/gnucash
 %{_datadir}/gnucash/[!a]*
@@ -163,10 +198,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/*.desktop
 %{_pixmapsdir}/%{name}
 %{_pixmapsdir}/%{name}-icon.png
-%{_mandir}/*/*
-%{_infodir}/*info*
+%{_mandir}/man1/*.1*
+%{_infodir}/*.info*
 
-# It's not needed, I think, maybe some devel subpackage?
-%dir %{_includedir}/%{name}
-%{_includedir}/%{name}/*.h
-#%{_aclocaldir}/*.m4
+%files devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libcore-utils.so
+%attr(755,root,root) %{_libdir}/libgnc-app-file-gnome.so
+%attr(755,root,root) %{_libdir}/libgncgnome.so
+%{_libdir}/libcore-utils.la
+%{_libdir}/libgnc-app-file-gnome.la
+%{_libdir}/libgncgnome.la
+%{_includedir}/gnucash
+%{_aclocaldir}/gnucash.m4
