@@ -4,7 +4,7 @@ Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Name:		gnucash
 Version:	1.6.6
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
@@ -13,6 +13,7 @@ Patch0:		%{name}-am15.patch
 Patch1:		%{name}-info.patch
 Patch2:		%{name}-ignore_db1.patch
 Patch3:		%{name}-libxml_includes_dir.patch
+Patch4:		%{name}-guile_1_4_1.patch
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf-devel
 BuildRequires:	Guppi-devel
@@ -75,6 +76,7 @@ livros balanceados.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 rm -f missing src/guile/Makefile.in
@@ -82,11 +84,6 @@ libtoolize --copy --force
 aclocal -I %{_aclocaldir}/gnome
 autoconf
 automake -a -c -f
-
-## Kloczek, dont touch this!
-#CFLAGS='%{rpmcflags} -I/usr/X11R6/include'
-#LDFLAGS='%{rpmldflags} -ldb3'
-#export CFLAGS LDFLAGS
 
 %configure \
 	--disable-prefer-db1
