@@ -6,6 +6,8 @@ Version:	1.4.9
 Release:	2
 License:	GPL
 Group:		X11/Applications
+Group(de):	X11/Applikationen
+Group(pl):	X11/Aplikacje
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
 URL:		http://www.gnucash.org
 Requires:	slib
@@ -22,15 +24,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 GnuCash is a personal finance manager. A check-book like register GUI
 allows you to enter and track bank accounts, stocks, income and even
-currency trades. The interface is designed to be simple and easy to use,
-but is backed with double-entry accounting principles to ensure balanced
-books.
+currency trades. The interface is designed to be simple and easy to
+use, but is backed with double-entry accounting principles to ensure
+balanced books.
 
 %prep
 %setup -q
 
 %build
-automake
+automake -a -c
 %configure 
 %{__make}
 
