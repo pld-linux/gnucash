@@ -1,0 +1,11 @@
+--- gnucash-1.8.11/src/network-utils/gnc-http.c.orig	2003-01-12 23:21:16.000000000 +0100
++++ gnucash-1.8.11/src/network-utils/gnc-http.c	2005-03-30 19:40:07.133403666 +0200
+@@ -31,6 +31,8 @@
+ 
+ #ifdef HAVE_GHTTP_SSL_H 
+ #include <ghttp_ssl.h>
++#else
++#define USE_SSL
+ #endif /* HAVE_GHTTP_SSL_H */
+ 
+ #endif /* HAVE_OPENSSL */
