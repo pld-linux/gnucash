@@ -1,42 +1,64 @@
-Name: gnucash
-Summary: GnuCash is an application to keep track of your finances.
-Version: 1.2.5
-Release: 1
-Copyright: Free Software Foundation
-Group: Applications/Finance
-Source: ftp://ftp.gnucash.org/pub/gnucash/sources/stable/gnucash-1.2.5.tar.gz
-Packager: Eugene Kanter (eugene@bgs.com)
-
+Name:		gnucash
+Summary:	GnuCash is an application to keep track of your finances.
+Version:	1.3.5
+Release:	0
+Copyright:	Free Software Foundation
+Group:		Applications/Finance
+Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{PACKAGE_VERSION}.tar.gz
+URL:		Http://www.gnucash.org
+Patch0:		gnucash-makefile.patch
+Requires:	slib
+Requires:	guile >= 1.3
+BuildRequires:	gnome-libs-devel
+BuildRequires:	esound-devel
+BuildRequires:	libxml-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-GnuCash is a personal finance manager.  A check-book like
-register GUI allows you to enter and track bank accounts,
-stocks, income and even currency trades.  The interface is
-designed to be simple and easy to use, but is backed with
-double-entry accounting principles to ensure balanced books.
+GnuCash is a personal finance manager. A check-book like register GUI
+allows you to enter and track bank accounts, stocks, income and even
+currency trades. The interface is designed to be simple and easy to use,
+but is backed with double-entry accounting principles to ensure balanced
+books.
 
 %prep
-%setup
+%setup -q
+%patch -p1
 
 %build
-X_LIBS=-lXp ./configure --prefix=/usr --sysconfdir=/etc
-make motif
+CFLAGS="$RPM_OPT_FLAGS" \
+CXXFLAGS="$RPM_OPT_FLAGS" \
+LDFLAGS="-s" \
+./configure --prefix=%{_prefix} --sysconfdir=%{_sysconfdir} --mandir=%{_mandir}
+make gnome
 
 %install
-make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc GNC_CONFIGDIR=$RPM_BUILD_ROOT/etc/gnucash install
-#make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc GNC_BINDIR=$RPM_BUILD_ROOT/usr/bin GNC_CONFIGDIR=$RPM_BUILD_ROOT/etc/gnucash GNC_DOCDIR=$RPM_BUILD_ROOT/usr/doc/gnucash install
-#rm -rf $RPM_BUILD_ROOT/usr/doc/gnucash
+rm -rf $RPM_BUILD_ROOT
+make prefix=$RPM_BUILD_ROOT%{_prefix} sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir} \
+mandir=$RPM_BUILD_ROOT%{_mandir} \
+GNC_DOCDIR=$RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/ install
+
+strip --strip-unneed $RPM_BUILD_ROOT%{_libdir}/gnucash/gnucash.so
+
+gzip -9nfr $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/* $RPM_BUILD_ROOT%{_mandir}/man1/*
+
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
-%defattr(444,root,root,755)
-%attr(555,-,-) /usr/bin/gnucash.motif
-/usr/bin/gnucash
-/usr/bin/gnc-prices
-/usr/lib/gnucash
-/usr/share/gnucash
-
-%doc /usr/doc/gnucash
+%files -f %{name}.lang
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/gnucash.gnome
+%attr(755,root,root) %{_bindir}/gnucash
+%attr(755,root,root) %{_bindir}/gnc-prices
+%{_libdir}/gnucash
+%{_mandir}/man1/*
+%{_datadir}/gnucash/html/C
+%lang(fr) %{_datadir}/gnucash/html/fr
+%{_datadir}/gnucash/html/logos
+%{_datadir}/gnucash/html/gnucash.css
+%{_datadir}/gnucash/scm
+%{_sysconfdir}/gnucash/config
+%{_datadir}/gnome/apps/Applications/gnucash.desktop
+%doc %{_docdir}/%{name}-%{version}/
