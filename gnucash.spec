@@ -1,30 +1,44 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	GnuCash is an application to keep track of your finances
 Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
-Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças.
+Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Name:		gnucash
 Version:	1.6.5
 Release:	5
 License:	GPL
 Group:		X11/Applications
+Group(cs):	X11/Aplikace
+Group(da):	X11/Programmer
 Group(de):	X11/Applikationen
 Group(es):	X11/Aplicaciones
+Group(fr):	X11/Applications
+Group(id):	X11/Aplikasi
+Group(is):	X11/Forrit
+Group(it):	X11/Applicazioni
+Group(ja):	X11/¥¢¥×¥ê¥±¡¼¥·¥ç¥ó
+Group(no):	X11/Applikasjoner
 Group(pl):	X11/Aplikacje
 Group(pt_BR):	X11/Aplicações
 Group(pt):	X11/Aplicações
+Group(ru):	X11/ðÒÉÌÏÖÅÎÉÑ
+Group(sl):	X11/Programi
+Group(sv):	X11/Tillämpningar
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
 Source1:	%{name}-icon.png
+Patch0:		%{name}-am15.patch
+Patch1:		%{name}-info.patch
 URL:		http://www.gnucash.org/
 Requires:	slib
 Requires:	guile >= 1.3.4
 Requires:	gnome-print >= 0.21
 Requires:	perl
+BuildRequires:	GConf-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bonobo-devel
 BuildRequires:	db3-devel
+BuildRequires:	freetype-devel
 BuildRequires:	gal-devel
-BuildRequires:	GConf-devel
 BuildRequires:	gdk-pixbuf-devel
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-libs-devel
@@ -34,12 +48,13 @@ BuildRequires:	gtkhtml-devel >= 0.8
 BuildRequires:	guile-devel
 BuildRequires:	Guppi-devel
 BuildRequires:	g-wrap-devel >= 1.1.9
-BuildRequires:	freetype-devel
 BuildRequires:	libghttp-devel
 BuildRequires:	libglade-devel
 BuildRequires:	libtool
 BuildRequires:	libxml-devel
 BuildRequires:	slib
+BuildRequires:	texinfo
+Prereq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         _prefix		/usr/X11R6
@@ -54,33 +69,31 @@ use, but is backed with double-entry accounting principles to ensure
 balanced books.
 
 %description -l pl
-GnuCash jest mened¿erem finansów osobistych. Pozwala na ¶ledzenie i 
-wpisywanie zasobów na swoich kontach bankowych, zak³adów. Daje
-wgl±d nawet w kursy walut. Interfejs zosta³ zaprojektowany z my¶l±
-o prostocie i ³atwo¶ci u¿ycia.
+GnuCash jest mened¿erem finansów osobistych. Pozwala na ¶ledzenie i
+wpisywanie zasobów na swoich kontach bankowych, zak³adów. Daje wgl±d
+nawet w kursy walut. Interfejs zosta³ zaprojektowany z my¶l± o
+prostocie i ³atwo¶ci u¿ycia.
 
 %description -l pt_BR
-O GnuCash é um gerenciador de finanças pessoais. Uma interface parecida com um
-canhoto de cheques permite que você acompanhe contas bancárias, ações, salário
-e mesmo tabelas de câmbio de moedas. A interface foi projetada para ser simples
-e fácil de usar, mas tem o suporte de princípios de contabilidade com entrada
-dupla para garantir livros balanceados.
+O GnuCash é um gerenciador de finanças pessoais. Uma interface
+parecida com um canhoto de cheques permite que você acompanhe contas
+bancárias, ações, salário e mesmo tabelas de câmbio de moedas. A
+interface foi projetada para ser simples e fácil de usar, mas tem o
+suporte de princípios de contabilidade com entrada dupla para garantir
+livros balanceados.
 
-%prep -q
+%prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
 
 %build
-#rm -f missing src/guile/Makefile.in
-#aclocal -I ./macros
-#libtoolize --copy --force
-#automake -a -c
-#autoconf
-
-CFLAGS='%{rpmcflags} -L/usr/X11R6/lib -I/usr/X11R6/include'
-export CFLAGS
-LDFLAGS='%{rpmldflags} -ldb3'
-export LDFLAGS
-%configure2_13
+rm -f missing src/guile/Makefile.in
+libtoolize --copy --force
+aclocal -I %{_aclocaldir}/gnome
+autoconf
+automake -a -c
+%configure
 
 %{__make}
 
@@ -104,8 +117,13 @@ gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/[!e]*
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
+%post
+/sbin/ldconfig
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+
+%postun
+/sbin/ldconfig
+[ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
