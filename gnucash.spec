@@ -140,9 +140,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/gnucash/accounts
 %{_datadir}/gnucash/accounts/C
 %lang(da) %{_datadir}/gnucash/accounts/da
-%lang(de_DE) %{_datadir}/gnucash/accounts/de_DE
-%lang(es_ES) %{_datadir}/gnucash/accounts/es_ES
-%lang(pt_PT) %{_datadir}/gnucash/accounts/pt_PT
+%lang(de) %{_datadir}/gnucash/accounts/de_DE
+%lang(es) %{_datadir}/gnucash/accounts/es_ES
+%lang(pt) %{_datadir}/gnucash/accounts/pt_PT
 %lang(sk) %{_datadir}/gnucash/accounts/sk
 %{_datadir}/mime-info/*
 %{_pixmapsdir}/%{name}
