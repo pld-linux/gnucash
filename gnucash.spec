@@ -2,8 +2,8 @@
 Summary:	GnuCash is an application to keep track of your finances.
 Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami.
 Name:		gnucash
-Version:	1.4.9
-Release:	2
+Version:	1.5.96
+Release:	1
 License:	GPL
 Group:		X11/Applications
 Group(de):	X11/Applikationen
@@ -28,6 +28,12 @@ currency trades. The interface is designed to be simple and easy to
 use, but is backed with double-entry accounting principles to ensure
 balanced books.
 
+%description -l pl
+GnuCash jest mened¿erem finansów osobistych. Pozwala na ¶ledzenie i 
+wpisywanie zasobów na swoich kontach bankowych, zak³adów. Daje
+wgl±d nawet w kursy walut. Interfejs zosta³ zaprojektowany z my¶l±
+o prostocie i ³atwo¶ci u¿ycia.
+
 %prep
 %setup -q
 
@@ -38,8 +44,9 @@ automake -a -c
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__make} DESTDIR=$RPM_BUILD_ROOT GNC_DOC_INSTALL_DIR=%{_docdir}/%{name}-%{version}/ \
-gnomeappdir=%{_applnkdir}/Office/Misc install
+%{__make} DESTDIR=$RPM_BUILD_ROOT \
+	GNC_DOC_INSTALL_DIR=%{_docdir}/%{name}-%{version}/ \
+	gnomeappdir=%{_applnkdir}/Office/Misc install
 
 gzip -9nfr $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/*
 
