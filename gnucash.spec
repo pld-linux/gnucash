@@ -8,7 +8,7 @@ Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN):	GnuCash - ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼þ
 Name:		gnucash
 Version:	1.8.11
-Release:	0.4
+Release:	0.5
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
@@ -16,6 +16,7 @@ Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.ta
 Source1:	%{name}-icon.png
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-types.patch
+Patch2:		%{name}-ghttp-ssl.patch
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf-devel
 BuildRequires:	Guppi-devel >= 0.35.5
@@ -97,6 +98,7 @@ Pliki nag³ówkowe bibliotek GnuCash.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 # force regeneration after patching types in table.m4
 rm -f src/backend/postgres/base-autogen.c
