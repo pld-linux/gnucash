@@ -7,7 +7,7 @@ Group: Applications/Finance
 Source: ftp://ftp.gnucash.org/pub/gnucash/sources/stable/gnucash-1.2.5.tar.gz
 Packager: Eugene Kanter (eugene@bgs.com)
 
-BuildRoot: /tmp/gnucash-%version
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 GnuCash is a personal finance manager.  A check-book like
@@ -16,14 +16,12 @@ stocks, income and even currency trades.  The interface is
 designed to be simple and easy to use, but is backed with
 double-entry accounting principles to ensure balanced books.
 
-
 %prep
 %setup
 
 %build
 X_LIBS=-lXp ./configure --prefix=/usr --sysconfdir=/etc
 make motif
-
 
 %install
 make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc GNC_CONFIGDIR=$RPM_BUILD_ROOT/etc/gnucash install
@@ -32,7 +30,6 @@ make prefix=$RPM_BUILD_ROOT/usr sysconfdir=$RPM_BUILD_ROOT/etc GNC_CONFIGDIR=$RP
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
 
 %files
 %defattr(444,root,root,755)
