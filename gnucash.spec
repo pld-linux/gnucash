@@ -54,8 +54,6 @@ Requires:	perl
 Requires:	slib >= 2c4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_sysconfdir	/etc/X11
-
 %description
 GnuCash is a personal finance manager. A check-book like register GUI
 allows you to enter and track bank accounts, stocks, income and even
@@ -112,10 +110,10 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	GNC_DOC_INSTALL_DIR=%{_docdir}/%{name}-%{version}/ \
-	gnomeappdir=%{_applnkdir}/Office/Misc
+	gnomeappdir=%{_desktopdir}
 
 perl -pi -e 's/=gnome-money.png/=gnucash-icon.png/' \
-	$RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucash.desktop
+	$RPM_BUILD_ROOT%{_desktopdir}/gnucash.desktop
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
 
@@ -167,7 +165,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(sk) %{_datadir}/gnucash/accounts/sk
 %lang(tr_TR) %{_datadir}/gnucash/accounts/tr_TR
 %{_datadir}/mime-info/*
-%{_applnkdir}/Office/Misc/*
+%{_desktopdir}/*.desktop
 %{_pixmapsdir}/%{name}
 %{_pixmapsdir}/%{name}-icon.png
 %{_mandir}/*/*
