@@ -3,7 +3,7 @@ Summary:	GnuCash is an application to keep track of your finances
 Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Name:		gnucash
 Version:	1.6.5
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications
 Group(de):	X11/Applikationen
@@ -30,6 +30,7 @@ BuildRequires:	gtkhtml-devel >= 0.8
 BuildRequires:	guile-devel
 BuildRequires:	Guppi-devel
 BuildRequires:	g-wrap-devel >= 1.1.9
+BuildRequires:	freetype-devel
 BuildRequires:	libghttp-devel
 BuildRequires:	libglade-devel
 BuildRequires:	libtool
@@ -100,7 +101,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_libdir}/libgncengine.so.*.*.*
 %{_mandir}/*/*
-%{_infodir}/*
+%{_infodir}/*info*gz
 %{_applnkdir}/Office/Misc/*
 %{_datadir}/gnucash/accounts/C
 %lang(da) %{_datadir}/gnucash/accounts/da
