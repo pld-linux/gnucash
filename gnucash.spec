@@ -1,3 +1,5 @@
+# TODO:
+# - make separate subpackages with ofx and ohbci (like in included spec)
 %include	/usr/lib/rpm/macros.perl
 Summary:	GnuCash is an application to keep track of your finances
 Summary(ja):	GnuCash - ²È·×Êí¥½¥Õ¥È
@@ -6,14 +8,14 @@ Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN):	GnuCash - ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼þ
 Name:		gnucash
 Version:	1.8.9
-Release:	0.2
-License:	GPL
+Release:	0.3
+License:	GPL v2
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
 # Source0-md5:	5ad11fbc5c86316632c5f9ec44dba659
 Source1:	%{name}-icon.png
-Patch0:		%{name}-am15.patch
-Patch1:		%{name}-info.patch
+Patch0:		%{name}-info.patch
+Patch1:		%{name}-am15.patch
 Patch2:		%{name}-ignore_db1.patch
 Patch3:		%{name}-libxml_includes_dir.patch
 Patch4:		%{name}-guile_1_4_1.patch
@@ -38,6 +40,7 @@ BuildRequires:	guile-devel >= 1.3.4
 BuildRequires:	libghttp-devel
 BuildRequires:	libglade-gnome-devel
 BuildRequires:	libltdl-devel
+#BuildRequires:	libofx-devel
 BuildRequires:	libtool
 BuildRequires:	libxml-devel
 BuildRequires:	openhbci-devel
@@ -50,6 +53,7 @@ Requires:	perl
 Prereq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_prefix		/usr/X11R6
 %define		_sysconfdir	/etc/X11
 
 %description
@@ -81,8 +85,8 @@ livros balanceados.
 
 %prep
 %setup -q
-#%patch0 -p1
-%patch1 -p1
+%patch0 -p1
+#%patch1 -p1
 #%patch2 -p1
 #%patch3 -p1
 #%patch4 -p1
@@ -94,8 +98,11 @@ livros balanceados.
 #%{__autoconf}
 #%{__automake}
 
+export CPPFLAGS="%{rpmcflags} -I%{_prefix}/include"
 %configure2_13 \
-	--disable-prefer-db1
+	--disable-prefer-db1 \
+	--enable-hbci
+#	--enable-ofx
 
 %{__make}
 
@@ -112,7 +119,7 @@ perl -pi -e 's/=gnome-money.png/=gnucash-icon.png/' \
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/[!e]*
+#gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/[!e]*
 
 %find_lang %{name} --with-gnome
 
@@ -129,22 +136,44 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc %{_docdir}/%{name}-%{version}/
+%doc AUTHORS ChangeLog* HACKING NEWS README* TODO
+%doc doc/*.txt doc/examples doc/README* doc/RAW-NOTES doc/*HOWTO
+#%doc %{_docdir}/%{name}-%{version}/
 %attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/libgncengine.so.*.*.*
-%{_mandir}/*/*
-%{_infodir}/*info*
-%{_applnkdir}/Office/Misc/*
+%attr(755,root,root) %{_libdir}/lib*.so.*.*.*
+%dir %attr(755,root,root) %{_libdir}/%{name}
+%attr(755,root,root) %{_libdir}/%{name}/libgnc*.so.*.*.*
+%attr(755,root,root) %{_libdir}/%{name}/libgw*.so.*.*.*
+%dir %attr(755,root,root) %{_libdir}/%{name}/overrides
+%attr(755,root,root) %{_libdir}/%{name}/overrides/*
+# Dunno if its needed runtime...
+%attr(644,root,root) %{_libdir}/*.la
+%attr(644,root,root) %{_libdir}/%{name}/*.la
+%{_sysconfdir}/gnucash
 %dir %{_datadir}/gnucash
 %{_datadir}/gnucash/[!a]*
 %dir %{_datadir}/gnucash/accounts
 %{_datadir}/gnucash/accounts/C
 %lang(da) %{_datadir}/gnucash/accounts/da
-%lang(de) %{_datadir}/gnucash/accounts/de_DE
-%lang(es) %{_datadir}/gnucash/accounts/es_ES
-%lang(pt) %{_datadir}/gnucash/accounts/pt_PT
+%lang(de_CH) %{_datadir}/gnucash/accounts/de_CH
+%lang(de_DE) %{_datadir}/gnucash/accounts/de_DE
+%lang(es_ES) %{_datadir}/gnucash/accounts/es_ES
+%lang(el_GR) %{_datadir}/gnucash/accounts/el_GR
+%lang(fr_FR) %{_datadir}/gnucash/accounts/fr_FR
+%lang(hu_HU) %{_datadir}/gnucash/accounts/hu_HU
+%lang(it) %{_datadir}/gnucash/accounts/it
+%lang(pt_BR) %{_datadir}/gnucash/accounts/pt_BR
+%lang(pt_PT) %{_datadir}/gnucash/accounts/pt_PT
 %lang(sk) %{_datadir}/gnucash/accounts/sk
+%lang(tr_TR) %{_datadir}/gnucash/accounts/tr_TR
 %{_datadir}/mime-info/*
+%{_applnkdir}/Office/Misc/*
 %{_pixmapsdir}/%{name}
 %{_pixmapsdir}/%{name}-icon.png
-%{_sysconfdir}/gnucash
+%{_mandir}/*/*
+%{_infodir}/*info*
+
+# It's not needed, I think, maybe some devel subpackage?
+%dir %{_includedir}/%{name}
+%{_includedir}/%{name}/*.h
+%{_aclocaldir}/*.m4
