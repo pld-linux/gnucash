@@ -2,7 +2,7 @@
 Summary:	GnuCash is an application to keep track of your finances
 Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Name:		gnucash
-Version:	1.5.97
+Version:	1.6.1
 Release:	1
 License:	GPL
 Group:		X11/Applications
