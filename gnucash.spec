@@ -78,10 +78,10 @@ rm -rf $RPM_BUILD_ROOT
 	GNC_DOC_INSTALL_DIR=%{_docdir}/%{name}-%{version}/ \
 	gnomeappdir=%{_applnkdir}/Office/Misc
 
-mv $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucach.desktop{,.tmp}
-sed -e 's/=gnome-money.png/=gnucach-icon.png/' \
-	< mv $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucach.desktop.tmp \
-	> mv $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucach.desktop
+mv $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucash.desktop{,.tmp}
+sed -e 's/=gnome-money.png/=gnucash-icon.png/' \
+	< mv $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucash.desktop.tmp \
+	> mv $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucash.desktop
 rm $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucash.desktop.tmp
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
