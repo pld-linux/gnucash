@@ -82,7 +82,7 @@ mv $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucach.desktop{,.tmp}
 sed -e 's/=gnome-money.png/=gnucach-icon.png/' \
 	< mv $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucach.desktop.tmp \
 	> mv $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucach.desktop
-rm $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucach.desktop.tmp
+rm $RPM_BUILD_ROOT%{_applnkdir}/Office/Misc/gnucash.desktop.tmp
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
 
