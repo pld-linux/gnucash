@@ -10,6 +10,7 @@ Release:	2
 License:	GPL
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
+# Source0-md5:	f934bae9a81524502f8bbfa360c0b879
 Source1:	%{name}-icon.png
 Patch0:		%{name}-am15.patch
 Patch1:		%{name}-info.patch
