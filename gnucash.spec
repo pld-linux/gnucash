@@ -1,17 +1,18 @@
 Name:		gnucash
 Summary:	GnuCash is an application to keep track of your finances.
-Version:	1.3.5
+Version:	1.3.8
 Release:	0
 Copyright:	Free Software Foundation
 Group:		Applications/Finance
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{PACKAGE_VERSION}.tar.gz
 URL:		Http://www.gnucash.org
-Patch0:		gnucash-makefile.patch
 Requires:	slib
 Requires:	guile >= 1.3
+Requires:	g-wrap
 BuildRequires:	gnome-libs-devel
 BuildRequires:	esound-devel
 BuildRequires:	libxml-devel
+BuildRequires:	g-wrap-static
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -23,7 +24,6 @@ books.
 
 %prep
 %setup -q
-%patch -p1
 
 %build
 CFLAGS="$RPM_OPT_FLAGS" \
