@@ -8,7 +8,7 @@ Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN):	GnuCash - ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼þ
 Name:		gnucash
 Version:	1.8.11
-Release:	0.3
+Release:	0.4
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
@@ -33,7 +33,7 @@ BuildRequires:	gnome-print-devel >= 0.21
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkhtml1-devel >= 1.1
 BuildRequires:	guile-devel >= 1.3.4
-BuildRequires:	libghttp-devel
+BuildRequires:	libghttp-devel >= 1.0.9-10
 BuildRequires:	libglade-gnome-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libofx-devel >= 0.7.0
@@ -49,6 +49,7 @@ BuildRequires:	texinfo
 Requires(post,preun):	/sbin/ldconfig
 Requires:	gnome-print >= 0.21
 Requires:	guile >= 1.3.4
+Requires:	libghttp >= 1.0.9-10
 Requires:	perl
 Requires:	slib >= 2c4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
