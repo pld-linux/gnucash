@@ -81,7 +81,7 @@ rm -f missing src/guile/Makefile.in
 libtoolize --copy --force
 aclocal -I %{_aclocaldir}/gnome
 autoconf
-automake -a -c
+automake -a -c -f
 
 ## Kloczek, dont touch this!
 #CFLAGS='%{rpmcflags} -I/usr/X11R6/include'
