@@ -14,17 +14,13 @@ Patch1:		%{name}-info.patch
 Patch2:		%{name}-ignore_db1.patch
 Patch3:		%{name}-libxml_includes_dir.patch
 URL:		http://www.gnucash.org/
-Requires:	slib
-Requires:	guile >= 1.3.4
-Requires:	gnome-print >= 0.21
-Requires:	perl
 BuildRequires:	GConf-devel
 BuildRequires:	Guppi-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bonobo-devel
 BuildRequires:	db3-devel
-BuildRequires:	freetype-devel
+BuildRequires:	freetype-devel >= 2.0.0
 BuildRequires:	g-wrap-devel >= 1.1.9
 BuildRequires:	gal-devel
 BuildRequires:	gdk-pixbuf-devel
@@ -41,6 +37,10 @@ BuildRequires:	libtool
 BuildRequires:	libxml-devel
 BuildRequires:	slib
 BuildRequires:	texinfo
+Requires:	slib
+Requires:	guile >= 1.3.4
+Requires:	gnome-print >= 0.21
+Requires:	perl
 Prereq:		/sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
