@@ -23,6 +23,7 @@ BuildRequires:	libghttp-devel
 BuildRequires:	gtkhtml-devel >= 0.8
 BuildRequires:	libtool automake autoconf
 BuildRequires:	gnome-print-devel
+BuildRequires:	Guppi-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         _prefix         /usr/X11R6
@@ -50,7 +51,7 @@ libtoolize --copy --force
 automake -a -c
 
 %configure \
-	--disable-guppi		# we don't have guppi for now...
+#	--disable-guppi		# we don't have guppi for now...
 
 #%{__make}
 
