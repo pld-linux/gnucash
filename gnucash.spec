@@ -25,6 +25,12 @@ BuildRequires:	libtool automake autoconf
 BuildRequires:	gnome-print-devel
 BuildRequires:	Guppi-devel
 BuildRequires:	oaf-devel
+BuildRequires:	guile-devel
+BuildRequires:	libglade-devel
+BuildRequires:	gtk+-devel
+BuildRequires:	gal-devel
+BuildRequires:	gdk-pixbuf-devel
+BuildRequires:	gettext-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         _prefix         /usr/X11R6
@@ -47,10 +53,11 @@ o prostocie i ³atwo¶ci u¿ycia.
 
 %build
 rm missing
+aclocal -I ./macros
 libtoolize --copy --force
 automake -a -c
 
-%configure
+%configure2_13
 
 %{__make}
 
