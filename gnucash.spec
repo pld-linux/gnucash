@@ -4,24 +4,28 @@ Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Name:		gnucash
 Version:	1.6.5
-Release:	6.1
+Release:	6.2
 License:	GPL
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
 Source1:	%{name}-icon.png
 Patch0:		%{name}-am15.patch
 Patch1:		%{name}-info.patch
+Patch2:		%{name}-ignore_db1.patch
+Patch3:		%{name}-libxml_includes_dir.patch
 URL:		http://www.gnucash.org/
 Requires:	slib
 Requires:	guile >= 1.3.4
 Requires:	gnome-print >= 0.21
 Requires:	perl
 BuildRequires:	GConf-devel
+BuildRequires:	Guppi-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bonobo-devel
 BuildRequires:	db3-devel
 BuildRequires:	freetype-devel
+BuildRequires:	g-wrap-devel >= 1.1.9
 BuildRequires:	gal-devel
 BuildRequires:	gdk-pixbuf-devel
 BuildRequires:	gettext-devel
@@ -30,10 +34,9 @@ BuildRequires:	gnome-print-devel
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkhtml-devel >= 0.8
 BuildRequires:	guile-devel
-BuildRequires:	Guppi-devel
-BuildRequires:	g-wrap-devel >= 1.1.9
 BuildRequires:	libghttp-devel
 BuildRequires:	libglade-devel
+BuildRequires:	libltdl-devel
 BuildRequires:	libtool
 BuildRequires:	libxml-devel
 BuildRequires:	slib
@@ -70,6 +73,8 @@ livros balanceados.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 rm -f missing src/guile/Makefile.in
@@ -83,7 +88,8 @@ automake -a -c
 #LDFLAGS='%{rpmldflags} -ldb3'
 #export CFLAGS LDFLAGS
 
-%configure
+%configure \
+	--disable-prefer-db1
 
 %{__make}
 
