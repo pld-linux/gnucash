@@ -83,9 +83,12 @@ rm -rf $RPM_BUILD_ROOT
 	GNC_DOC_INSTALL_DIR=%{_docdir}/%{name}-%{version}/ \
 	gnomeappdir=%{_applnkdir}/Office/Misc
 
-#gzip -9nfr $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
+gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/[!e]*
 
 %find_lang %{name} --with-gnome
+
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -97,7 +100,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/*/*
 %{_infodir}/*
 %{_applnkdir}/Office/Misc/*
-%{_datadir}/gnome/help/%{name}
 %{_datadir}/%{name}
 %{_datadir}/mime-info/*
 %{_pixmapsdir}/%{name}
