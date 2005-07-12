@@ -8,7 +8,7 @@ Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN):	GnuCash - ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼þ
 Name:		gnucash
 Version:	1.8.11
-Release:	0.5
+Release:	1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
@@ -182,7 +182,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/overrides/*
 %{_sysconfdir}/gnucash
 %dir %{_datadir}/gnucash
-%{_datadir}/gnucash/[!a]*
+%{_datadir}/gnucash/[!af]*
 %dir %{_datadir}/gnucash/accounts
 %{_datadir}/gnucash/accounts/C
 %lang(da) %{_datadir}/gnucash/accounts/da
@@ -198,6 +198,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(sk) %{_datadir}/gnucash/accounts/sk
 %lang(tr_TR) %{_datadir}/gnucash/accounts/tr_TR
 %{_datadir}/mime-info/*
+%attr(755,root,root) %{_datadir}/gnucash/[f]*
 %{_desktopdir}/*.desktop
 %{_pixmapsdir}/%{name}
 %{_pixmapsdir}/%{name}-icon.png
