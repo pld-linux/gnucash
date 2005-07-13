@@ -197,8 +197,8 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pt_PT) %{_datadir}/gnucash/accounts/pt_PT
 %lang(sk) %{_datadir}/gnucash/accounts/sk
 %lang(tr_TR) %{_datadir}/gnucash/accounts/tr_TR
+%attr(755,root,root) %{_datadir}/gnucash/f*
 %{_datadir}/mime-info/*
-%attr(755,root,root) %{_datadir}/gnucash/[f]*
 %{_desktopdir}/*.desktop
 %{_pixmapsdir}/%{name}
 %{_pixmapsdir}/%{name}-icon.png
