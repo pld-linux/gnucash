@@ -1,5 +1,5 @@
 # TODO:
-# - make separate subpackages with ofx, ohbci, sql (like in included spec)
+# - make separate subpackages with ofx, hbci, sql (like in included spec)
 %include	/usr/lib/rpm/macros.perl
 Summary:	GnuCash is an application to keep track of your finances
 Summary(ja):	GnuCash - ²È·×Êí¥½¥Õ¥È
@@ -7,12 +7,12 @@ Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN):	GnuCash - ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼þ
 Name:		gnucash
-Version:	1.8.11
+Version:	1.8.12
 Release:	1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.gz
-# Source0-md5:	62f94331936e37ed1b1d28b5a1863bb3
+# Source0-md5:	81e7c703db56bb203e106664157779cc
 Source1:	%{name}-icon.png
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-types.patch
@@ -20,6 +20,7 @@ Patch2:		%{name}-ghttp-ssl.patch
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf-devel
 BuildRequires:	Guppi-devel >= 0.35.5
+BuildRequires:	aqbanking-devel >= 1.0.0
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bonobo-devel
@@ -34,13 +35,13 @@ BuildRequires:	gnome-print-devel >= 0.21
 BuildRequires:	gtk+-devel
 BuildRequires:	gtkhtml1-devel >= 1.1
 BuildRequires:	guile-devel >= 1.3.4
+BuildRequires:	ktoblzcheck-devel
 BuildRequires:	libghttp-devel >= 1:1.0.9-10
 BuildRequires:	libglade-gnome-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libofx-devel >= 0.7.0
 BuildRequires:	libtool
 BuildRequires:	libxml-devel
-BuildRequires:	openhbci-devel
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel
 BuildRequires:	postgresql-devel
@@ -123,6 +124,8 @@ EOF
 
 %configure \
 	--disable-prefer-db1 \
+	--enable-hbci \
+	--enable-ofx \
 	--enable-sql
 
 %{__make}
