@@ -15,23 +15,35 @@ Source0:	http://dl.sourceforge.net/gnucash/%{name}-%{version}.tar.gz
 # Source0-md5:	4b3dd389c9ee007dae1307f1bc2696e0
 Source1:	%{name}-icon.png
 URL:		http://www.gnucash.org/
+BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	aqbanking-devel >= 1.0.0
-BuildRequires:	autoconf
-BuildRequires:	automake
 BuildRequires:	db-devel
+BuildRequires:	g-wrap-devel >= 2:1.3.3
 BuildRequires:	gettext-devel
-BuildRequires:	gtk+2-devel
-BuildRequires:	guile-devel
+BuildRequires:	glib2-devel >= 1:2.6.0
+BuildRequires:	gtk+2-devel >= 2:2.6.0
+BuildRequires:	gtkhtml-devel >= 3.8
+BuildRequires:	guile-devel >= 5:1.6
+BuildRequires:	guile-www
 BuildRequires:	ktoblzcheck-devel
-BuildRequires:	libofx-devel
-BuildRequires:	libtool
+BuildRequires:	libglade2-devel >= 2.4
+BuildRequires:	libgnomeprint-devel >= 2.2
+BuildRequires:	libgnomeprintui-devel >= 2.2
+BuildRequires:	libgnomeui-devel >= 2.4
+BuildRequires:	libgoffice-devel >= 0.0.4
+BuildRequires:	libgsf-gnome-devel >= 1.12.2
+BuildRequires:	libofx-devel >= 0.7.0
+BuildRequires:	libxml2-devel >= 1:2.5.10
+BuildRequires:	pango-devel >= 1.8.0
 BuildRequires:	pkgconfig
-BuildRequires:	popt-devel
+BuildRequires:	popt-devel >= 1.5
 BuildRequires:	postgresql-devel
+#BuildRequires:	qof-devel >= 0.6.2 (to use external instead of included)
 BuildRequires:	sed >= 4.0
 BuildRequires:	slib >= 2c4
 BuildRequires:	texinfo
 Requires(post,preun):	/sbin/ldconfig
+Requires:	guile-www
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
