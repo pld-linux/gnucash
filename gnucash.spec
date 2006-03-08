@@ -38,7 +38,7 @@ BuildRequires:	pango-devel >= 1.8.0
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel >= 1.5
 BuildRequires:	postgresql-devel
-#BuildRequires:	qof-devel >= 0.6.2 (to use external instead of included)
+BuildRequires:	qof-devel >= 0.6.2
 BuildRequires:	sed >= 4.0
 BuildRequires:	slib >= 2c4
 BuildRequires:	texinfo
