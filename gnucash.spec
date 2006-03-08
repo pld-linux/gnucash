@@ -7,12 +7,12 @@ Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN):	GnuCash - ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼þ
 Name:		gnucash
-Version:	1.9.1
+Version:	1.9.2
 Release:	0.1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://dl.sourceforge.net/gnucash/%{name}-%{version}.tar.gz
-# Source0-md5:	fd1ba54948cf6a91faf1328f2051677d
+# Source0-md5:	f0acadc32b35e0203bef226c8eaf90a9
 Source1:	%{name}-icon.png
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf2-devel >= 2.0
@@ -146,9 +146,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/gconf/schemas/apps_gnucash_warnings.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnucash_window_pages_account_tree.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnucash_window_pages_register.schemas
+%dir %{_sysconfdir}/gnucash
 %{_sysconfdir}/gnucash/config
-%attr(755,root,root) %{_bindir}/dump-finance-quote
-%attr(755,root,root) %{_bindir}/gnc-prices
+%attr(755,root,root) %{_bindir}/gnc-fq-check
+%attr(755,root,root) %{_bindir}/gnc-fq-dump
+%attr(755,root,root) %{_bindir}/gnc-fq-helper
+%attr(755,root,root) %{_bindir}/gnc-fq-update
 %attr(755,root,root) %{_bindir}/gnc-test-env
 %attr(755,root,root) %{_bindir}/gnucash
 %attr(755,root,root) %{_bindir}/gnucash-bin
@@ -156,12 +159,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gnucash-env
 %attr(755,root,root) %{_bindir}/gnucash-make-guids
 %attr(755,root,root) %{_bindir}/gnucash-valgrind
-%attr(755,root,root) %{_bindir}/update-finance-quote
 %attr(755,root,root) %{_bindir}/update-gnucash-gconf
+%attr(755,root,root) %{_libdir}/lib*.so.*.*.*
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/*.so.*
-%{_prefix}/lib/gnucash/overrides
-%attr(755,root,root) %{_prefix}/lib/lib*.so.*
+%{_libdir}/%{name}/overrides
 %{_aclocaldir}/gnucash.m4
 %{_desktopdir}/gnucash.desktop
 %dir %{_datadir}/%{name}
@@ -180,6 +182,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pt_PT) %{_datadir}/%{name}/accounts/pt_PT
 %lang(sk) %{_datadir}/%{name}/accounts/sk
 %lang(tr_TR) %{_datadir}/%{name}/accounts/tr_TR
+%dir %{_datadir}/%{name}/doc
 %{_datadir}/%{name}/doc/AUTHORS
 %{_datadir}/%{name}/doc/COPYING
 %{_datadir}/%{name}/doc/ChangeLog
@@ -195,6 +198,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/doc/README.francais
 %{_datadir}/%{name}/doc/README.german
 %{_datadir}/%{name}/doc/README.patches
+%dir %{_datadir}/%{name}/doc/examples
 %{_datadir}/%{name}/doc/examples/Money95bank_fr.qif
 %{_datadir}/%{name}/doc/examples/Money95invst_fr.qif
 %{_datadir}/%{name}/doc/examples/Money95mfunds_fr.qif
@@ -216,7 +220,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/doc/examples/test2.xac
 %{_datadir}/%{name}/doc/examples/test3.xac
 %{_datadir}/%{name}/doc/examples/test4.xac
-%{_datadir}/gnucash/finance-quote-helper
+%dir %{_datadir}/gnucash/glade
 %{_datadir}/gnucash/glade/account.glade
 %{_datadir}/gnucash/glade/acctperiod.glade
 %{_datadir}/gnucash/glade/billterms.glade
@@ -266,6 +270,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gnucash/glade/transfer.glade
 %{_datadir}/gnucash/glade/userpass.glade
 %{_datadir}/gnucash/glade/vendor.glade
+%dir %{_datadir}/gnucash/guile-modules
+%dir %{_datadir}/gnucash/guile-modules/g-wrapped
 %{_datadir}/gnucash/guile-modules/g-wrapped/gw-app-utils-spec.scm
 %{_datadir}/gnucash/guile-modules/g-wrapped/gw-app-utils.scm
 %{_datadir}/gnucash/guile-modules/g-wrapped/gw-business-core-spec.scm
@@ -292,20 +298,23 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gnucash/guile-modules/g-wrapped/gw-report-gnome.scm
 %{_datadir}/gnucash/guile-modules/g-wrapped/gw-report-system-spec.scm
 %{_datadir}/gnucash/guile-modules/g-wrapped/gw-report-system.scm
+%dir %{_datadir}/gnucash/guile-modules/gnucash
 %{_datadir}/gnucash/guile-modules/gnucash/app-utils.scm
 %{_datadir}/gnucash/guile-modules/gnucash/business-core.scm
 %{_datadir}/gnucash/guile-modules/gnucash/business-gnome.scm
 %{_datadir}/gnucash/guile-modules/gnucash/business-utils.scm
 %{_datadir}/gnucash/guile-modules/gnucash/dialog-tax-table.scm
 %{_datadir}/gnucash/guile-modules/gnucash/engine.scm
-%{_datadir}/gnucash/guile-modules/gnucash/fin.scm
 %{_datadir}/gnucash/guile-modules/gnucash/gnc-module.scm
 %{_datadir}/gnucash/guile-modules/gnucash/gnome-utils.scm
+%dir %{_datadir}/gnucash/guile-modules/gnucash/import-export
 %{_datadir}/gnucash/guile-modules/gnucash/import-export/qif-import.scm
 %{_datadir}/gnucash/guile-modules/gnucash/main.scm
 %{_datadir}/gnucash/guile-modules/gnucash/price-quotes.scm
+%dir %{_datadir}/gnucash/guile-modules/gnucash/printing
 %{_datadir}/gnucash/guile-modules/gnucash/printing/number-to-words.scm
 %{_datadir}/gnucash/guile-modules/gnucash/process.scm
+%dir %{_datadir}/gnucash/guile-modules/gnucash/report
 %{_datadir}/gnucash/guile-modules/gnucash/report/account-piecharts.scm
 %{_datadir}/gnucash/guile-modules/gnucash/report/account-summary.scm
 %{_datadir}/gnucash/guile-modules/gnucash/report/advanced-portfolio.scm
@@ -323,7 +332,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gnucash/guile-modules/gnucash/report/general-journal.scm
 %{_datadir}/gnucash/guile-modules/gnucash/report/general-ledger.scm
 %{_datadir}/gnucash/guile-modules/gnucash/report/hello-world.scm
-%{_datadir}/gnucash/guile-modules/gnucash/report/iframe-url.scm
 %{_datadir}/gnucash/guile-modules/gnucash/report/income-statement.scm
 %{_datadir}/gnucash/guile-modules/gnucash/report/invoice.scm
 %{_datadir}/gnucash/guile-modules/gnucash/report/locale-specific/de_DE.scm
@@ -350,27 +358,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gnucash/guile-modules/gnucash/report/utility-reports.scm
 %{_datadir}/gnucash/guile-modules/gnucash/report/view-column.scm
 %{_datadir}/gnucash/guile-modules/gnucash/report/welcome-to-gnucash.scm
+%dir %{_datadir}/gnucash/guile-modules/gnucash/tax
 %{_datadir}/gnucash/guile-modules/gnucash/tax/de_DE.scm
 %{_datadir}/gnucash/guile-modules/gnucash/tax/us.scm
-%{_datadir}/gnucash/guile-modules/www/cgi.scm
-%{_datadir}/gnucash/guile-modules/www/http.scm
-%{_datadir}/gnucash/guile-modules/www/main.scm
-%{_datadir}/gnucash/guile-modules/www/url.scm
-%{_datadir}/gnucash/pixmaps/account-16.png
-%{_datadir}/gnucash/pixmaps/account.png
-%{_datadir}/gnucash/pixmaps/appicon.png
-%{_datadir}/gnucash/pixmaps/delete-account-16.png
-%{_datadir}/gnucash/pixmaps/delete-account.png
-%{_datadir}/gnucash/pixmaps/edit-account-16.png
-%{_datadir}/gnucash/pixmaps/edit-account.png
-%{_datadir}/gnucash/pixmaps/gnucash-icon.png
-%{_datadir}/gnucash/pixmaps/gnucash_splash.png
-%{_datadir}/gnucash/pixmaps/new-account-16.png
-%{_datadir}/gnucash/pixmaps/new-account.png
-%{_datadir}/gnucash/pixmaps/open-account-16.png
-%{_datadir}/gnucash/pixmaps/open-account.png
-%{_datadir}/gnucash/pixmaps/stock_split_title.png
-%{_datadir}/gnucash/pixmaps/stock_split_watermark.png
+%{_datadir}/gnucash/pixmaps
+%dir %{_datadir}/gnucash/scm
 %{_datadir}/gnucash/scm/build-config.scm
 %{_datadir}/gnucash/scm/business-options.scm
 %{_datadir}/gnucash/scm/business-prefs.scm
@@ -386,6 +378,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gnucash/scm/fin.scm
 %{_datadir}/gnucash/scm/gnc-menu-extensions.scm
 %{_datadir}/gnucash/scm/gnc-numeric.scm
+%dir %{_datadir}/gnucash/scm/gnumeric
 %{_datadir}/gnucash/scm/gnumeric/gnumeric-utilities.scm
 %{_datadir}/gnucash/scm/gnumeric/table-utils.scm
 %{_datadir}/gnucash/scm/help-topics-index.scm
@@ -405,7 +398,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gnucash/scm/options-utilities.scm
 %{_datadir}/gnucash/scm/options.scm
 %{_datadir}/gnucash/scm/prefs.scm
+%dir %{_datadir}/gnucash/scm/printing
 %{_datadir}/gnucash/scm/printing/print-check.scm
+%dir %{_datadir}/gnucash/scm/qif-import
 %{_datadir}/gnucash/scm/qif-import/qif-dialog-utils.scm
 %{_datadir}/gnucash/scm/qif-import/qif-file.scm
 %{_datadir}/gnucash/scm/qif-import/qif-guess-map.scm
@@ -425,39 +420,20 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gnucash/scm/txf.scm
 %{_datadir}/gnucash/scm/xml-generator.scm
 %{_datadir}/gnucash/tip_of_the_day.list
-%{_datadir}/gnucash/ui/gnc-main-window-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-account-tree-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-basic-commands-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-budget-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-business-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-file-history-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-hbci-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-log-replay-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-ofx-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-page-account-tree-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-page-budget-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-page-invoice-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-page-register-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-page-report-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-page-sxregister-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-qif-import-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-register-ui.xml
-%{_datadir}/gnucash/ui/gnc-plugin-stylesheets-ui.xml
-%{_datadir}/gnucash/ui/gnc-sxed-to-create-window-ui.xml
-%{_datadir}/gnucash/ui/gnc-sxed-window-ui-full.xml
-%{_datadir}/gnucash/ui/gnc-sxed-window-ui.xml
-%{_datadir}/info/dir.gz
-%{_datadir}/info/gnucash-design.info.gz
+%{_datadir}/gnucash/ui
+%{_infodir}/gnucash-design.info*
 %{_mandir}/man1/gnc-prices.1*
 %{_mandir}/man1/gnucash.1*
 %{_datadir}/mime-info/gnucash.keys
 %{_datadir}/mime-info/gnucash.mime
-%{_pixmapsdir}
+%{_pixmapsdir}/*
+%dir %{_datadir}/xml/qsf
 %{_datadir}/xml/qsf/pilot-qsf-GnuCashInvoice.xml
 %{_datadir}/xml/qsf/qsf-map.xsd.xml
 %{_datadir}/xml/qsf/qsf-object.xsd.xml
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/lib*.so
+%{_libdir}/lib*.la
 %{_includedir}/%{name}
-%{_libdir}/*.la
