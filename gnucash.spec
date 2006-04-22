@@ -91,10 +91,10 @@ Pliki nag³ówkowe bibliotek GnuCash.
 # force regeneration after patching types in table.m4
 rm -f src/backend/postgres/base-autogen.c
 
-sed -i -e 's/Terminal=0/Terminal=false/' src/gnome/gnucash.desktop.in
+# FIXME ? - leave the original ?
+sed -i -e 's/Categories=Application;Office;Finance;/Categories=Education;Science;Math;/' src/gnome/gnucash.desktop.in
 cat >> src/gnome/gnucash.desktop.in <<EOF
 Encoding=UTF-8
-Categories=Science;Math;
 EOF
 
 %build
