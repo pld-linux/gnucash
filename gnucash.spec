@@ -91,6 +91,7 @@ Pliki nag³ówkowe bibliotek GnuCash.
 # force regeneration after patching types in table.m4
 rm -f src/backend/postgres/base-autogen.c
 
+sed -i -e 's/Categories=Application;Office/Categories=GTK;GNOME;Office/' src/gnome/gnucash.desktop.in
 cat >> src/gnome/gnucash.desktop.in <<EOF
 Encoding=UTF-8
 EOF
