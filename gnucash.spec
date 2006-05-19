@@ -7,12 +7,12 @@ Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN):	GnuCash - ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼þ
 Name:		gnucash
-Version:	1.9.3
+Version:	1.9.6
 Release:	0.1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://dl.sourceforge.net/gnucash/%{name}-%{version}.tar.gz
-# Source0-md5:	00841051fe0a68547178765148f319aa
+# Source0-md5:	ba5164c17c4c6550f8fa00b2d926c1ad
 Source1:	%{name}-icon.png
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf2-devel >= 2.0
@@ -175,6 +175,8 @@ rm -rf $RPM_BUILD_ROOT
 %lang(es_ES) %{_datadir}/%{name}/accounts/es_ES
 %lang(fr_FR) %{_datadir}/%{name}/accounts/fr_FR
 %lang(hu_HU) %{_datadir}/%{name}/accounts/hu_HU
+%lang(de_AT) %{_datadir}/gnucash/accounts/de_AT
+%lang(fr_CH) %{_datadir}/gnucash/accounts/fr_CH
 %lang(it) %{_datadir}/%{name}/accounts/it
 %lang(nb) %{_datadir}/%{name}/accounts/nb
 %lang(pt_BR) %{_datadir}/%{name}/accounts/pt_BR
@@ -426,10 +428,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/mime-info/gnucash.keys
 %{_datadir}/mime-info/gnucash.mime
 %{_pixmapsdir}/*
-%dir %{_datadir}/xml/qsf
-%{_datadir}/xml/qsf/pilot-qsf-GnuCashInvoice.xml
-%{_datadir}/xml/qsf/qsf-map.xsd.xml
-%{_datadir}/xml/qsf/qsf-object.xsd.xml
+%{_datadir}/gnucash/glade/choose-owner.glade
+%{_datadir}/gnucash/glade/druid-gnc-xml-import.glade
+%{_datadir}/gnucash/xml/qsf/pilot-qsf-GnuCashInvoice.xml
+%{_datadir}/gnucash/xml/qsf/pilot-qsf-gncCustomer.xml
+%{_datadir}/gnucash/xml/qsf/qsf-map.xsd.xml
+%{_datadir}/gnucash/xml/qsf/qsf-object.xsd.xml
+%{_datadir}/xml/gnucash/xsl/README
+%{_datadir}/xml/gnucash/xsl/date-time.xsl
+%{_datadir}/xml/gnucash/xsl/gnucash-gnccustomer-vcard2.xsl
+%{_datadir}/xml/gnucash/xsl/gnucash-std.xsl
+%{_datadir}/xml/gnucash/xsl/string.xsl
+%{_datadir}/xml/gnucash/xsl/vcard-gnccustomer.pl
 
 %files devel
 %defattr(644,root,root,755)
