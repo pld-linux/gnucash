@@ -7,12 +7,12 @@ Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
 Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN):	GnuCash - ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼þ
 Name:		gnucash
-Version:	1.9.6
+Version:	2.0.0
 Release:	0.1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://dl.sourceforge.net/gnucash/%{name}-%{version}.tar.gz
-# Source0-md5:	ba5164c17c4c6550f8fa00b2d926c1ad
+# Source0-md5:	d5802c398825500ec322bb2b3229aadd
 Source1:	%{name}-icon.png
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf2-devel >= 2.0
@@ -225,7 +225,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/glade/account.glade
 %{_datadir}/%{name}/glade/acctperiod.glade
 %{_datadir}/%{name}/glade/billterms.glade
-%{_datadir}/%{name}/glade/binary-import.glade
 %{_datadir}/%{name}/glade/budget.glade
 %{_datadir}/%{name}/glade/businessprefs.glade
 %{_datadir}/%{name}/glade/chart-export.glade
@@ -384,7 +383,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}/scm/gnumeric
 %{_datadir}/%{name}/scm/gnumeric/gnumeric-utilities.scm
 %{_datadir}/%{name}/scm/gnumeric/table-utils.scm
-%{_datadir}/%{name}/scm/help-topics-index.scm
 %{_datadir}/%{name}/scm/hooks.scm
 %{_datadir}/%{name}/scm/html-acct-table.scm
 %{_datadir}/%{name}/scm/html-barchart.scm
@@ -433,8 +431,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_infodir}/gnucash-design.info*
 %{_mandir}/man1/gnc-prices.1*
 %{_mandir}/man1/gnucash.1*
-%{_datadir}/mime-info/gnucash.keys
-%{_datadir}/mime-info/gnucash.mime
 %{_pixmapsdir}/*
 %dir %{_datadir}/xml/%{name}
 %dir %{_datadir}/xml/%{name}/xsl
