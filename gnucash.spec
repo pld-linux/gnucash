@@ -26,6 +26,7 @@ BuildRequires:	gtkhtml-devel >= 3.8
 BuildRequires:	guile-devel >= 5:1.6
 BuildRequires:	guile-www
 BuildRequires:	ktoblzcheck-devel
+BuildRequires:	libltdl-devel
 BuildRequires:	libglade2-devel >= 2.4
 BuildRequires:	libgnomeprint-devel >= 2.2
 BuildRequires:	libgnomeprintui-devel >= 2.2
