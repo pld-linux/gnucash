@@ -26,13 +26,13 @@ BuildRequires:	gtkhtml-devel >= 3.8
 BuildRequires:	guile-devel >= 5:1.6
 BuildRequires:	guile-www
 BuildRequires:	ktoblzcheck-devel
-BuildRequires:	libltdl-devel
 BuildRequires:	libglade2-devel >= 2.4
 BuildRequires:	libgnomeprint-devel >= 2.2
 BuildRequires:	libgnomeprintui-devel >= 2.2
 BuildRequires:	libgnomeui-devel >= 2.4
 BuildRequires:	libgoffice-devel >= 0.0.4
 BuildRequires:	libgsf-gnome-devel >= 1.12.2
+BuildRequires:	libltdl-devel
 BuildRequires:	libofx-devel >= 0.7.0
 BuildRequires:	libxml2-devel >= 1:2.5.10
 BuildRequires:	pango-devel >= 1.8.0
@@ -108,7 +108,7 @@ EOF
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/%{_pixmapsdir}
+install -d $RPM_BUILD_ROOT%{_pixmapsdir}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
