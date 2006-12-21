@@ -1,0 +1,45 @@
+diff -ur gnucash-1.8.12.orig/src/backend/file/sixtp-dom-generators.c gnucash-1.8.12/src/backend/file/sixtp-dom-generators.c
+--- gnucash-1.8.12.orig/src/backend/file/sixtp-dom-generators.c	2001-12-30 18:25:29.000000000 +0100
++++ gnucash-1.8.12/src/backend/file/sixtp-dom-generators.c	2006-12-21 11:34:46.000000000 +0100
+@@ -21,9 +21,10 @@
+  *                                                                  *
+  ********************************************************************/
+ 
++#define _GNU_SOURCE
++
+ #include "config.h"
+ 
+-#define _GNU_SOURCE
+ #define __EXTENSIONS__
+ 
+ #include <glib.h>
+diff -ur gnucash-1.8.12.orig/src/backend/file/sixtp-utils.c gnucash-1.8.12/src/backend/file/sixtp-utils.c
+--- gnucash-1.8.12.orig/src/backend/file/sixtp-utils.c	2003-04-12 19:02:18.000000000 +0200
++++ gnucash-1.8.12/src/backend/file/sixtp-utils.c	2006-12-21 11:34:55.000000000 +0100
+@@ -21,9 +21,10 @@
+  *                                                                  *
+  ********************************************************************/
+ 
++#define _GNU_SOURCE
++
+ #include "config.h"
+ 
+-#define _GNU_SOURCE
+ #define __EXTENSIONS__
+ 
+ #include <ctype.h>
+diff -ur gnucash-1.8.12.orig/src/engine/kvp_frame.c gnucash-1.8.12/src/engine/kvp_frame.c
+--- gnucash-1.8.12.orig/src/engine/kvp_frame.c	2002-01-03 02:28:46.000000000 +0100
++++ gnucash-1.8.12/src/engine/kvp_frame.c	2006-12-21 11:28:15.000000000 +0100
+@@ -22,9 +22,10 @@
+  *                                                                  *
+  ********************************************************************/
+ 
++#define _GNU_SOURCE
++
+ #include "config.h"
+ 
+-#define _GNU_SOURCE
+ #include <glib.h>
+ #include <stdarg.h>
+ #include <stdio.h>
