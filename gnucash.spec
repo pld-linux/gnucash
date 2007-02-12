@@ -2,10 +2,10 @@
 # - make separate subpackages with ofx, hbci, sql (like in included spec)
 %include	/usr/lib/rpm/macros.perl
 Summary:	GnuCash is an application to keep track of your finances
-Summary(ja):	GnuCash - ²È·×Êí¥½¥Õ¥È
-Summary(pl):	GnuCash - aplikacja do zarz±dzania twoimi finansami
-Summary(pt_BR):	O GnuCash é uma aplicação para acompanhamento de suas finanças
-Summary(zh_CN):	GnuCash - ÄúµÄ¸öÈË²ÆÎñ¹ÜÀíÈí¼ş
+Summary(ja.UTF-8):   GnuCash - å®¶è¨ˆç°¿ã‚½ãƒ•ãƒˆ
+Summary(pl.UTF-8):   GnuCash - aplikacja do zarzÄ…dzania twoimi finansami
+Summary(pt_BR.UTF-8):   O GnuCash Ã© uma aplicaÃ§Ã£o para acompanhamento de suas finanÃ§as
+Summary(zh_CN.UTF-8):   GnuCash - æ‚¨çš„ä¸ªäººè´¢åŠ¡ç®¡ç†è½¯ä»¶
 Name:		gnucash
 Version:	2.0.0
 Release:	0.1
@@ -54,37 +54,37 @@ currency trades. The interface is designed to be simple and easy to
 use, but is backed with double-entry accounting principles to ensure
 balanced books.
 
-%description -l ja
-GnuCash ¤Ï¸Ä¿Í¸ş¤±²ñ·×¥½¥Õ¥È¤Ç¤¹¡£GUI ¤òÍøÍÑ¤·¤Æ¼ıÆş¡¦»Ù½Ğ¡¦¶ä¹Ô¸ıºÂ¡¦
-³ô¼°¤Ê¤É¤Î¼è¤ê°ú¤­¤òµ­Ä¢¤Ç¤­¤Ş¤¹¡£¥¤¥ó¥¿¡¼¥Õ¥§¡¼¥¹¤Ï¥·¥ó¥×¥ë¤Ë¡¢´ÊÃ±¤Ë
-ÍøÍÑ¤Ç¤­¤ë¤è¤¦¤ËÀß·×¤·¤Æ¤¤¤Ş¤¹¤¬¡¢Àµ³Î¤µ¤òÄÉµÚ¤·¤Æ¤¤¤ë¤¿¤á¤ËÊ£¼°Êíµ­¤Î
-²ñ·×µ¬½à¤òÍøÍÑ¤·¤Æ¤ª¤ê¡¢Ê£¼°Êíµ­¤Ë´Ø¤¹¤ëÃÎ¼±¤¬É¬Í×¤Ç¤¹¡£
+%description -l ja.UTF-8
+GnuCash ã¯å€‹äººå‘ã‘ä¼šè¨ˆã‚½ãƒ•ãƒˆã§ã™ã€‚GUI ã‚’åˆ©ç”¨ã—ã¦åå…¥ãƒ»æ”¯å‡ºãƒ»éŠ€è¡Œå£åº§ãƒ»
+æ ªå¼ãªã©ã®å–ã‚Šå¼•ãã‚’è¨˜å¸³ã§ãã¾ã™ã€‚ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã¯ã‚·ãƒ³ãƒ—ãƒ«ã«ã€ç°¡å˜ã«
+åˆ©ç”¨ã§ãã‚‹ã‚ˆã†ã«è¨­è¨ˆã—ã¦ã„ã¾ã™ãŒã€æ­£ç¢ºã•ã‚’è¿½åŠã—ã¦ã„ã‚‹ãŸã‚ã«è¤‡å¼ç°¿è¨˜ã®
+ä¼šè¨ˆè¦æº–ã‚’åˆ©ç”¨ã—ã¦ãŠã‚Šã€è¤‡å¼ç°¿è¨˜ã«é–¢ã™ã‚‹çŸ¥è­˜ãŒå¿…è¦ã§ã™ã€‚
 
-%description -l pl
-GnuCash jest programem do zarz±dzania finansami osobistymi. Pozwala na
-¶ledzenie i wpisywanie zasobów na swoich kontach bankowych, zak³adów.
-Daje wgl±d nawet w kursy walut. Interfejs zosta³ zaprojektowany z
-my¶l± o prostocie i ³atwo¶ci u¿ycia.
+%description -l pl.UTF-8
+GnuCash jest programem do zarzÄ…dzania finansami osobistymi. Pozwala na
+Å›ledzenie i wpisywanie zasobÃ³w na swoich kontach bankowych, zakÅ‚adÃ³w.
+Daje wglÄ…d nawet w kursy walut. Interfejs zostaÅ‚ zaprojektowany z
+myÅ›lÄ… o prostocie i Å‚atwoÅ›ci uÅ¼ycia.
 
-%description -l pt_BR
-O GnuCash é um gerenciador de finanças pessoais. Uma interface
-parecida com um canhoto de cheques permite que você acompanhe contas
-bancárias, ações, salário e mesmo tabelas de câmbio de moedas. A
-interface foi projetada para ser simples e fácil de usar, mas tem o
-suporte de princípios de contabilidade com entrada dupla para garantir
+%description -l pt_BR.UTF-8
+O GnuCash Ã© um gerenciador de finanÃ§as pessoais. Uma interface
+parecida com um canhoto de cheques permite que vocÃª acompanhe contas
+bancÃ¡rias, aÃ§Ãµes, salÃ¡rio e mesmo tabelas de cÃ¢mbio de moedas. A
+interface foi projetada para ser simples e fÃ¡cil de usar, mas tem o
+suporte de princÃ­pios de contabilidade com entrada dupla para garantir
 livros balanceados.
 
 %package devel
 Summary:	Header files for GnuCash libraries
-Summary(pl):	Pliki nag³ówkowe bibliotek GnuCash
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe bibliotek GnuCash
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Header files for GnuCash libraries.
 
-%description devel -l pl
-Pliki nag³ówkowe bibliotek GnuCash.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe bibliotek GnuCash.
 
 %prep
 %setup -q
