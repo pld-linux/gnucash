@@ -2,10 +2,10 @@
 # - make separate subpackages with ofx, hbci, sql (like in included spec)
 %include	/usr/lib/rpm/macros.perl
 Summary:	GnuCash is an application to keep track of your finances
-Summary(ja.UTF-8):   GnuCash - 家計簿ソフト
-Summary(pl.UTF-8):   GnuCash - aplikacja do zarządzania twoimi finansami
-Summary(pt_BR.UTF-8):   O GnuCash é uma aplicação para acompanhamento de suas finanças
-Summary(zh_CN.UTF-8):   GnuCash - 您的个人财务管理软件
+Summary(ja.UTF-8):	GnuCash - 家計簿ソフト
+Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
+Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
+Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
 Version:	2.0.0
 Release:	0.1
@@ -76,7 +76,7 @@ livros balanceados.
 
 %package devel
 Summary:	Header files for GnuCash libraries
-Summary(pl.UTF-8):   Pliki nagłówkowe bibliotek GnuCash
+Summary(pl.UTF-8):	Pliki nagłówkowe bibliotek GnuCash
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
