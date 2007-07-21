@@ -7,18 +7,17 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	2.0.0
-Release:	0.1
+Version:	2.2.0
+Release:	0.3
 License:	GPL v2
 Group:		X11/Applications
-Source0:	http://dl.sourceforge.net/gnucash/%{name}-%{version}.tar.gz
-# Source0-md5:	d5802c398825500ec322bb2b3229aadd
+Source0:	http://dl.sourceforge.net/gnucash/%{name}-%{version}.tar.bz2
+# Source0-md5:	6e8c1602b365d76ec19ef211857d3ece
 Source1:	%{name}-icon.png
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	aqbanking-devel >= 1.0.0
 BuildRequires:	db-devel
-BuildRequires:	g-wrap-devel >= 2:1.3.3
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.6.0
 BuildRequires:	gtk+2-devel >= 2:2.6.0
@@ -39,7 +38,6 @@ BuildRequires:	pango-devel >= 1.8.0
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel >= 1.5
 BuildRequires:	postgresql-devel
-BuildRequires:	qof-devel >= 0.6.2
 BuildRequires:	sed >= 4.0
 BuildRequires:	slib >= 2c4
 BuildRequires:	texinfo
@@ -125,6 +123,38 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+%gconf_schema_install apps_gnucash_dialog_business_common.schemas
+%gconf_schema_install apps_gnucash_dialog_commodities.schemas
+%gconf_schema_install apps_gnucash_dialog_common.schemas
+%gconf_schema_install apps_gnucash_dialog_hbci.schemas
+%gconf_schema_install apps_gnucash_dialog_prices.schemas
+%gconf_schema_install apps_gnucash_dialog_print_checks.schemas
+%gconf_schema_install apps_gnucash_dialog_reconcile.schemas
+%gconf_schema_install apps_gnucash_dialog_totd.schemas
+%gconf_schema_install apps_gnucash_general.schemas
+%gconf_schema_install apps_gnucash_history.schemas
+%gconf_schema_install apps_gnucash_import_generic_matcher.schemas
+%gconf_schema_install apps_gnucash_warnings.schemas
+%gconf_schema_install apps_gnucash_window_pages_account_tree.schemas
+%gconf_schema_install apps_gnucash_window_pages_register.schemas
+%gconf_schema_install apps_gnucash_dialog_scheduled_transctions.schemas
+
+%preun
+%gconf_schema_uninstall apps_gnucash_dialog_business_common.schemas
+%gconf_schema_uninstall apps_gnucash_dialog_commodities.schemas
+%gconf_schema_uninstall apps_gnucash_dialog_common.schemas
+%gconf_schema_uninstall apps_gnucash_dialog_hbci.schemas
+%gconf_schema_uninstall apps_gnucash_dialog_prices.schemas
+%gconf_schema_uninstall apps_gnucash_dialog_print_checks.schemas
+%gconf_schema_uninstall apps_gnucash_dialog_reconcile.schemas
+%gconf_schema_uninstall apps_gnucash_dialog_totd.schemas
+%gconf_schema_uninstall apps_gnucash_general.schemas
+%gconf_schema_uninstall apps_gnucash_history.schemas
+%gconf_schema_uninstall apps_gnucash_import_generic_matcher.schemas
+%gconf_schema_uninstall apps_gnucash_warnings.schemas
+%gconf_schema_uninstall apps_gnucash_window_pages_account_tree.schemas
+%gconf_schema_uninstall apps_gnucash_window_pages_register.schemas
+%gconf_schema_uninstall apps_gnucash_dialog_scheduled_transctions.schemas
 
 %postun
 /sbin/ldconfig
@@ -146,6 +176,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/gconf/schemas/apps_gnucash_warnings.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnucash_window_pages_account_tree.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnucash_window_pages_register.schemas
+%{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_scheduled_transctions.schemas
 %dir %{_sysconfdir}/gnucash
 %{_sysconfdir}/gnucash/config
 %attr(755,root,root) %{_bindir}/gnc-fq-check
@@ -155,20 +186,20 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gnc-test-env
 %attr(755,root,root) %{_bindir}/gnucash
 %attr(755,root,root) %{_bindir}/gnucash-bin
-%attr(755,root,root) %{_bindir}/gnucash-config
 %attr(755,root,root) %{_bindir}/gnucash-env
 %attr(755,root,root) %{_bindir}/gnucash-make-guids
 %attr(755,root,root) %{_bindir}/gnucash-valgrind
 %attr(755,root,root) %{_bindir}/update-gnucash-gconf
 %attr(755,root,root) %{_libdir}/lib*.so.*.*.*
+%attr(755,root,root) %{_libdir}/lib*.so
 %dir %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/*.so.*
+%attr(755,root,root) %{_libdir}/%{name}/*.so*
 %{_libdir}/%{name}/overrides
-%{_aclocaldir}/gnucash.m4
 %{_desktopdir}/gnucash.desktop
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/accounts
 %{_datadir}/%{name}/accounts/C
+%lang(en_GB) %{_datadir}/%{name}/accounts/en_GB
 %lang(da) %{_datadir}/%{name}/accounts/da
 %lang(de_CH) %{_datadir}/%{name}/accounts/de_CH
 %lang(de_DE) %{_datadir}/%{name}/accounts/de_DE
@@ -178,6 +209,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(hu_HU) %{_datadir}/%{name}/accounts/hu_HU
 %lang(de_AT) %{_datadir}/%{name}/accounts/de_AT
 %lang(fr_CH) %{_datadir}/%{name}/accounts/fr_CH
+%lang(fr_CA) %{_datadir}/%{name}/accounts/fr_CA
 %lang(it) %{_datadir}/%{name}/accounts/it
 %lang(nb) %{_datadir}/%{name}/accounts/nb
 %lang(pt_BR) %{_datadir}/%{name}/accounts/pt_BR
@@ -191,6 +223,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/doc/ChangeLog.2003
 %{_datadir}/%{name}/doc/ChangeLog.2004
 %{_datadir}/%{name}/doc/ChangeLog.2005
+%{_datadir}/%{name}/doc/ChangeLog.2006
 %{_datadir}/%{name}/doc/DOCUMENTERS
 %{_datadir}/%{name}/doc/HACKING
 %{_datadir}/%{name}/doc/INSTALL
@@ -200,6 +233,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/doc/README.francais
 %{_datadir}/%{name}/doc/README.german
 %{_datadir}/%{name}/doc/README.patches
+%{_datadir}/%{name}/doc/README.dependencies
+%{_datadir}/%{name}/doc/guile-hackers.txt
+%{_datadir}/%{name}/doc/projects.html
 %dir %{_datadir}/%{name}/doc/examples
 %{_datadir}/%{name}/doc/examples/Money95bank_fr.qif
 %{_datadir}/%{name}/doc/examples/Money95invst_fr.qif
@@ -222,6 +258,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/doc/examples/test2.xac
 %{_datadir}/%{name}/doc/examples/test3.xac
 %{_datadir}/%{name}/doc/examples/test4.xac
+%{_datadir}/%{name}/doc/examples/trading.xac
+%{_datadir}/%{name}/doc/examples/trading2.xac
+%{_datadir}/%{name}/doc/examples/web.qif
+%{_datadir}/%{name}/doc/examples/xfer.xac
 %dir %{_datadir}/%{name}/glade
 %{_datadir}/%{name}/glade/account.glade
 %{_datadir}/%{name}/glade/acctperiod.glade
@@ -274,38 +314,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/glade/userpass.glade
 %{_datadir}/%{name}/glade/vendor.glade
 %dir %{_datadir}/%{name}/guile-modules
-%dir %{_datadir}/%{name}/guile-modules/g-wrapped
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-app-utils-spec.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-app-utils.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-business-core-spec.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-business-core.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-business-gnome-spec.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-business-gnome.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-core-utils-spec.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-core-utils.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-dialog-tax-table-spec.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-dialog-tax-table.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-engine-spec.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-engine.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-gnc-module-spec.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-gnc-module.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-gnc-spec.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-gnc.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-gnome-utils-spec.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-gnome-utils.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-kvp-spec.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-kvp.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-register-core-spec.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-register-core.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-report-gnome-spec.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-report-gnome.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-report-system-spec.scm
-%{_datadir}/%{name}/guile-modules/g-wrapped/gw-report-system.scm
 %dir %{_datadir}/%{name}/guile-modules/gnucash
 %{_datadir}/%{name}/guile-modules/gnucash/app-utils.scm
 %{_datadir}/%{name}/guile-modules/gnucash/business-core.scm
 %{_datadir}/%{name}/guile-modules/gnucash/business-gnome.scm
 %{_datadir}/%{name}/guile-modules/gnucash/business-utils.scm
+%{_datadir}/%{name}/guile-modules/gnucash/core-utils.scm
 %{_datadir}/%{name}/guile-modules/gnucash/dialog-tax-table.scm
 %{_datadir}/%{name}/guile-modules/gnucash/engine.scm
 %{_datadir}/%{name}/guile-modules/gnucash/gnc-module.scm
@@ -314,9 +328,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/import-export/qif-import.scm
 %{_datadir}/%{name}/guile-modules/gnucash/main.scm
 %{_datadir}/%{name}/guile-modules/gnucash/price-quotes.scm
-%dir %{_datadir}/%{name}/guile-modules/gnucash/printing
-%{_datadir}/%{name}/guile-modules/gnucash/printing/number-to-words.scm
-%{_datadir}/%{name}/guile-modules/gnucash/process.scm
 %dir %{_datadir}/%{name}/guile-modules/gnucash/report
 %{_datadir}/%{name}/guile-modules/gnucash/report/account-piecharts.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/account-summary.scm
@@ -355,7 +366,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheets.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/taxtxf-de_DE.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/taxtxf.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/test-graphing.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/transaction.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/trial-balance.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/utility-reports.scm
@@ -395,13 +405,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/scm/html-table.scm
 %{_datadir}/%{name}/scm/html-text.scm
 %{_datadir}/%{name}/scm/html-utilities.scm
-%{_datadir}/%{name}/scm/kvp-option-registry.scm
 %{_datadir}/%{name}/scm/main-window.scm
 %{_datadir}/%{name}/scm/options-utilities.scm
 %{_datadir}/%{name}/scm/options.scm
 %{_datadir}/%{name}/scm/prefs.scm
-%dir %{_datadir}/%{name}/scm/printing
-%{_datadir}/%{name}/scm/printing/print-check.scm
 %dir %{_datadir}/%{name}/scm/qif-import
 %{_datadir}/%{name}/scm/qif-import/qif-dialog-utils.scm
 %{_datadir}/%{name}/scm/qif-import/qif-file.scm
@@ -444,6 +451,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/lib*.so
 %{_libdir}/lib*.la
 %{_includedir}/%{name}
