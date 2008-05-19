@@ -8,6 +8,9 @@
 # /usr/lib64/libgnc-backend-file-utils.so.0: undefined reference to `xaccFreqSpecGetUIType'
 # uninstall old gnucash before building
 #
+# Conditional build:
+%bcond_without	hbci		# don't build HBCI support
+#
 %include	/usr/lib/rpm/macros.perl
 Summary:	GnuCash is an application to keep track of your finances
 Summary(ja.UTF-8):	GnuCash - 家計簿ソフト
@@ -15,16 +18,19 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	2.2.3
+Version:	2.2.5
 Release:	1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.bz2
-# Source0-md5:	a90e2d01e3c487d36e9a5f5fd82d2149
+# Source0-md5:	81d8d115e27db96ab2b47727010ccdc4
 Source1:	%{name}-icon.png
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf2-devel >= 2.0
+%if %{with hbci}
 BuildRequires:	aqbanking-devel >= 1.6.0
+BuildRequires:	aqbanking-devel < 2.9.0
+%endif
 BuildRequires:	db-devel
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.6.0
@@ -108,7 +114,8 @@ EOF
 %build
 %configure \
 	--disable-prefer-db1 \
-	--enable-hbci \
+	%{?with_hbci:--enable-hbci} \
+	%{!?with_hbci:--disable-hbci} \
 	--enable-ofx \
 	--enable-sql
 
@@ -124,6 +131,11 @@ install -d $RPM_BUILD_ROOT%{_pixmapsdir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
 
+## Cleanup
+rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/*.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.so.[0-9]
+rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/doc/*win32-bin.txt
+
 %find_lang %{name}
 # --with-gnome
 
@@ -136,7 +148,7 @@ rm -rf $RPM_BUILD_ROOT
 %gconf_schema_install apps_gnucash_dialog_business_common.schemas
 %gconf_schema_install apps_gnucash_dialog_commodities.schemas
 %gconf_schema_install apps_gnucash_dialog_common.schemas
-%gconf_schema_install apps_gnucash_dialog_hbci.schemas
+%{?with_hbci:%gconf_schema_install apps_gnucash_dialog_hbci.schemas}
 %gconf_schema_install apps_gnucash_dialog_prices.schemas
 %gconf_schema_install apps_gnucash_dialog_print_checks.schemas
 %gconf_schema_install apps_gnucash_dialog_reconcile.schemas
@@ -144,6 +156,7 @@ rm -rf $RPM_BUILD_ROOT
 %gconf_schema_install apps_gnucash_general.schemas
 %gconf_schema_install apps_gnucash_history.schemas
 %gconf_schema_install apps_gnucash_import_generic_matcher.schemas
+%gconf_schema_install apps_gnucash_import_qif.schemas
 %gconf_schema_install apps_gnucash_warnings.schemas
 %gconf_schema_install apps_gnucash_window_pages_account_tree.schemas
 %gconf_schema_install apps_gnucash_window_pages_register.schemas
@@ -153,7 +166,7 @@ rm -rf $RPM_BUILD_ROOT
 %gconf_schema_uninstall apps_gnucash_dialog_business_common.schemas
 %gconf_schema_uninstall apps_gnucash_dialog_commodities.schemas
 %gconf_schema_uninstall apps_gnucash_dialog_common.schemas
-%gconf_schema_uninstall apps_gnucash_dialog_hbci.schemas
+%{?with_hbci:%gconf_schema_uninstall apps_gnucash_dialog_hbci.schemas}
 %gconf_schema_uninstall apps_gnucash_dialog_prices.schemas
 %gconf_schema_uninstall apps_gnucash_dialog_print_checks.schemas
 %gconf_schema_uninstall apps_gnucash_dialog_reconcile.schemas
@@ -161,6 +174,7 @@ rm -rf $RPM_BUILD_ROOT
 %gconf_schema_uninstall apps_gnucash_general.schemas
 %gconf_schema_uninstall apps_gnucash_history.schemas
 %gconf_schema_uninstall apps_gnucash_import_generic_matcher.schemas
+%gconf_schema_uninstall apps_gnucash_import_qif.schemas
 %gconf_schema_uninstall apps_gnucash_warnings.schemas
 %gconf_schema_uninstall apps_gnucash_window_pages_account_tree.schemas
 %gconf_schema_uninstall apps_gnucash_window_pages_register.schemas
@@ -175,7 +189,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_business_common.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_commodities.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_common.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_hbci.schemas
+%{?with_hbci:%{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_hbci.schemas}
 %{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_prices.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_print_checks.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_reconcile.schemas
@@ -183,6 +197,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/gconf/schemas/apps_gnucash_general.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnucash_history.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnucash_import_generic_matcher.schemas
+%{_sysconfdir}/gconf/schemas/apps_gnucash_import_qif.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnucash_warnings.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnucash_window_pages_account_tree.schemas
 %{_sysconfdir}/gconf/schemas/apps_gnucash_window_pages_register.schemas
@@ -216,6 +231,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(el) %{_datadir}/%{name}/accounts/el_GR
 %lang(en_GB) %{_datadir}/%{name}/accounts/en_GB
 %lang(es) %{_datadir}/%{name}/accounts/es_ES
+%lang(es_MX) %{_datadir}/%{name}/accounts/es_MX
 %lang(fr_CA) %{_datadir}/%{name}/accounts/fr_CA
 %lang(fr_CH) %{_datadir}/%{name}/accounts/fr_CH
 %lang(fr) %{_datadir}/%{name}/accounts/fr_FR
@@ -225,6 +241,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(nb) %{_datadir}/%{name}/accounts/nb
 %lang(pt_BR) %{_datadir}/%{name}/accounts/pt_BR
 %lang(pt) %{_datadir}/%{name}/accounts/pt_PT
+%lang(ru) %{_datadir}/%{name}/accounts/ru
 %lang(sk) %{_datadir}/%{name}/accounts/sk
 %lang(tr) %{_datadir}/%{name}/accounts/tr_TR
 %lang(zh_CN) %{_datadir}/%{name}/accounts/zh_CN
@@ -238,6 +255,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/doc/ChangeLog.2004
 %{_datadir}/%{name}/doc/ChangeLog.2005
 %{_datadir}/%{name}/doc/ChangeLog.2006
+%{_datadir}/%{name}/doc/ChangeLog.2007
 %{_datadir}/%{name}/doc/DOCUMENTERS
 %{_datadir}/%{name}/doc/HACKING
 %{_datadir}/%{name}/doc/INSTALL
@@ -288,6 +306,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/glade/commodity.glade
 %{_datadir}/%{name}/glade/customer.glade
 %{_datadir}/%{name}/glade/date-close.glade
+%{_datadir}/%{name}/glade/dialog-book-close.glade
 %{_datadir}/%{name}/glade/dialog-query-list.glade
 %{_datadir}/%{name}/glade/dialog-reset-warnings.glade
 %{_datadir}/%{name}/glade/druid-gconf-setup.glade
@@ -299,9 +318,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/glade/generic-import.glade
 %{_datadir}/%{name}/glade/gnc-date-format.glade
 %{_datadir}/%{name}/glade/gnc-gui-query.glade
+%if %{with hbci}
 %{_datadir}/%{name}/glade/hbci.glade
 %{_datadir}/%{name}/glade/hbcipass.glade
 %{_datadir}/%{name}/glade/hbciprefs.glade
+%endif
 %{_datadir}/%{name}/glade/import-provider-format.glade
 %{_datadir}/%{name}/glade/invoice.glade
 %{_datadir}/%{name}/glade/job.glade
@@ -327,6 +348,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/glade/transfer.glade
 %{_datadir}/%{name}/glade/userpass.glade
 %{_datadir}/%{name}/glade/vendor.glade
+%{_datadir}/%{name}/gnome
 %dir %{_datadir}/%{name}/guile-modules
 %dir %{_datadir}/%{name}/guile-modules/gnucash
 %{_datadir}/%{name}/guile-modules/gnucash/app-utils.scm
@@ -463,6 +485,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xml/%{name}/xsl/gnucash-std.xsl
 %{_datadir}/xml/%{name}/xsl/string.xsl
 %{_datadir}/xml/%{name}/xsl/vcard-gnccustomer.pl
+%{_iconsdir}/hicolor/*/apps/*
 
 %files devel
 %defattr(644,root,root,755)
