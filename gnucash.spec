@@ -136,9 +136,6 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/*.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.so.[0-9]
 rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/doc/*win32-bin.txt
 
-# not supported by our glibc
-rm -rf $RPM_BUILD_ROOT%{_localedir}/de_CH
-
 %find_lang %{name}
 # --with-gnome
 
