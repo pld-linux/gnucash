@@ -18,12 +18,12 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	2.2.5
+Version:	2.2.9
 Release:	1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.bz2
-# Source0-md5:	81d8d115e27db96ab2b47727010ccdc4
+# Source0-md5:	1d814de8673b4760045bf51b72924d04
 Source1:	%{name}-icon.png
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf2-devel >= 2.0
@@ -232,6 +232,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(en_GB) %{_datadir}/%{name}/accounts/en_GB
 %lang(es) %{_datadir}/%{name}/accounts/es_ES
 %lang(es_MX) %{_datadir}/%{name}/accounts/es_MX
+%lang(fi_FI) %{_datadir}/%{name}/accounts/fi_FI
 %lang(fr_CA) %{_datadir}/%{name}/accounts/fr_CA
 %lang(fr_CH) %{_datadir}/%{name}/accounts/fr_CH
 %lang(fr) %{_datadir}/%{name}/accounts/fr_FR
@@ -239,6 +240,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(it) %{_datadir}/%{name}/accounts/it
 %lang(ja) %{_datadir}/%{name}/accounts/ja
 %lang(nb) %{_datadir}/%{name}/accounts/nb
+%lang(nl) %{_datadir}/%{name}/accounts/nl
 %lang(pt_BR) %{_datadir}/%{name}/accounts/pt_BR
 %lang(pt) %{_datadir}/%{name}/accounts/pt_PT
 %lang(ru) %{_datadir}/%{name}/accounts/ru
@@ -459,6 +461,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/scm/report-utilities.scm
 %{_datadir}/%{name}/scm/report.scm
 %{_datadir}/%{name}/scm/simple-obj.scm
+%{_datadir}/%{name}/scm/string.scm
 %{_datadir}/%{name}/scm/substring-search.scm
 %{_datadir}/%{name}/scm/txf-de_DE.scm
 %{_datadir}/%{name}/scm/txf-help-de_DE.scm
