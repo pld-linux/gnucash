@@ -10,6 +10,8 @@
 #
 # Conditional build:
 %bcond_without	hbci		# don't build HBCI support
+%bcond_without	dbi		# don't build SQL support (via libdbi)
+%bcond_without	webkit		# disable WebKit, use GtkHTML
 #
 %include	/usr/lib/rpm/macros.perl
 Summary:	GnuCash is an application to keep track of your finances
@@ -18,44 +20,49 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	2.2.9
+Version:	2.3.3
 Release:	1
 License:	GPL v2
 Group:		X11/Applications
-Source0:	http://www.gnucash.org/pub/gnucash/sources/stable/%{name}-%{version}.tar.bz2
-# Source0-md5:	1d814de8673b4760045bf51b72924d04
+Source0:	http://www.gnucash.org/pub/gnucash/sources/unstable/2.3.x/%{name}-%{version}.tar.bz2
+# Source0-md5:	e24cc1597abf8fa4b440e7456bff7059
 Source1:	%{name}-icon.png
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf2-devel >= 2.0
-%if %{with hbci}
-BuildRequires:	aqbanking-devel >= 1.6.0
-BuildRequires:	aqbanking-devel < 2.9.0
-%endif
-BuildRequires:	db-devel
 BuildRequires:	gettext-devel
-BuildRequires:	glib2-devel >= 1:2.6.0
-BuildRequires:	gtk+2-devel >= 2:2.6.0
-BuildRequires:	gtkhtml-devel >= 3.14
+BuildRequires:	glib2-devel >= 1:2.13.0
+BuildRequires:	gtk+2-devel >= 2:2.11.0
+BuildRequires:	gtkhtml-devel >= 3.16
 BuildRequires:	guile-devel >= 5:1.8.2-2
 BuildRequires:	guile-www
-BuildRequires:	ktoblzcheck-devel
 BuildRequires:	libglade2-devel >= 2.4
+BuildRequires:	libgnome-devel >= 2.19.0
 BuildRequires:	libgnomeprint-devel >= 2.2
 BuildRequires:	libgnomeprintui-devel >= 2.2
 BuildRequires:	libgnomeui-devel >= 2.4
-BuildRequires:	libgoffice-devel >= 0.3.0
-BuildRequires:	libgsf-gnome-devel >= 1.12.2
+BuildRequires:	libgoffice-devel >= 0.6.0
 BuildRequires:	libltdl-devel
 BuildRequires:	libofx-devel >= 0.7.0
 BuildRequires:	libxml2-devel >= 1:2.5.10
 BuildRequires:	pango-devel >= 1.8.0
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel >= 1.5
-BuildRequires:	postgresql-devel
 BuildRequires:	readline-devel
 BuildRequires:	sed >= 4.0
 BuildRequires:	slib >= 2c4
 BuildRequires:	texinfo
+BuildRequires:	zlib-devel
+%if %{with dbi}
+BuildRequires:	libdbi-devel
+%endif
+%if %{with hbci}
+BuildRequires:	aqbanking-devel >= 3.8.1
+BuildRequires:	gwenhywfar-devel >= 3.6.0
+BuildRequires:	ktoblzcheck-devel >= 1.20
+%endif
+%if %{with webkit}
+BuildRequires:	gtk-webkit-devel >= 1.0
+%endif
 Requires(post,preun):	/sbin/ldconfig
 Requires:	guile >= 5:1.8.2-2
 Requires:	guile-www
@@ -113,11 +120,15 @@ EOF
 
 %build
 %configure \
-	--disable-prefer-db1 \
-	%{?with_hbci:--enable-hbci} \
-	%{!?with_hbci:--disable-hbci} \
+	%{?with_hbci:--enable-aqbanking} \
+	%{!?with_hbci:--disable-aqbanking} \
 	--enable-ofx \
-	--enable-sql
+	%{?with_dbi:--enable-dbi --with-dbi-dbd-dir=%{_libdir}/dbd} \
+	%{!?with_dbi:--disable-dbi} \
+	%{?with_webkit:--enable-webkit} \
+	%{!?with_webkit:--disable-webkit} \
+	--enable-locale-specific-tax \
+	--disable-python-bindings
 
 %{__make}
 
@@ -133,7 +144,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 ## Cleanup
 rm -f $RPM_BUILD_ROOT%{_libdir}/%{name}/*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.so.[0-9]
+#rm -f $RPM_BUILD_ROOT%{_libdir}/lib*.so.[0-9]
 rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/doc/*win32-bin.txt
 
 %find_lang %{name}
@@ -212,11 +223,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gnucash
 %attr(755,root,root) %{_bindir}/gnucash-bin
 %attr(755,root,root) %{_bindir}/gnucash-env
+%attr(755,root,root) %{_bindir}/gnucash-gdb
 %attr(755,root,root) %{_bindir}/gnucash-make-guids
+%attr(755,root,root) %{_bindir}/gnucash-setup-env
 %attr(755,root,root) %{_bindir}/gnucash-valgrind
 %attr(755,root,root) %{_bindir}/update-gnucash-gconf
 %attr(755,root,root) %{_libdir}/lib*.so.*.*.*
 %attr(755,root,root) %{_libdir}/lib*.so
+%attr(755,root,root) %ghost %{_libdir}/lib*.so.?
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/*.so*
 %{_libdir}/%{name}/overrides
@@ -224,6 +238,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/accounts
 %{_datadir}/%{name}/accounts/C
+%lang(cs) %{_datadir}/%{name}/accounts/cs
 %lang(da) %{_datadir}/%{name}/accounts/da
 %lang(de_AT) %{_datadir}/%{name}/accounts/de_AT
 %lang(de_CH) %{_datadir}/%{name}/accounts/de_CH
@@ -239,6 +254,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(hu) %{_datadir}/%{name}/accounts/hu_HU
 %lang(it) %{_datadir}/%{name}/accounts/it
 %lang(ja) %{_datadir}/%{name}/accounts/ja
+%lang(ko) %{_datadir}/%{name}/accounts/ko
 %lang(nb) %{_datadir}/%{name}/accounts/nb
 %lang(nl) %{_datadir}/%{name}/accounts/nl
 %lang(pt_BR) %{_datadir}/%{name}/accounts/pt_BR
@@ -258,6 +274,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/doc/ChangeLog.2005
 %{_datadir}/%{name}/doc/ChangeLog.2006
 %{_datadir}/%{name}/doc/ChangeLog.2007
+%{_datadir}/%{name}/doc/ChangeLog.2008
 %{_datadir}/%{name}/doc/DOCUMENTERS
 %{_datadir}/%{name}/doc/HACKING
 %{_datadir}/%{name}/doc/INSTALL
@@ -266,7 +283,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/doc/README
 %{_datadir}/%{name}/doc/README.francais
 %{_datadir}/%{name}/doc/README.german
-%{_datadir}/%{name}/doc/README.patches
 %{_datadir}/%{name}/doc/README.dependencies
 %{_datadir}/%{name}/doc/guile-hackers.txt
 %{_datadir}/%{name}/doc/projects.html
@@ -306,9 +322,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/glade/choose-owner.glade
 %{_datadir}/%{name}/glade/commodities.glade
 %{_datadir}/%{name}/glade/commodity.glade
+%{_datadir}/%{name}/glade/custom-report-dialog.glade
 %{_datadir}/%{name}/glade/customer.glade
 %{_datadir}/%{name}/glade/date-close.glade
 %{_datadir}/%{name}/glade/dialog-book-close.glade
+%{_datadir}/%{name}/glade/dialog-file-access.glade
 %{_datadir}/%{name}/glade/dialog-query-list.glade
 %{_datadir}/%{name}/glade/dialog-reset-warnings.glade
 %{_datadir}/%{name}/glade/druid-gconf-setup.glade
@@ -318,12 +336,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/glade/exchange-dialog.glade
 %{_datadir}/%{name}/glade/fincalc.glade
 %{_datadir}/%{name}/glade/generic-import.glade
+%{_datadir}/%{name}/glade/gnc-csv-preview-dialog.glade
 %{_datadir}/%{name}/glade/gnc-date-format.glade
 %{_datadir}/%{name}/glade/gnc-gui-query.glade
 %if %{with hbci}
-%{_datadir}/%{name}/glade/hbci.glade
-%{_datadir}/%{name}/glade/hbcipass.glade
-%{_datadir}/%{name}/glade/hbciprefs.glade
+%{_datadir}/%{name}/glade/aqbanking.glade
 %endif
 %{_datadir}/%{name}/glade/import-provider-format.glade
 %{_datadir}/%{name}/glade/invoice.glade
@@ -373,12 +390,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/report/aging.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/average-balance.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/balance-sheet.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/budget-balance-sheet.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/budget-barchart.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/budget-flow.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/budget-income-statement.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/budget.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/business-reports.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/cash-flow.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/category-barchart.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/daily-reports.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/easy-invoice.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/eguile-gnc.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/equity-statement.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/fancy-invoice.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/general-journal.scm
@@ -386,6 +408,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/report/hello-world.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/income-statement.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/invoice.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/job-report.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/locale-specific/de_DE.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/locale-specific/us.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/net-barchart.scm
@@ -398,6 +421,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/report/report-gnome.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/report-system.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-css.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-easy.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-fancy.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-plain.scm
@@ -437,6 +461,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/scm/html-acct-table.scm
 %{_datadir}/%{name}/scm/html-barchart.scm
 %{_datadir}/%{name}/scm/html-document.scm
+%{_datadir}/%{name}/scm/html-linechart.scm
 %{_datadir}/%{name}/scm/html-piechart.scm
 %{_datadir}/%{name}/scm/html-scatter.scm
 %{_datadir}/%{name}/scm/html-style-info.scm
