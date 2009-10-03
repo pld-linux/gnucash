@@ -20,12 +20,12 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	2.3.3
+Version:	2.3.6
 Release:	1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://www.gnucash.org/pub/gnucash/sources/unstable/2.3.x/%{name}-%{version}.tar.bz2
-# Source0-md5:	e24cc1597abf8fa4b440e7456bff7059
+# Source0-md5:	84f84a59e118cad3a1698dc626acd7d1
 Source1:	%{name}-icon.png
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf2-devel >= 2.0
@@ -125,9 +125,9 @@ EOF
 	--enable-ofx \
 	%{?with_dbi:--enable-dbi --with-dbi-dbd-dir=%{_libdir}/dbd} \
 	%{!?with_dbi:--disable-dbi} \
-	%{?with_webkit:--enable-webkit} \
-	%{!?with_webkit:--disable-webkit} \
+	--with-html-engine=%{?with_webkit:webkit}%{!?with_webkit:gtkhtml} \
 	--enable-locale-specific-tax \
+	--enable-binreloc-threads \
 	--disable-python-bindings
 
 %{__make}
@@ -384,40 +384,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/main.scm
 %{_datadir}/%{name}/guile-modules/gnucash/price-quotes.scm
 %dir %{_datadir}/%{name}/guile-modules/gnucash/report
-%{_datadir}/%{name}/guile-modules/gnucash/report/account-piecharts.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/account-summary.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/advanced-portfolio.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/aging.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/average-balance.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/balance-sheet.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/budget-balance-sheet.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/budget-barchart.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/budget-flow.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/budget-income-statement.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/budget.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/business-reports.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/cash-flow.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/category-barchart.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/daily-reports.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/easy-invoice.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/eguile-gnc.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/equity-statement.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/fancy-invoice.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/general-journal.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/general-ledger.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/hello-world.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/income-statement.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/invoice.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/job-report.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/locale-specific/de_DE.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/locale-specific/us.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/net-barchart.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/owner-report.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/payables.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/portfolio.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/price-scatter.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/receivables.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/register.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/report-gnome.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/report-system.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports.scm
@@ -428,11 +407,33 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheets.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/taxtxf-de_DE.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/taxtxf.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/transaction.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/trial-balance.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/utility-reports.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/view-column.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/welcome-to-gnucash.scm
+%dir %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/account-piecharts.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/account-summary.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/advanced-portfolio.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/average-balance.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/balance-sheet.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/budget-balance-sheet.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/budget-barchart.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/budget-flow.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/budget-income-statement.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/budget.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/cash-flow.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/category-barchart.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/daily-reports.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/equity-statement.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/general-journal.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/general-ledger.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/income-statement.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/net-barchart.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/portfolio.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/price-scatter.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/register.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/transaction.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/trial-balance.scm
 %dir %{_datadir}/%{name}/guile-modules/gnucash/report/locale-specific
 %dir %{_datadir}/%{name}/guile-modules/gnucash/tax
 %{_datadir}/%{name}/guile-modules/gnucash/tax/de_DE.scm
