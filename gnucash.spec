@@ -218,6 +218,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_scheduled_transctions.schemas
 %dir %{_sysconfdir}/gnucash
 %{_sysconfdir}/gnucash/config
+%{_sysconfdir}/gnucash/environment
 %attr(755,root,root) %{_bindir}/gnc-fq-check
 %attr(755,root,root) %{_bindir}/gnc-fq-dump
 %attr(755,root,root) %{_bindir}/gnc-fq-helper
@@ -243,25 +244,27 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/accounts/C
 %lang(cs) %{_datadir}/%{name}/accounts/cs
 %lang(da) %{_datadir}/%{name}/accounts/da
+%lang(de) %{_datadir}/%{name}/accounts/de_DE
 %lang(de_AT) %{_datadir}/%{name}/accounts/de_AT
 %lang(de_CH) %{_datadir}/%{name}/accounts/de_CH
-%lang(de) %{_datadir}/%{name}/accounts/de_DE
 %lang(el) %{_datadir}/%{name}/accounts/el_GR
 %lang(en_GB) %{_datadir}/%{name}/accounts/en_GB
 %lang(es) %{_datadir}/%{name}/accounts/es_ES
 %lang(es_MX) %{_datadir}/%{name}/accounts/es_MX
 %lang(fi_FI) %{_datadir}/%{name}/accounts/fi_FI
+%lang(fr) %{_datadir}/%{name}/accounts/fr_FR
 %lang(fr_CA) %{_datadir}/%{name}/accounts/fr_CA
 %lang(fr_CH) %{_datadir}/%{name}/accounts/fr_CH
-%lang(fr) %{_datadir}/%{name}/accounts/fr_FR
 %lang(hu) %{_datadir}/%{name}/accounts/hu_HU
 %lang(it) %{_datadir}/%{name}/accounts/it
 %lang(ja) %{_datadir}/%{name}/accounts/ja
 %lang(ko) %{_datadir}/%{name}/accounts/ko
+%lang(lv) %{_datadir}/%{name}/accounts/lv
 %lang(nb) %{_datadir}/%{name}/accounts/nb
 %lang(nl) %{_datadir}/%{name}/accounts/nl
-%lang(pt_BR) %{_datadir}/%{name}/accounts/pt_BR
+%lang(pl) %{_datadir}/%{name}/accounts/pl
 %lang(pt) %{_datadir}/%{name}/accounts/pt_PT
+%lang(pt_BR) %{_datadir}/%{name}/accounts/pt_BR
 %lang(ru) %{_datadir}/%{name}/accounts/ru
 %lang(sk) %{_datadir}/%{name}/accounts/sk
 %lang(tr) %{_datadir}/%{name}/accounts/tr_TR
@@ -278,6 +281,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/doc/ChangeLog.2006
 %{_datadir}/%{name}/doc/ChangeLog.2007
 %{_datadir}/%{name}/doc/ChangeLog.2008
+%{_datadir}/%{name}/doc/ChangeLog.2009
 %{_datadir}/%{name}/doc/DOCUMENTERS
 %{_datadir}/%{name}/doc/HACKING
 %{_datadir}/%{name}/doc/INSTALL
@@ -299,29 +303,20 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/doc/examples/abc.qif
 %{_datadir}/%{name}/doc/examples/bogus.qif
 %{_datadir}/%{name}/doc/examples/cbb-export.qif
-#%%{_datadir}/%{name}/doc/examples/currency.xac
-#%%{_datadir}/%{name}/doc/examples/currency_tree_xml.xac
+%{_datadir}/%{name}/doc/examples/currency_tree_xml.gnucash
 %{_datadir}/%{name}/doc/examples/every.qif
 %{_datadir}/%{name}/doc/examples/ms-money.qif
 %{_datadir}/%{name}/doc/examples/quicktest.qif
-#%%{_datadir}/%{name}/doc/examples/splitdemo.xac
 %{_datadir}/%{name}/doc/examples/swipe.qif
-#%%{_datadir}/%{name}/doc/examples/taxreport.xac
-#%%{_datadir}/%{name}/doc/examples/test.xac
-#%%{_datadir}/%{name}/doc/examples/test2.xac
-#%%{_datadir}/%{name}/doc/examples/test3.xac
-#%%{_datadir}/%{name}/doc/examples/test4.xac
-#%%{_datadir}/%{name}/doc/examples/trading.xac
-#%%{_datadir}/%{name}/doc/examples/trading2.xac
+%{_datadir}/%{name}/doc/examples/taxreport.gnucash
 %{_datadir}/%{name}/doc/examples/web.qif
-#%%{_datadir}/%{name}/doc/examples/xfer.xac
 %dir %{_datadir}/%{name}/glade
 %{_datadir}/%{name}/glade/account.glade
 %{_datadir}/%{name}/glade/acctperiod.glade
+%{_datadir}/%{name}/glade/autoclear.glade
 %{_datadir}/%{name}/glade/billterms.glade
 %{_datadir}/%{name}/glade/budget.glade
 %{_datadir}/%{name}/glade/businessprefs.glade
-#%%{_datadir}/%{name}/glade/chart-export.glade
 %{_datadir}/%{name}/glade/choose-owner.glade
 %{_datadir}/%{name}/glade/commodities.glade
 %{_datadir}/%{name}/glade/commodity.glade
@@ -330,6 +325,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/glade/date-close.glade
 %{_datadir}/%{name}/glade/dialog-book-close.glade
 %{_datadir}/%{name}/glade/dialog-file-access.glade
+%{_datadir}/%{name}/glade/dialog-object-references.glade
 %{_datadir}/%{name}/glade/dialog-query-list.glade
 %{_datadir}/%{name}/glade/dialog-reset-warnings.glade
 %{_datadir}/%{name}/glade/druid-gconf-setup.glade
@@ -342,14 +338,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/glade/gnc-csv-preview-dialog.glade
 %{_datadir}/%{name}/glade/gnc-date-format.glade
 %{_datadir}/%{name}/glade/gnc-gui-query.glade
-%if %{with hbci}
-%{_datadir}/%{name}/glade/aqbanking.glade
-%endif
 %{_datadir}/%{name}/glade/import-provider-format.glade
 %{_datadir}/%{name}/glade/invoice.glade
 %{_datadir}/%{name}/glade/job.glade
 %{_datadir}/%{name}/glade/lots.glade
-#%%{_datadir}/%{name}/glade/merge.glade
 %{_datadir}/%{name}/glade/newuser.glade
 %{_datadir}/%{name}/glade/order.glade
 %{_datadir}/%{name}/glade/payment.glade
@@ -370,6 +362,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/glade/transfer.glade
 %{_datadir}/%{name}/glade/userpass.glade
 %{_datadir}/%{name}/glade/vendor.glade
+%if %{with hbci}
+%{_datadir}/%{name}/glade/aqbanking.glade
+%endif
 %{_datadir}/%{name}/gnome
 %dir %{_datadir}/%{name}/guile-modules
 %dir %{_datadir}/%{name}/guile-modules/gnucash
@@ -386,11 +381,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/import-export/qif-import.scm
 %{_datadir}/%{name}/guile-modules/gnucash/main.scm
 %{_datadir}/%{name}/guile-modules/gnucash/price-quotes.scm
+%{_datadir}/%{name}/guile-modules/gnucash/printf.scm
 %dir %{_datadir}/%{name}/guile-modules/gnucash/report
 %{_datadir}/%{name}/guile-modules/gnucash/report/aging.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/balsheet-eg.css
+%{_datadir}/%{name}/guile-modules/gnucash/report/balsheet-eg.eguile.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/business-reports.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/easy-invoice.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/eguile-gnc.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/eguile-html-utilities.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/eguile-utilities.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/fancy-invoice.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/hello-world.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/invoice.scm
@@ -403,11 +403,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/report/report-gnome.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/report-system.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports.scm
-#%%{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-css.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-easy.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-fancy.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-footer.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-plain.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheets.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/taxinvoice.css
+%{_datadir}/%{name}/guile-modules/gnucash/report/taxinvoice.eguile.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/taxinvoice.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/taxtxf-de_DE.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/taxtxf.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/utility-reports.scm
@@ -419,6 +422,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/advanced-portfolio.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/average-balance.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/balance-sheet.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/balsheet-eg.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/budget-balance-sheet.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/budget-barchart.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/budget-flow.scm
@@ -465,6 +469,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/scm/html-acct-table.scm
 %{_datadir}/%{name}/scm/html-barchart.scm
 %{_datadir}/%{name}/scm/html-document.scm
+%{_datadir}/%{name}/scm/html-fonts.scm
 %{_datadir}/%{name}/scm/html-linechart.scm
 %{_datadir}/%{name}/scm/html-piechart.scm
 %{_datadir}/%{name}/scm/html-scatter.scm
