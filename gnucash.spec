@@ -130,6 +130,7 @@ EOF
 	--with-html-engine=%{?with_webkit:webkit}%{!?with_webkit:gtkhtml} \
 	--enable-locale-specific-tax \
 	--enable-binreloc-threads \
+	--enable-binreloc \
 	--disable-python-bindings
 
 %{__make}
@@ -223,11 +224,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gnc-fq-update
 %attr(755,root,root) %{_bindir}/gnc-test-env
 %attr(755,root,root) %{_bindir}/gnucash
-%attr(755,root,root) %{_bindir}/gnucash-bin
+#%%attr(755,root,root) %{_bindir}/gnucash-bin
 %attr(755,root,root) %{_bindir}/gnucash-env
-%attr(755,root,root) %{_bindir}/gnucash-gdb
+#%%attr(755,root,root) %{_bindir}/gnucash-gdb
 %attr(755,root,root) %{_bindir}/gnucash-make-guids
-%attr(755,root,root) %{_bindir}/gnucash-setup-env
+#%%attr(755,root,root) %{_bindir}/gnucash-setup-env
 %attr(755,root,root) %{_bindir}/gnucash-valgrind
 %attr(755,root,root) %{_bindir}/update-gnucash-gconf
 %attr(755,root,root) %{_libdir}/lib*.so.*.*.*
@@ -298,29 +299,29 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/doc/examples/abc.qif
 %{_datadir}/%{name}/doc/examples/bogus.qif
 %{_datadir}/%{name}/doc/examples/cbb-export.qif
-%{_datadir}/%{name}/doc/examples/currency.xac
-%{_datadir}/%{name}/doc/examples/currency_tree_xml.xac
+#%%{_datadir}/%{name}/doc/examples/currency.xac
+#%%{_datadir}/%{name}/doc/examples/currency_tree_xml.xac
 %{_datadir}/%{name}/doc/examples/every.qif
 %{_datadir}/%{name}/doc/examples/ms-money.qif
 %{_datadir}/%{name}/doc/examples/quicktest.qif
-%{_datadir}/%{name}/doc/examples/splitdemo.xac
+#%%{_datadir}/%{name}/doc/examples/splitdemo.xac
 %{_datadir}/%{name}/doc/examples/swipe.qif
-%{_datadir}/%{name}/doc/examples/taxreport.xac
-%{_datadir}/%{name}/doc/examples/test.xac
-%{_datadir}/%{name}/doc/examples/test2.xac
-%{_datadir}/%{name}/doc/examples/test3.xac
-%{_datadir}/%{name}/doc/examples/test4.xac
-%{_datadir}/%{name}/doc/examples/trading.xac
-%{_datadir}/%{name}/doc/examples/trading2.xac
+#%%{_datadir}/%{name}/doc/examples/taxreport.xac
+#%%{_datadir}/%{name}/doc/examples/test.xac
+#%%{_datadir}/%{name}/doc/examples/test2.xac
+#%%{_datadir}/%{name}/doc/examples/test3.xac
+#%%{_datadir}/%{name}/doc/examples/test4.xac
+#%%{_datadir}/%{name}/doc/examples/trading.xac
+#%%{_datadir}/%{name}/doc/examples/trading2.xac
 %{_datadir}/%{name}/doc/examples/web.qif
-%{_datadir}/%{name}/doc/examples/xfer.xac
+#%%{_datadir}/%{name}/doc/examples/xfer.xac
 %dir %{_datadir}/%{name}/glade
 %{_datadir}/%{name}/glade/account.glade
 %{_datadir}/%{name}/glade/acctperiod.glade
 %{_datadir}/%{name}/glade/billterms.glade
 %{_datadir}/%{name}/glade/budget.glade
 %{_datadir}/%{name}/glade/businessprefs.glade
-%{_datadir}/%{name}/glade/chart-export.glade
+#%%{_datadir}/%{name}/glade/chart-export.glade
 %{_datadir}/%{name}/glade/choose-owner.glade
 %{_datadir}/%{name}/glade/commodities.glade
 %{_datadir}/%{name}/glade/commodity.glade
@@ -348,7 +349,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/glade/invoice.glade
 %{_datadir}/%{name}/glade/job.glade
 %{_datadir}/%{name}/glade/lots.glade
-%{_datadir}/%{name}/glade/merge.glade
+#%%{_datadir}/%{name}/glade/merge.glade
 %{_datadir}/%{name}/glade/newuser.glade
 %{_datadir}/%{name}/glade/order.glade
 %{_datadir}/%{name}/glade/payment.glade
@@ -402,7 +403,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/report/report-gnome.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/report-system.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-css.scm
+#%%{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-css.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-easy.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-fancy.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-plain.scm
@@ -498,16 +499,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/scm/xml-generator.scm
 %{_datadir}/%{name}/tip_of_the_day.list
 %{_datadir}/%{name}/ui
+%if 0
 %dir %{_datadir}/%{name}/xml
 %dir %{_datadir}/%{name}/xml/qsf
 %{_datadir}/%{name}/xml/qsf/pilot-qsf-GnuCashInvoice.xml
 %{_datadir}/%{name}/xml/qsf/pilot-qsf-gncCustomer.xml
 %{_datadir}/%{name}/xml/qsf/qsf-map.xsd.xml
 %{_datadir}/%{name}/xml/qsf/qsf-object.xsd.xml
+%endif
 %{_infodir}/gnucash-design.info*
-%{_mandir}/man1/gnc-prices.1*
+#%%{_mandir}/man1/gnc-prices.1*
 %{_mandir}/man1/gnucash.1*
 %{_pixmapsdir}/*
+%if 0
 %dir %{_datadir}/xml/%{name}
 %dir %{_datadir}/xml/%{name}/xsl
 %{_datadir}/xml/%{name}/xsl/README
@@ -516,6 +520,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/xml/%{name}/xsl/gnucash-std.xsl
 %{_datadir}/xml/%{name}/xsl/string.xsl
 %{_datadir}/xml/%{name}/xsl/vcard-gnccustomer.pl
+%endif
 %{_iconsdir}/hicolor/*/apps/*
 
 %files devel
