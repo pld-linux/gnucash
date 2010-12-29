@@ -122,6 +122,7 @@ EOF
 
 %build
 %configure \
+	--disable-error-on-warning \
 	%{?with_hbci:--enable-aqbanking} \
 	%{!?with_hbci:--disable-aqbanking} \
 	--enable-ofx \
