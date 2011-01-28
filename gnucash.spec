@@ -35,6 +35,7 @@ BuildRequires:	gtk+2-devel >= 2:2.11.0
 BuildRequires:	gtkhtml-devel >= 3.16
 BuildRequires:	guile-devel >= 5:1.8.2-2
 BuildRequires:	guile-www
+BuildRequires:	intltool
 BuildRequires:	libglade2-devel >= 2.4
 BuildRequires:	libgnome-devel >= 2.19.0
 BuildRequires:	libgnomeprint-devel >= 2.2
@@ -48,6 +49,7 @@ BuildRequires:	pango-devel >= 1.8.0
 BuildRequires:	pkgconfig
 BuildRequires:	popt-devel >= 1.5
 BuildRequires:	readline-devel
+BuildRequires:	rpm-perlprov
 BuildRequires:	sed >= 4.0
 BuildRequires:	slib >= 2c4
 BuildRequires:	texinfo
