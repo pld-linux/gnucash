@@ -20,15 +20,17 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	2.4.0
+Version:	2.4.3
 Release:	0.1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://downloads.sourceforge.net/gnucash/%{name}-%{version}.tar.bz2
-# Source0-md5:	3d396acb05a062adfc85bc9c4f8f0b08
+# Source0-md5:	f4d9dd432eea822ba71919630c088abb
 Source1:	%{name}-icon.png
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf2-devel >= 2.0
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.13.0
 BuildRequires:	gtk+2-devel >= 2:2.11.0
@@ -44,6 +46,7 @@ BuildRequires:	libgnomeui-devel >= 2.4
 BuildRequires:	libgoffice-devel >= 0.6.0
 BuildRequires:	libltdl-devel
 BuildRequires:	libofx-devel >= 0.7.0
+BuildRequires:	libtool
 BuildRequires:	libxml2-devel >= 1:2.5.10
 BuildRequires:	pango-devel >= 1.8.0
 BuildRequires:	pkgconfig
@@ -69,8 +72,6 @@ Requires(post,preun):	/sbin/ldconfig
 Requires:	guile >= 5:1.8.2-2
 Requires:	guile-www
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		skip_post_check_so	libgnc-gnome.so.* libgnc-backend-sql.so.*
 
 %description
 GnuCash is a personal finance manager. A check-book like register GUI
@@ -123,6 +124,11 @@ Encoding=UTF-8
 EOF
 
 %build
+%{__libtoolize}
+%{__aclocal} -I macros
+%{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure \
 	--disable-error-on-warning \
 	%{?with_hbci:--enable-aqbanking} \
