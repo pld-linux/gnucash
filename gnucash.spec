@@ -323,6 +323,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/glade/account.glade
 %{_datadir}/%{name}/glade/acctperiod.glade
 %{_datadir}/%{name}/glade/autoclear.glade
+%{_datadir}/%{name}/glade/bi_import.glade
 %{_datadir}/%{name}/glade/billterms.glade
 %{_datadir}/%{name}/glade/budget.glade
 %{_datadir}/%{name}/glade/businessprefs.glade
@@ -396,6 +397,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/report/balsheet-eg.css
 %{_datadir}/%{name}/guile-modules/gnucash/report/balsheet-eg.eguile.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/business-reports.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/customer-summary.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/easy-invoice.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/eguile-gnc.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/eguile-html-utilities.scm
@@ -448,6 +450,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/portfolio.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/price-scatter.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/register.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/sx-summary.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/transaction.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/trial-balance.scm
 %dir %{_datadir}/%{name}/guile-modules/gnucash/report/locale-specific
