@@ -20,13 +20,16 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	2.4.8
-Release:	0.1
+Version:	2.6.3
+Release:	0.3
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://downloads.sourceforge.net/gnucash/%{name}-%{version}.tar.bz2
-# Source0-md5:	6979d25bbe6d502036babca524b7e759
+# Source0-md5:	c590a6549be3c1fbbb26b4426bea3ff5
 Source1:	%{name}-icon.png
+Source2:	%{name}.sh
+Patch0:		%{name}-env.patch
+Patch1:		%{name}-path.patch
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	autoconf
@@ -44,7 +47,7 @@ BuildRequires:	libgnome-devel >= 2.19.0
 BuildRequires:	libgnomeprint-devel >= 2.2
 BuildRequires:	libgnomeprintui-devel >= 2.2
 BuildRequires:	libgnomeui-devel >= 2.4
-BuildRequires:	libgoffice-devel >= 0.6.0
+BuildRequires:	libgoffice08-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libofx-devel >= 0.7.0
 BuildRequires:	libtool
@@ -84,8 +87,7 @@ balanced books.
 %description -l ja.UTF-8
 GnuCash は個人向け会計ソフトです。GUI を利用して収入・支出・銀行口座・
 株式などの取り引きを記帳できます。インターフェースはシンプルに、簡単に
-利用できるように設計していますが、正確さを追及しているために複式簿記の
-会計規準を利用しており、複式簿記に関する知識が必要です。
+利用できるように設計していますが、正確さを追及しているために複式簿記の 会計規準を利用しており、複式簿記に関する知識が必要です。
 
 %description -l pl.UTF-8
 GnuCash jest programem do zarządzania finansami osobistymi. Pozwala na
@@ -116,6 +118,9 @@ Pliki nagłówkowe bibliotek GnuCash.
 %prep
 %setup -q
 
+%patch0 -p1
+%patch1 -p1
+
 # force regeneration after patching types in table.m4
 rm -f src/backend/postgres/base-autogen.c
 
@@ -141,6 +146,7 @@ EOF
 	--enable-locale-specific-tax \
 	--enable-binreloc-threads \
 	--enable-binreloc \
+	--enable-gtkmm \
 	--disable-python-bindings
 
 %{__make}
@@ -153,12 +159,13 @@ install -d $RPM_BUILD_ROOT%{_pixmapsdir}
 	DESTDIR=$RPM_BUILD_ROOT \
 	gnomeappdir=%{_desktopdir}
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
+mv $RPM_BUILD_ROOT%{_bindir}/gnucash{,-bin}
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/gnucash
 
 ## Cleanup
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/*.la
-#%{__rm} $RPM_BUILD_ROOT%{_libdir}/lib*.so.[0-9]
-%{__rm} $RPM_BUILD_ROOT%{_datadir}/%{name}/doc/*win32-bin.txt
+%{__rm} $RPM_BUILD_ROOT%{_docdir}/%{name}/*win32-bin.txt
 
 %find_lang %{name}
 # --with-gnome
@@ -169,63 +176,19 @@ rm -rf $RPM_BUILD_ROOT
 %post
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
-%gconf_schema_install apps_gnucash_dialog_business_common.schemas
-%gconf_schema_install apps_gnucash_dialog_commodities.schemas
-%gconf_schema_install apps_gnucash_dialog_common.schemas
-%{?with_hbci:%gconf_schema_install apps_gnucash_dialog_hbci.schemas}
-%gconf_schema_install apps_gnucash_dialog_prices.schemas
-%gconf_schema_install apps_gnucash_dialog_print_checks.schemas
-%gconf_schema_install apps_gnucash_dialog_reconcile.schemas
-%gconf_schema_install apps_gnucash_dialog_totd.schemas
-%gconf_schema_install apps_gnucash_general.schemas
-%gconf_schema_install apps_gnucash_history.schemas
-%gconf_schema_install apps_gnucash_import_generic_matcher.schemas
-%gconf_schema_install apps_gnucash_import_qif.schemas
-%gconf_schema_install apps_gnucash_warnings.schemas
-%gconf_schema_install apps_gnucash_window_pages_account_tree.schemas
-%gconf_schema_install apps_gnucash_window_pages_register.schemas
-%gconf_schema_install apps_gnucash_dialog_scheduled_transctions.schemas
+%glib_compile_schemas
 
 %preun
-%gconf_schema_uninstall apps_gnucash_dialog_business_common.schemas
-%gconf_schema_uninstall apps_gnucash_dialog_commodities.schemas
-%gconf_schema_uninstall apps_gnucash_dialog_common.schemas
-%{?with_hbci:%gconf_schema_uninstall apps_gnucash_dialog_hbci.schemas}
-%gconf_schema_uninstall apps_gnucash_dialog_prices.schemas
-%gconf_schema_uninstall apps_gnucash_dialog_print_checks.schemas
-%gconf_schema_uninstall apps_gnucash_dialog_reconcile.schemas
-%gconf_schema_uninstall apps_gnucash_dialog_totd.schemas
-%gconf_schema_uninstall apps_gnucash_general.schemas
-%gconf_schema_uninstall apps_gnucash_history.schemas
-%gconf_schema_uninstall apps_gnucash_import_generic_matcher.schemas
-%gconf_schema_uninstall apps_gnucash_import_qif.schemas
-%gconf_schema_uninstall apps_gnucash_warnings.schemas
-%gconf_schema_uninstall apps_gnucash_window_pages_account_tree.schemas
-%gconf_schema_uninstall apps_gnucash_window_pages_register.schemas
-%gconf_schema_uninstall apps_gnucash_dialog_scheduled_transctions.schemas
 
 %postun
 /sbin/ldconfig
 [ ! -x /usr/sbin/fix-info-dir ] || /usr/sbin/fix-info-dir -c %{_infodir} >/dev/null 2>&1
+if [ "$1" = "0" ]; then
+        %glib_compile_schemas
+fi
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_business_common.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_commodities.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_common.schemas
-%{?with_hbci:%{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_hbci.schemas}
-%{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_prices.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_print_checks.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_reconcile.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_totd.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_general.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_history.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_import_generic_matcher.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_import_qif.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_warnings.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_window_pages_account_tree.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_window_pages_register.schemas
-%{_sysconfdir}/gconf/schemas/apps_gnucash_dialog_scheduled_transctions.schemas
 %dir %{_sysconfdir}/gnucash
 %{_sysconfdir}/gnucash/config
 %{_sysconfdir}/gnucash/environment
@@ -233,22 +196,22 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gnc-fq-dump
 %attr(755,root,root) %{_bindir}/gnc-fq-helper
 %attr(755,root,root) %{_bindir}/gnc-fq-update
-%attr(755,root,root) %{_bindir}/gnc-test-env
 %attr(755,root,root) %{_bindir}/gnucash
-#%%attr(755,root,root) %{_bindir}/gnucash-bin
+%attr(755,root,root) %{_bindir}/gnucash-bin
 %attr(755,root,root) %{_bindir}/gnucash-env
-#%%attr(755,root,root) %{_bindir}/gnucash-gdb
 %attr(755,root,root) %{_bindir}/gnucash-make-guids
-#%%attr(755,root,root) %{_bindir}/gnucash-setup-env
 %attr(755,root,root) %{_bindir}/gnucash-valgrind
-%attr(755,root,root) %{_bindir}/update-gnucash-gconf
 %attr(755,root,root) %{_libdir}/lib*.so.*.*.*
 %attr(755,root,root) %{_libdir}/lib*.so
 %attr(755,root,root) %ghost %{_libdir}/lib*.so.?
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/*.so*
-%{_libdir}/%{name}/overrides
+%dir %{_libdir}/%{name}/overrides
+%attr(755,root,root) %{_libdir}/%{name}/overrides/gnucash-env
+%attr(755,root,root) %{_libdir}/%{name}/overrides/gnucash-make-guids
+%attr(755,root,root) %{_libdir}/%{name}/overrides/guile
 %{_desktopdir}/gnucash.desktop
+%{_datadir}//appdata/gnucash.appdata.xml
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/accounts
 %{_datadir}/%{name}/accounts/C
@@ -277,114 +240,140 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pt_BR) %{_datadir}/%{name}/accounts/pt_BR
 %lang(ru) %{_datadir}/%{name}/accounts/ru
 %lang(sk) %{_datadir}/%{name}/accounts/sk
+%lang(sv) %{_datadir}/%{name}/accounts/sv_SE
 %lang(tr) %{_datadir}/%{name}/accounts/tr_TR
 %lang(zh_CN) %{_datadir}/%{name}/accounts/zh_CN
 %dir %{_datadir}/%{name}/checks
 %{_datadir}/%{name}/checks/*.chk
-%dir %{_datadir}/%{name}/doc
-%{_datadir}/%{name}/doc/AUTHORS
-%{_datadir}/%{name}/doc/COPYING
-%{_datadir}/%{name}/doc/ChangeLog
-%{_datadir}/%{name}/doc/ChangeLog.2003
-%{_datadir}/%{name}/doc/ChangeLog.2004
-%{_datadir}/%{name}/doc/ChangeLog.2005
-%{_datadir}/%{name}/doc/ChangeLog.2006
-%{_datadir}/%{name}/doc/ChangeLog.2007
-%{_datadir}/%{name}/doc/ChangeLog.2008
-%{_datadir}/%{name}/doc/ChangeLog.2009
-%{_datadir}/%{name}/doc/DOCUMENTERS
-%{_datadir}/%{name}/doc/HACKING
-%{_datadir}/%{name}/doc/INSTALL
-%{_datadir}/%{name}/doc/LICENSE
-%{_datadir}/%{name}/doc/NEWS
-%{_datadir}/%{name}/doc/README
-%{_datadir}/%{name}/doc/README.francais
-%{_datadir}/%{name}/doc/README.german
-%{_datadir}/%{name}/doc/README.dependencies
-%{_datadir}/%{name}/doc/guile-hackers.txt
-%{_datadir}/%{name}/doc/projects.html
-%dir %{_datadir}/%{name}/doc/examples
-%{_datadir}/%{name}/doc/examples/Money95bank_fr.qif
-%{_datadir}/%{name}/doc/examples/Money95invst_fr.qif
-%{_datadir}/%{name}/doc/examples/Money95mfunds_fr.qif
-%{_datadir}/%{name}/doc/examples/Money95stocks_fr.qif
-%{_datadir}/%{name}/doc/examples/README
-%{_datadir}/%{name}/doc/examples/abc-all.qif
-%{_datadir}/%{name}/doc/examples/abc.qif
-%{_datadir}/%{name}/doc/examples/bogus.qif
-%{_datadir}/%{name}/doc/examples/cbb-export.qif
-%{_datadir}/%{name}/doc/examples/currency_tree_xml.gnucash
-%{_datadir}/%{name}/doc/examples/every.qif
-%{_datadir}/%{name}/doc/examples/ms-money.qif
-%{_datadir}/%{name}/doc/examples/quicktest.qif
-%{_datadir}/%{name}/doc/examples/swipe.qif
-%{_datadir}/%{name}/doc/examples/taxreport.gnucash
-%{_datadir}/%{name}/doc/examples/web.qif
-%dir %{_datadir}/%{name}/glade
-%{_datadir}/%{name}/glade/account.glade
-%{_datadir}/%{name}/glade/acctperiod.glade
-%{_datadir}/%{name}/glade/autoclear.glade
-%{_datadir}/%{name}/glade/bi_import.glade
-%{_datadir}/%{name}/glade/billterms.glade
-%{_datadir}/%{name}/glade/budget.glade
-%{_datadir}/%{name}/glade/businessprefs.glade
-%{_datadir}/%{name}/glade/choose-owner.glade
-%{_datadir}/%{name}/glade/commodities.glade
-%{_datadir}/%{name}/glade/commodity.glade
-%{_datadir}/%{name}/glade/custom-report-dialog.glade
-%{_datadir}/%{name}/glade/customer.glade
-%{_datadir}/%{name}/glade/date-close.glade
-%{_datadir}/%{name}/glade/dialog-book-close.glade
-%{_datadir}/%{name}/glade/dialog-file-access.glade
-%{_datadir}/%{name}/glade/dialog-object-references.glade
-%{_datadir}/%{name}/glade/dialog-query-list.glade
-%{_datadir}/%{name}/glade/dialog-reset-warnings.glade
-%{_datadir}/%{name}/glade/druid-gconf-setup.glade
-%{_datadir}/%{name}/glade/druid-gnc-xml-import.glade
-%{_datadir}/%{name}/glade/druid-provider-multifile.glade
-%{_datadir}/%{name}/glade/employee.glade
-%{_datadir}/%{name}/glade/exchange-dialog.glade
-%{_datadir}/%{name}/glade/fincalc.glade
-%{_datadir}/%{name}/glade/generic-import.glade
-%{_datadir}/%{name}/glade/gnc-csv-preview-dialog.glade
-%{_datadir}/%{name}/glade/gnc-date-format.glade
-%{_datadir}/%{name}/glade/gnc-gui-query.glade
-%{_datadir}/%{name}/glade/import-provider-format.glade
-%{_datadir}/%{name}/glade/invoice.glade
-%{_datadir}/%{name}/glade/job.glade
-%{_datadir}/%{name}/glade/lots.glade
-%{_datadir}/%{name}/glade/newuser.glade
-%{_datadir}/%{name}/glade/order.glade
-%{_datadir}/%{name}/glade/payment.glade
-%{_datadir}/%{name}/glade/preferences.glade
-%{_datadir}/%{name}/glade/price.glade
-%{_datadir}/%{name}/glade/print.glade
-%{_datadir}/%{name}/glade/progress.glade
-%{_datadir}/%{name}/glade/qif.glade
-%{_datadir}/%{name}/glade/reconcile.glade
-%{_datadir}/%{name}/glade/register.glade
-%{_datadir}/%{name}/glade/report.glade
-%{_datadir}/%{name}/glade/sched-xact.glade
-%{_datadir}/%{name}/glade/search.glade
-%{_datadir}/%{name}/glade/stocks.glade
-%{_datadir}/%{name}/glade/tax-tables.glade
-%{_datadir}/%{name}/glade/tax.glade
-%{_datadir}/%{name}/glade/totd.glade
-%{_datadir}/%{name}/glade/transfer.glade
-%{_datadir}/%{name}/glade/userpass.glade
-%{_datadir}/%{name}/glade/vendor.glade
-%if %{with hbci}
-%{_datadir}/%{name}/glade/aqbanking.glade
-%endif
+%dir %{_docdir}/%{name}
+%{_docdir}/%{name}/AUTHORS
+%{_docdir}/%{name}/COPYING
+%{_docdir}/%{name}/ChangeLog
+%{_docdir}/%{name}/ChangeLog.2003
+%{_docdir}/%{name}/ChangeLog.2004
+%{_docdir}/%{name}/ChangeLog.2005
+%{_docdir}/%{name}/ChangeLog.2006
+%{_docdir}/%{name}/ChangeLog.2007
+%{_docdir}/%{name}/ChangeLog.2008
+%{_docdir}/%{name}/ChangeLog.2009
+%{_docdir}/%{name}/ChangeLog.2010
+%{_docdir}/%{name}/ChangeLog.2011
+%{_docdir}/%{name}/ChangeLog.2012
+%{_docdir}/%{name}/DOCUMENTERS
+%{_docdir}/%{name}/HACKING
+%{_docdir}/%{name}/INSTALL
+%{_docdir}/%{name}/LICENSE
+%{_docdir}/%{name}/Money95bank_fr.qif
+%{_docdir}/%{name}/Money95invst_fr.qif
+%{_docdir}/%{name}/Money95mfunds_fr.qif
+%{_docdir}/%{name}/Money95stocks_fr.qif
+%{_docdir}/%{name}/NEWS
+%{_docdir}/%{name}/README
+%{_docdir}/%{name}/README.francais
+%{_docdir}/%{name}/README.german
+%{_docdir}/%{name}/README.dependencies
+%{_docdir}/%{name}/README_invoice
+%{_docdir}/%{name}/guile-hackers.txt
+%{_docdir}/%{name}/projects.html
+%{_docdir}/%{name}/abc-all.qif
+%{_docdir}/%{name}/abc.qif
+%{_docdir}/%{name}/bogus.qif
+%{_docdir}/%{name}/cbb-export.qif
+%{_docdir}/%{name}/currency_tree_xml.%{name}
+%{_docdir}/%{name}/every.qif
+%{_docdir}/%{name}/invoice.csv
+%{_docdir}/%{name}/ms-money.qif
+%{_docdir}/%{name}/quicktest.qif
+%{_docdir}/%{name}/swipe.qif
+%{_docdir}/%{name}/taxreport.%{name}
+%{_docdir}/%{name}/web.qif
+%{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.business.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.checkprinting.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.commodities.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.export.csv.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.import.csv.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.import.generic.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.import.hbci.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.import.ofx.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.import.qif.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.reconcile.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.sxs.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.totd.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.history.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.warnings.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.window.pages.account.tree.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.window.pages.gschema.xml
+%dir %{_datadir}/%{name}/gtkbuilder
+%{_datadir}/%{name}/gtkbuilder/assistant-ab-initial.glade
+%{_datadir}/%{name}/gtkbuilder/assistant-acct-period.glade
+%{_datadir}/%{name}/gtkbuilder/assistant-csv-account-import.glade
+%{_datadir}/%{name}/gtkbuilder/assistant-csv-export.glade
+%{_datadir}/%{name}/gtkbuilder/assistant-csv-trans-import.glade
+%{_datadir}/%{name}/gtkbuilder/assistant-hierarchy.glade
+%{_datadir}/%{name}/gtkbuilder/assistant-loan.glade
+%{_datadir}/%{name}/gtkbuilder/assistant-qif-import.glade
+%{_datadir}/%{name}/gtkbuilder/assistant-stock-split.glade
+%{_datadir}/%{name}/gtkbuilder/assistant-xml-encoding.glade
+%{_datadir}/%{name}/gtkbuilder/business-options-gnome.glade
+%{_datadir}/%{name}/gtkbuilder/business-prefs.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-ab.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-account-picker.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-account.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-bi-import-gui.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-billterms.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-book-close.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-choose-owner.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-commodities.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-commodity.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-custom-report.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-customer-import-gui.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-customer.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-date-close.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-employee.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-file-access.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-fincalc.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-import.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-invoice.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-job.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-lot-viewer.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-new-user.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-object-references.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-options.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-order.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-payment.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-preferences.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-price.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-print-check.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-progress.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-query-view.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-report.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-reset-warnings.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-search.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-sx.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-tax-info.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-tax-table.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-totd.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-transfer.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-userpass.glade
+%{_datadir}/%{name}/gtkbuilder/dialog-vendor.glade
+%{_datadir}/%{name}/gtkbuilder/gnc-date-format.glade
+%{_datadir}/%{name}/gtkbuilder/gnc-frequency.glade
+%{_datadir}/%{name}/gtkbuilder/gnc-plugin-page-budget.glade
+%{_datadir}/%{name}/gtkbuilder/gnc-plugin-page-register.glade
+%{_datadir}/%{name}/gtkbuilder/gnc-plugin-page-register2.glade
+%{_datadir}/%{name}/gtkbuilder/gnc-recurrence.glade
+%{_datadir}/%{name}/gtkbuilder/gnc-tree-view-owner.glade
+%{_datadir}/%{name}/gtkbuilder/window-autoclear.glade
+%{_datadir}/%{name}/gtkbuilder/window-reconcile.glade
 %{_datadir}/%{name}/gnome
 %dir %{_datadir}/%{name}/guile-modules
 %dir %{_datadir}/%{name}/guile-modules/gnucash
 %{_datadir}/%{name}/guile-modules/gnucash/app-utils.scm
 %{_datadir}/%{name}/guile-modules/gnucash/business-core.scm
 %{_datadir}/%{name}/guile-modules/gnucash/business-gnome.scm
-%{_datadir}/%{name}/guile-modules/gnucash/business-utils.scm
 %{_datadir}/%{name}/guile-modules/gnucash/core-utils.scm
-%{_datadir}/%{name}/guile-modules/gnucash/dialog-tax-table.scm
 %{_datadir}/%{name}/guile-modules/gnucash/engine.scm
 %{_datadir}/%{name}/guile-modules/gnucash/gnc-module.scm
 %{_datadir}/%{name}/guile-modules/gnucash/gnome-utils.scm
@@ -397,6 +386,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/report/aging.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/balsheet-eg.css
 %{_datadir}/%{name}/guile-modules/gnucash/report/balsheet-eg.eguile.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/balsheet-eg.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/business-reports.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/customer-summary.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/easy-invoice.scm
@@ -414,6 +404,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/report/receivables.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/report-gnome.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/report-system.scm
+%dir %{_datadir}/%{name}/guile-modules/gnucash/report/report-system
+%{_datadir}/%{name}/guile-modules/gnucash/report/report-system/collectors.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/report-system/list-extras.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/report-system/report-collectors.scm
+%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/net-linechart.scm
+%{_datadir}/%{name}/guile-modules/gnucash/unittest-support.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-easy.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/stylesheet-fancy.scm
@@ -434,7 +430,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/advanced-portfolio.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/average-balance.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/balance-sheet.scm
-%{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/balsheet-eg.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/budget-balance-sheet.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/budget-barchart.scm
 %{_datadir}/%{name}/guile-modules/gnucash/report/standard-reports/budget-flow.scm
@@ -458,18 +453,45 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/%{name}/guile-modules/gnucash/tax
 %{_datadir}/%{name}/guile-modules/gnucash/tax/de_DE.scm
 %{_datadir}/%{name}/guile-modules/gnucash/tax/us.scm
+%dir %{_datadir}/%{name}/jqplot/
+%{_datadir}/%{name}/jqplot/jqplot.BezierCurveRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.barRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.blockRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.bubbleRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.canvasAxisLabelRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.canvasAxisTickRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.canvasTextRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.categoryAxisRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.ciParser.js
+%{_datadir}/%{name}/jqplot/jqplot.cursor.js
+%{_datadir}/%{name}/jqplot/jqplot.dateAxisRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.donutRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.dragable.js
+%{_datadir}/%{name}/jqplot/jqplot.enhancedLegendRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.funnelRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.highlighter.js
+%{_datadir}/%{name}/jqplot/jqplot.json2.js
+%{_datadir}/%{name}/jqplot/jqplot.logAxisRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.mekkoAxisRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.mekkoRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.meterGaugeRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.ohlcRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.pieRenderer.js
+%{_datadir}/%{name}/jqplot/jqplot.pointLabels.js
+%{_datadir}/%{name}/jqplot/jqplot.trendline.js
+%{_datadir}/%{name}/jqplot/jquery.jqplot.css
+%{_datadir}/%{name}/jqplot/jquery.jqplot.js
+%{_datadir}/%{name}/jqplot/jquery.min.js
 %{_datadir}/%{name}/pixmaps
 %dir %{_datadir}/%{name}/scm
 %{_datadir}/%{name}/scm/build-config.scm
 %{_datadir}/%{name}/scm/business-options.scm
 %{_datadir}/%{name}/scm/business-prefs.scm
 %{_datadir}/%{name}/scm/c-interface.scm
-%{_datadir}/%{name}/scm/command-line.scm
 %{_datadir}/%{name}/scm/commodity-table.scm
 %{_datadir}/%{name}/scm/commodity-utilities.scm
 %{_datadir}/%{name}/scm/config-var.scm
 %{_datadir}/%{name}/scm/date-utilities.scm
-%{_datadir}/%{name}/scm/doc.scm
 %{_datadir}/%{name}/scm/engine-interface.scm
 %{_datadir}/%{name}/scm/engine-utilities.scm
 %{_datadir}/%{name}/scm/fin.scm
@@ -491,7 +513,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/scm/html-table.scm
 %{_datadir}/%{name}/scm/html-text.scm
 %{_datadir}/%{name}/scm/html-utilities.scm
-%{_datadir}/%{name}/scm/main-window.scm
 %{_datadir}/%{name}/scm/options-utilities.scm
 %{_datadir}/%{name}/scm/options.scm
 %{_datadir}/%{name}/scm/prefs.scm
@@ -517,28 +538,15 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/scm/xml-generator.scm
 %{_datadir}/%{name}/tip_of_the_day.list
 %{_datadir}/%{name}/ui
-%if 0
-%dir %{_datadir}/%{name}/xml
-%dir %{_datadir}/%{name}/xml/qsf
-%{_datadir}/%{name}/xml/qsf/pilot-qsf-GnuCashInvoice.xml
-%{_datadir}/%{name}/xml/qsf/pilot-qsf-gncCustomer.xml
-%{_datadir}/%{name}/xml/qsf/qsf-map.xsd.xml
-%{_datadir}/%{name}/xml/qsf/qsf-object.xsd.xml
-%endif
-%{_infodir}/gnucash-design.info*
-#%%{_mandir}/man1/gnc-prices.1*
+%{_datadir}/%{name}/make-prefs-migration-script.xsl
+%{_datadir}/%{name}/migratable-prefs.xml
+%{_datadir}/%{name}/scm/html-jqplot.scm
+%{_datadir}/%{name}/scm/migrate-prefs.scm
+%{_mandir}/man1/gnc-fq-dump.1*
+%{_mandir}/man1/gnc-fq-helper.1*
+
 %{_mandir}/man1/gnucash.1*
 %{_pixmapsdir}/*
-%if 0
-%dir %{_datadir}/xml/%{name}
-%dir %{_datadir}/xml/%{name}/xsl
-%{_datadir}/xml/%{name}/xsl/README
-%{_datadir}/xml/%{name}/xsl/date-time.xsl
-%{_datadir}/xml/%{name}/xsl/gnucash-gnccustomer-vcard2.xsl
-%{_datadir}/xml/%{name}/xsl/gnucash-std.xsl
-%{_datadir}/xml/%{name}/xsl/string.xsl
-%{_datadir}/xml/%{name}/xsl/vcard-gnccustomer.pl
-%endif
 %{_iconsdir}/hicolor/*/apps/*
 
 %files devel
