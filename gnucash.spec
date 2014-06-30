@@ -21,7 +21,7 @@ Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas f
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
 Version:	2.6.3
-Release:	0.3
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://downloads.sourceforge.net/gnucash/%{name}-%{version}.tar.bz2
@@ -75,6 +75,7 @@ BuildRequires:	gtk-webkit-devel >= 1.0
 Requires(post,preun):	/sbin/ldconfig
 Requires:	guile >= 5:1.8.2-2
 Requires:	guile-www
+Requires:	dconf
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
