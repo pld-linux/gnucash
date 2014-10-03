@@ -20,12 +20,12 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	2.6.3
+Version:	2.6.4
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://downloads.sourceforge.net/gnucash/%{name}-%{version}.tar.bz2
-# Source0-md5:	c590a6549be3c1fbbb26b4426bea3ff5
+# Source0-md5:	a857e9fa058c57a07d8e97bce29f1411
 Source1:	%{name}-icon.png
 Source2:	%{name}.sh
 Patch0:		%{name}-env.patch
@@ -167,6 +167,7 @@ cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/gnucash
 ## Cleanup
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/*.la
 %{__rm} $RPM_BUILD_ROOT%{_docdir}/%{name}/*win32-bin.txt
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/{brx,doi}
 
 %find_lang %{name}
 # --with-gnome
