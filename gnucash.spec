@@ -34,7 +34,7 @@ URL:		http://www.gnucash.org/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.13.0
 BuildRequires:	gtk+2-devel >= 2:2.11.0
 BuildRequires:	gtkhtml-devel >= 3.16
