@@ -20,16 +20,17 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	2.6.11
+Version:	2.6.12
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://downloads.sourceforge.net/gnucash/%{name}-%{version}.tar.bz2
-# Source0-md5:	dcad81fb22c682804b5e4ebba3b39ea0
+# Source0-md5:	c8f3b464bdd38bb6af3023f395cc88e3
 Source1:	%{name}-icon.png
 Source2:	%{name}.sh
 Patch0:		%{name}-env.patch
 Patch1:		%{name}-path.patch
+Patch2:		lto.patch
 URL:		http://www.gnucash.org/
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	autoconf
@@ -121,6 +122,7 @@ Pliki nagłówkowe bibliotek GnuCash.
 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 # force regeneration after patching types in table.m4
 rm -f src/backend/postgres/base-autogen.c
@@ -164,13 +166,12 @@ install -d $RPM_BUILD_ROOT%{_pixmapsdir}
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_pixmapsdir}
 mv $RPM_BUILD_ROOT%{_bindir}/gnucash{,-bin}
 cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/gnucash
-mv $RPM_BUILD_ROOT%{_datadir}/locale/{pt_PT,pt}/LC_MESSAGES/gnucash.mo
 
 ## Cleanup
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/*.la
 %{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/src
 %{__rm} $RPM_BUILD_ROOT%{_docdir}/%{name}/*win32-bin.txt
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/{kok@latin,mni@bengali,pt_PT}
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/{kok@latin,mni@bengali}
 
 %find_lang %{name}
 # --with-gnome
@@ -271,6 +272,7 @@ fi
 %{_docdir}/%{name}/ChangeLog.2012
 %{_docdir}/%{name}/ChangeLog.2013
 %{_docdir}/%{name}/ChangeLog.2014
+%{_docdir}/%{name}/ChangeLog.2015
 %{_docdir}/%{name}/DOCUMENTERS
 %{_docdir}/%{name}/HACKING
 %{_docdir}/%{name}/INSTALL
