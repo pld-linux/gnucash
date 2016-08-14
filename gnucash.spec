@@ -20,12 +20,12 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	2.6.12
+Version:	2.6.13
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://downloads.sourceforge.net/gnucash/%{name}-%{version}.tar.bz2
-# Source0-md5:	c8f3b464bdd38bb6af3023f395cc88e3
+# Source0-md5:	3854e7b7a636941104c5b9e549eeb4c5
 Source1:	%{name}-icon.png
 Source2:	%{name}.sh
 Patch0:		%{name}-env.patch
@@ -215,7 +215,6 @@ fi
 %dir %{_libdir}/%{name}/overrides
 %attr(755,root,root) %{_libdir}/%{name}/overrides/gnucash-env
 %attr(755,root,root) %{_libdir}/%{name}/overrides/gnucash-make-guids
-%attr(755,root,root) %{_libdir}/%{name}/overrides/guile
 %{_desktopdir}/gnucash.desktop
 %{_datadir}//appdata/gnucash.appdata.xml
 %dir %{_datadir}/%{name}
@@ -260,6 +259,10 @@ fi
 %{_docdir}/%{name}/AUTHORS
 %{_docdir}/%{name}/COPYING
 %{_docdir}/%{name}/ChangeLog
+%{_docdir}/%{name}/ChangeLog.1999
+%{_docdir}/%{name}/ChangeLog.2000
+%{_docdir}/%{name}/ChangeLog.2001
+%{_docdir}/%{name}/ChangeLog.2002
 %{_docdir}/%{name}/ChangeLog.2003
 %{_docdir}/%{name}/ChangeLog.2004
 %{_docdir}/%{name}/ChangeLog.2005
