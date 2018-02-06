@@ -20,12 +20,13 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	2.6.18
+Version:	2.6.19
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
-Source0:	http://downloads.sourceforge.net/gnucash/%{name}-%{version}-1.tar.bz2
-# Source0-md5:	f77795b5d833d133243a9b05c89a45d5
+#https://sourceforge.net/projects/gnucash/files/gnucash%20%28stable%29/2.6.19/gnucash-2.6.19.tar.bz2/download
+Source0:	https://sourceforge.net/projects/gnucash/files/gnucash%20%28stable%29/2.6.19/%{name}-%{version}.tar.bz2
+# Source0-md5:	f7c6584b628f1e9baa9207c6fae6a850
 Source1:	%{name}-icon.png
 Source2:	%{name}.sh
 Patch0:		%{name}-env.patch
@@ -169,7 +170,7 @@ cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/gnucash
 
 ## Cleanup
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/*.la
-%{__rm} -r $RPM_BUILD_ROOT%{_libdir}/%{name}/src
+%{__rm} -r $RPM_BUILD_ROOT%{_libexecdir}/%{name}/src
 %{__rm} $RPM_BUILD_ROOT%{_docdir}/%{name}/*win32-bin.txt
 %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/{kok@latin,mni@bengali}
 
@@ -212,9 +213,10 @@ fi
 %attr(755,root,root) %ghost %{_libdir}/lib*.so.?
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/*.so*
-%dir %{_libdir}/%{name}/overrides
-%attr(755,root,root) %{_libdir}/%{name}/overrides/gnucash-env
-%attr(755,root,root) %{_libdir}/%{name}/overrides/gnucash-make-guids
+%dir %{_libexecdir}/%{name}
+%dir %{_libexecdir}/%{name}/overrides
+%attr(755,root,root) %{_libexecdir}/%{name}/overrides/gnucash-env
+%attr(755,root,root) %{_libexecdir}/%{name}/overrides/gnucash-make-guids
 %{_desktopdir}/gnucash.desktop
 %{_datadir}//appdata/gnucash.appdata.xml
 %dir %{_datadir}/%{name}
