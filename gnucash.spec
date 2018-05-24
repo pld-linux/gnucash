@@ -20,13 +20,13 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	2.6.19
+Version:	2.6.21
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 #https://sourceforge.net/projects/gnucash/files/gnucash%20%28stable%29/2.6.19/gnucash-2.6.19.tar.bz2/download
-Source0:	https://sourceforge.net/projects/gnucash/files/gnucash%20%28stable%29/2.6.19/%{name}-%{version}.tar.bz2
-# Source0-md5:	f7c6584b628f1e9baa9207c6fae6a850
+Source0:	https://sourceforge.net/projects/gnucash/files/gnucash%20%28stable%29/2.6.21/%{name}-%{version}.tar.bz2
+# Source0-md5:	63226e9b49e11dc0d7106bd15c09996b
 Source1:	%{name}-icon.png
 Source2:	%{name}.sh
 Patch0:		%{name}-env.patch
@@ -230,6 +230,7 @@ fi
 %lang(de_CH) %{_datadir}/%{name}/accounts/de_CH
 %lang(el) %{_datadir}/%{name}/accounts/el_GR
 %lang(en_GB) %{_datadir}/%{name}/accounts/en_GB
+%lang(en_IN) %{_datadir}/%{name}/accounts/en_IN
 %lang(es) %{_datadir}/%{name}/accounts/es_ES
 %lang(es_MX) %{_datadir}/%{name}/accounts/es_MX
 %lang(fi_FI) %{_datadir}/%{name}/accounts/fi_FI
@@ -321,6 +322,7 @@ fi
 %{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.reconcile.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.sxs.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnucash.dialogs.totd.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnucash.general.finance-quote.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnucash.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnucash.history.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnucash.warnings.gschema.xml
