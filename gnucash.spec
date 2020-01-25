@@ -13,7 +13,6 @@
 %bcond_without	dbi		# don't build SQL support (via libdbi)
 %bcond_without	webkit		# disable WebKit, use GtkHTML
 #
-%include	/usr/lib/rpm/macros.perl
 Summary:	GnuCash is an application to keep track of your finances
 Summary(ja.UTF-8):	GnuCash - 家計簿ソフト
 Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
