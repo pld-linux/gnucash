@@ -21,13 +21,12 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	4.8
+Version:	4.9
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://sourceforge.net/projects/gnucash/files/gnucash%20%28stable%29/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	bd8254441065ea53018999c7ffef7878
-Patch0:		285017793d2c0c9f5a8d52b3db42944480e3f557.patch
+# Source0-md5:	50747ca64f90568b9280f8797f2d2512
 URL:		http://www.gnucash.org/
 BuildRequires:	boost-devel >= 1.60.0
 BuildRequires:	cmake >= 3.5
@@ -131,7 +130,7 @@ Pliki nagłówkowe bibliotek GnuCash.
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 
 %build
 install -d build
@@ -309,7 +308,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/ui
 %{_datadir}/%{name}/pixmaps
 %{_datadir}/metainfo/gnucash.appdata.xml
-%{_datadir}/%{name}/migratable-prefs.xml
+%{_datadir}/%{name}/pref_transformations.xml
 %dir %{_datadir}/guile/site/%{guile_version}
 %{_datadir}/guile/site/%{guile_version}/%{name}
 %{_mandir}/man1/gnc-fq-dump.1*
