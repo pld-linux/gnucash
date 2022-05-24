@@ -21,12 +21,12 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	4.9
-Release:	4
+Version:	4.10
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://sourceforge.net/projects/gnucash/files/gnucash%20%28stable%29/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	50747ca64f90568b9280f8797f2d2512
+# Source0-md5:	b14b2a2395213cf4c9e759b62192174b
 URL:		http://www.gnucash.org/
 BuildRequires:	boost-devel >= 1.60.0
 BuildRequires:	cmake >= 3.5
@@ -253,6 +253,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_docdir}/%{name}/ChangeLog.2018
 %{_docdir}/%{name}/ChangeLog.2019
 %{_docdir}/%{name}/ChangeLog.2020
+%{_docdir}/%{name}/ChangeLog.2021
 %{_docdir}/%{name}/DOCUMENTERS
 %{_docdir}/%{name}/HACKING
 %{_docdir}/%{name}/LICENSE
