@@ -22,7 +22,7 @@ Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas f
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
 Version:	4.10
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://sourceforge.net/projects/gnucash/files/gnucash%20%28stable%29/%{version}/%{name}-%{version}.tar.bz2
@@ -51,6 +51,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	python3-devel
 BuildRequires:	swig >= 3.0.12
 BuildRequires:	swig-guile
+BuildRequires:	swig-python >= 3.0.12
 %if %{with dbi}
 BuildRequires:	libdbi-devel >= 0.8.3
 BuildRequires:	libdbi-drivers-sqlite3
@@ -321,7 +322,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -n python3-gnucash
 %defattr(644,root,root,755)
 %{_datadir}/gnucash/python
-%dir %{py3_sitedir}/gnucash
 %{py3_sitedir}/gnucash
 
 %files devel
