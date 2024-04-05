@@ -1,0 +1,11 @@
+--- gnucash-5.6/gnucash/import-export/import-main-matcher.cpp~	2024-03-29 20:42:22.000000000 +0000
++++ gnucash-5.6/gnucash/import-export/import-main-matcher.cpp	2024-04-05 18:41:04.116775306 +0000
+@@ -847,7 +847,7 @@
+     bool is_selection = true;
+     auto debugging_enabled{qof_log_check (G_LOG_DOMAIN, QOF_LOG_DEBUG)};
+ 
+-    DEBUG("Rows in selection = %ld", selected_refs.size());
++    DEBUG("Rows in selection = %zu", selected_refs.size());
+ 
+     for (const auto& ref : selected_refs)
+     {
