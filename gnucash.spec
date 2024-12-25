@@ -65,6 +65,7 @@ BuildRequires:	ktoblzcheck-devel >= 1.20
 %if %{with webkit}
 BuildRequires:	gtk-webkit4.1-devel
 %endif
+BuildConflicts:	crossguid-devel
 Requires(post,preun):	/sbin/ldconfig
 Recommends:	%{name}-docs
 # For translation of currency names
@@ -136,6 +137,7 @@ Pliki nagłówkowe bibliotek GnuCash.
 install -d build
 cd build
 
+export CXXFLAGS="%{rpmcxxflags} -Wno-error"
 %cmake \
   -DCMAKE_INSTALL_DOCDIR:PATH=%{_docdir}/%{name} \
   -DWITH_PYTHON=ON \
