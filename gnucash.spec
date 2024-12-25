@@ -137,7 +137,6 @@ Pliki nagłówkowe bibliotek GnuCash.
 install -d build
 cd build
 
-export CXXFLAGS="%{rpmcxxflags} -Wno-error"
 %cmake \
   -DCMAKE_INSTALL_DOCDIR:PATH=%{_docdir}/%{name} \
   -DWITH_PYTHON=ON \
