@@ -1,12 +1,3 @@
-# TODO:
-# - make separate subpackages with ofx, hbci, sql (like in included spec)
-# - when you have gnucash 2.2.0 already instaled you probalby get this error message:
-# /usr/lib64/libgnc-backend-file-utils.so.0: undefined reference to `xaccSchedXactionSetFreqSpec'
-# /usr/lib64/libgnc-backend-file-utils.so.0: undefined reference to `xaccFreqSpecFree'
-# /usr/lib64/libgnc-backend-file-utils.so.0: undefined reference to `xaccFreqSpecMalloc'
-# /usr/lib64/libgnc-backend-file-utils.so.0: undefined reference to `xaccFreqSpecSetUIType'
-# /usr/lib64/libgnc-backend-file-utils.so.0: undefined reference to `xaccFreqSpecGetUIType'
-# uninstall old gnucash before building
 #
 # Conditional build:
 %bcond_without	hbci		# don't build HBCI support
