@@ -12,12 +12,12 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	5.12
-Release:	2
+Version:	5.13
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://sourceforge.net/projects/gnucash/files/gnucash%20%28stable%29/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	f83e476b11f44686830b68ac63ab51bd
+# Source0-md5:	04bcc1c5cb12ab8a6eaf853ab832c0c5
 URL:		http://www.gnucash.org/
 BuildRequires:	boost-devel >= 1.60.0
 BuildRequires:	cmake >= 3.5
@@ -169,9 +169,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gnucash
 %attr(755,root,root) %{_bindir}/gnucash-cli
 %attr(755,root,root) %{_bindir}/gnucash-valgrind
-%attr(755,root,root) %{_libdir}/lib*.so
+%{_libdir}/lib*.so
 %dir %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/*.so*
+%{_libdir}/%{name}/*.so*
 %dir %{_libdir}/guile/%{guile_version}/site-ccache
 %{_libdir}/guile/%{guile_version}/site-ccache/%{name}
 %{_desktopdir}/gnucash.desktop
@@ -247,6 +247,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_docdir}/%{name}/ChangeLog.2021
 %{_docdir}/%{name}/ChangeLog.2022
 %{_docdir}/%{name}/ChangeLog.2023
+%{_docdir}/%{name}/ChangeLog.2024
 %{_docdir}/%{name}/DOCUMENTERS
 %{_docdir}/%{name}/HACKING
 %{_docdir}/%{name}/LICENSE
@@ -296,8 +297,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/icons/hicolor
 %dir %{_datadir}/%{name}/gtkbuilder
 %{_datadir}/%{name}/gtkbuilder/*.glade
-%dir %{_datadir}/%{name}/chartjs
-%{_datadir}/%{name}/chartjs/*.js
+%dir %{_datadir}/%{name}/chartjs-2
+%{_datadir}/%{name}/chartjs-2/*.js
+%dir %{_datadir}/%{name}/chartjs-4
+%{_datadir}/%{name}/chartjs-4/*.js
 %{_datadir}/%{name}/tip_of_the_day.list
 %{_datadir}/%{name}/ui
 %{_datadir}/%{name}/pixmaps
