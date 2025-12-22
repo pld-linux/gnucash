@@ -12,12 +12,12 @@ Summary(pl.UTF-8):	GnuCash - aplikacja do zarządzania twoimi finansami
 Summary(pt_BR.UTF-8):	O GnuCash é uma aplicação para acompanhamento de suas finanças
 Summary(zh_CN.UTF-8):	GnuCash - 您的个人财务管理软件
 Name:		gnucash
-Version:	5.13
+Version:	5.14
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://sourceforge.net/projects/gnucash/files/gnucash%20%28stable%29/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	04bcc1c5cb12ab8a6eaf853ab832c0c5
+# Source0-md5:	b93ec2c8bd1f9e2314c4d468cff893e6
 URL:		http://www.gnucash.org/
 BuildRequires:	boost-devel >= 1.60.0
 BuildRequires:	cmake >= 3.5
@@ -29,7 +29,6 @@ BuildRequires:	gtest-devel >= 1.8.0
 BuildRequires:	gtk+3-devel >= 3.10.0
 BuildRequires:	guile-devel
 BuildRequires:	libatomic_ops-devel
-BuildRequires:	libglade2-devel
 BuildRequires:	libgnome-keyring-devel >= 0.6
 BuildRequires:	libicu-devel
 BuildRequires:	libofx-devel >= 0.9.0
