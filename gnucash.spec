@@ -18,6 +18,7 @@ License:	GPL v2+
 Group:		X11/Applications
 Source0:	https://sourceforge.net/projects/gnucash/files/gnucash%20%28stable%29/%{version}/%{name}-%{version}.tar.bz2
 # Source0-md5:	ccaa86414726894d6ac425777d745031
+Patch0:		no-Werror.patch
 URL:		http://www.gnucash.org/
 BuildRequires:	boost-devel >= 1.60.0
 BuildRequires:	cmake >= 3.5
@@ -122,6 +123,7 @@ Pliki nagłówkowe bibliotek GnuCash.
 
 %prep
 %setup -q
+%patch -P0 -p1
 
 %build
 install -d build
